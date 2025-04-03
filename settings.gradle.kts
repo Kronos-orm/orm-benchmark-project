@@ -27,6 +27,10 @@ pluginManagement {
         maven("https://dl.bintray.com/kotlin/kotlin-eap")
         maven("https://maven.aliyun.com/repository/public")
         maven("https://maven.aliyun.com/nexus/content/groups/public/")
+        maven {
+            name = "Central Portal Snapshots"
+            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+        }
     }
 }
 
