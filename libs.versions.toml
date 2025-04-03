@@ -1,0 +1,27 @@
+[versions]
+kotlin = "2.1.0"
+mysql-jdbc-driver = "9.2.0"
+druid = "1.2.24"
+hibernate = "6.6.12.Final"
+kronos = "0.0.2-SNAPSHOT"
+kronosGradlePlugin = "0.0.1"
+mybatisPlus = "3.5.11"
+mybatisTypehandlers = "1.0.2"
+kotlinNoArg = "1.4.20"
+
+
+[libraries]
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+driver-jdbc-mysql = { module = "com.mysql:mysql-connector-j", version.ref = "mysql-jdbc-driver" }
+druid = { module = "com.alibaba:druid", version.ref = "druid" }
+hibernate-core = { module = "org.hibernate.orm:hibernate-core", version.ref = "hibernate" }
+kronos-core = { module = "com.kotlinorm:kronos-core", version.ref = "kronos"}
+kronos-jdbc-wrapper = { module = "com.kotlinorm:kronos-jdbc-wrapper", version.ref = "kronos" }
+mybatis-plus = { module = "com.baomidou:mybatis-plus", version.ref = "mybatisPlus" }
+mybatis-typehandlers = { module = "org.mybatis:mybatis-typehandlers-jsr310", version.ref = "mybatisTypehandlers" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-noArg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlinNoArg" }
+kronos-gradle-plugin = { id = "com.kotlinorm.kronos-gradle-plugin", version.ref = "kronosGradlePlugin" }

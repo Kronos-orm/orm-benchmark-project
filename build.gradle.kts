@@ -1,29 +1,13 @@
 plugins {
-	kotlin("jvm") version "2.1.0"
-}
-
-group = "com.kotlinorm"
-version = "0.0.1-SNAPSHOT"
-
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
-}
-
-repositories {
-	mavenCentral()
+	alias { libs.plugins.kotlin.jvm }
 }
 
 dependencies {
-}
-
-kotlin {
-	compilerOptions {
-		freeCompilerArgs.addAll("-Xjsr305=strict")
-	}
-}
-
-tasks.withType<Test> {
-	useJUnitPlatform()
+	implementation(project(":jpa-benchmark"))
+	implementation(project(":kronos-benchmark"))
+	implementation(project(":mybatis-benchmark"))
+	implementation(libs.driver.jdbc.mysql)
+	implementation(libs.druid)
+	testImplementation(libs.kotlin.test)
+	testImplementation(libs.kotlin.reflect)
 }
