@@ -1,15 +1,16 @@
-package com.kotlinorm.mybatisBenchmark.controller
+package com.kotlinorm.mybatisBenchmark.service
 
 import com.kotlinorm.mybatisBenchmark.dao.User
-import com.kotlinorm.mybatisBenchmark.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
 /**
  * @description:
  * @author: lujieyao
  * @date: 2025/4/2
  */
-class UserController(
+@Service
+class UserFunctionService(
     @Autowired val userService: UserService
 ) {
     fun createUser(users: List<User>) {
