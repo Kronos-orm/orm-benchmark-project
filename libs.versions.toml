@@ -6,6 +6,7 @@ hibernate = "6.6.12.Final"
 kronos = "0.0.2-SNAPSHOT"
 mybatisPlus = "3.5.11"
 mybatisTypehandlers = "1.0.2"
+kotlinxBenchmark = "0.4.13"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -17,9 +18,12 @@ kronos-core = { module = "com.kotlinorm:kronos-core", version.ref = "kronos"}
 kronos-jdbc-wrapper = { module = "com.kotlinorm:kronos-jdbc-wrapper", version.ref = "kronos" }
 mybatis-plus = { module = "com.baomidou:mybatis-plus", version.ref = "mybatisPlus" }
 mybatis-typehandlers = { module = "org.mybatis:mybatis-typehandlers-jsr310", version.ref = "mybatisTypehandlers" }
+benchmark-runtime = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-runtime", version.ref = "kotlinxBenchmark" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }
 kotlin-noArg = { id = "org.jetbrains.kotlin.plugin.noarg", version.ref = "kotlin" }
 kronos-gradle-plugin = { id = "com.kotlinorm.kronos-gradle-plugin", version.ref = "kronos" }
 kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin" }
+kotlinx-benchmark = { id = "org.jetbrains.kotlinx.benchmark", version.ref = "kotlinxBenchmark" }

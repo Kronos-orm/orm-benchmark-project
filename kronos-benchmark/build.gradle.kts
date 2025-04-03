@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":benchmark-convention"))
     implementation(libs.kronos.core)
     implementation(libs.kronos.jdbc.wrapper)
 }
