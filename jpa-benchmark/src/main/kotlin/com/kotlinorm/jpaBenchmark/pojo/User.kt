@@ -12,14 +12,14 @@ import jakarta.persistence.Table
  */
 @Entity
 @Table(name = "tb_user")
-data class User(
+class User(
     @Id
     @Column(name = "id")
-    val id: Int,
+    val id: Int? = null,
 
     @Column(name = "name")
-    val name: String,
+    val name: String? = null,
 
     @Column(name = "age")
-    val age: Int
+    val age: Int? = null,
 )
