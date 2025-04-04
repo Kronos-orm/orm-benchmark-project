@@ -2,9 +2,10 @@ package com.kotlinorm.jpaBenchmark.pojo
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-
 /**
  * @description:
  * @author: lujieyao
@@ -12,14 +13,18 @@ import jakarta.persistence.Table
  */
 @Entity
 @Table(name = "tb_user")
-class User(
+data class User(
     @Id
     @Column(name = "id")
-    val id: Int? = null,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Int? = null,  // 必须使用可空类型
 
     @Column(name = "name")
-    val name: String? = null,
+    val name: String,
 
     @Column(name = "age")
-    val age: Int? = null,
-)
+    val age: Int
+) {
+    // 必须的默认构造函数
+    constructor() : this(null, "", 0)
+}

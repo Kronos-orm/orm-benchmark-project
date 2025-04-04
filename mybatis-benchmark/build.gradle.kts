@@ -6,6 +6,7 @@ plugins {
 noArg.annotation("com.baomidou.mybatisplus.annotation.TableName")
 
 dependencies {
+    implementation(project(":benchmark-convention"))
     implementation(libs.mybatis.plus)
     implementation(libs.mybatis.typehandlers)
 }

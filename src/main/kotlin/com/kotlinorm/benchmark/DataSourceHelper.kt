@@ -11,8 +11,8 @@ object DataSourceHelper {
             username = System.getenv("db.username")
             password = System.getenv("db.password")
             driverClassName = "com.mysql.cj.jdbc.Driver"
-            initialSize = 10
-            minIdle = 10
+            initialSize = 5
+            maxActive = 10
         }
     }
 }

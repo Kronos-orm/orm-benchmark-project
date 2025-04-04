@@ -5,5 +5,6 @@ plugins {
 
 
 dependencies {
+    implementation(project(":benchmark-convention"))
     implementation(libs.hibernate.core)
 }

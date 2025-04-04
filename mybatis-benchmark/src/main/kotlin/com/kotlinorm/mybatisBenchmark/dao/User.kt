@@ -11,8 +11,10 @@ import com.baomidou.mybatisplus.annotation.TableName
  */
 @TableName("tb_user")
 class User(
-    @TableId(type = IdType.AUTO)
-    var id: Int?,
+    @TableId(type = IdType.INPUT)
+    var id: Long? = null,
+
     var name: String?,
+
     var age: Int?
 )

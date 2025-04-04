@@ -15,10 +15,11 @@ benchmark {
 
 	configurations {
 		named("main") {
-			warmups = 20
+			warmups = 5
 			iterations = 10
 			iterationTime = 3
 			iterationTimeUnit = "s"
+			reportFormat = "csv"
 		}
 	}
 }
@@ -26,7 +27,9 @@ benchmark {
 
 dependencies {
 	implementation(project(":benchmark-convention"))
+	implementation(project(":jpa-benchmark"))
 	implementation(project(":kronos-benchmark"))
+	implementation(project(":mybatis-benchmark"))
 	implementation(libs.benchmark.runtime)
 	implementation(libs.driver.jdbc.mysql)
 	implementation(libs.druid)
