@@ -1,4 +1,4 @@
-// JpaInitializer.kt
+// JpaExecutor.kt
 package com.kotlinorm.jpaBenchmark
 
 import com.kotlinorm.BenchmarkExecutor
@@ -9,7 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder
 import org.hibernate.cfg.AvailableSettings
 import javax.sql.DataSource
 
-class JpaInitializer : BenchmarkExecutor {
+class JpaExecutor : BenchmarkExecutor {
     private lateinit var users: List<User>
     private lateinit var sessionFactory: SessionFactory
 
@@ -75,6 +75,24 @@ class JpaInitializer : BenchmarkExecutor {
     override fun querySingleEntity() {
         sessionFactory.openSession().use { session ->
             session.get(User::class.java, 1)
+        }
+    }
+
+    override fun querySingleMap() {
+        sessionFactory.openSession().use { session ->
+            val query = """
+                SELECT new map(
+                    u.id as id, 
+                    u.name as name, 
+                    u.age as age
+                ) 
+                FROM User u 
+                WHERE u.id = :id
+            """
+
+            session.createQuery(query, Map::class.java)
+                .setParameter("id", 1L)
+                .uniqueResult() as Map<String, Any>
         }
     }
 

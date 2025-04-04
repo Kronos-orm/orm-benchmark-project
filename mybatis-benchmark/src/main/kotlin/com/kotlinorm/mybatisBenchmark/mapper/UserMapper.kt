@@ -5,4 +5,6 @@ import com.kotlinorm.mybatisBenchmark.dao.User
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper
-interface UserMapper : BaseMapper<User>
+interface UserMapper : BaseMapper<User> {
+    fun selectMapById(id: Long): Map<String, Any>?
+}

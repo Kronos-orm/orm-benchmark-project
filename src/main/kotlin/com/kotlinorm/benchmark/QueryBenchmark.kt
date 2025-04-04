@@ -2,7 +2,7 @@ package com.kotlinorm.benchmark
 
 import com.kotlinorm.BenchmarkExecutor
 import com.kotlinorm.benchmark.DataSourceHelper.dataSource
-import com.kotlinorm.jpaBenchmark.JpaInitializer
+import com.kotlinorm.jpaBenchmark.JpaExecutor
 import com.kotlinorm.kronosBenchmark.KronosExecutor
 import com.kotlinorm.mybatisBenchmark.MybatisInitializer
 import kotlinx.benchmark.Benchmark
@@ -10,7 +10,6 @@ import kotlinx.benchmark.Scope
 import kotlinx.benchmark.Setup
 import kotlinx.benchmark.State
 import kotlinx.benchmark.TearDown
-import net.datafaker.Faker
 import org.openjdk.jmh.annotations.Param
 
 @State(Scope.Benchmark)
@@ -28,7 +27,7 @@ class QueryBenchmark {
             )
         }
         executor = when (ormType) {
-            "Jpa" -> JpaInitializer()
+            "Jpa" -> JpaExecutor()
             "Kronos" -> KronosExecutor()
             "Mybatis" -> MybatisInitializer()
             else -> throw IllegalArgumentException("Unsupported ORM type: $ormType")

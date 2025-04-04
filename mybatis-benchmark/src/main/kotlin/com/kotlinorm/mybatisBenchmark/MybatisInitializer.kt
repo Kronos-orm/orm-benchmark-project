@@ -1,6 +1,7 @@
 package com.kotlinorm.mybatisBenchmark
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.kotlinorm.BenchmarkExecutor
 import com.kotlinorm.mybatisBenchmark.dao.User
 import com.kotlinorm.mybatisBenchmark.mapper.UserMapper
@@ -54,6 +55,12 @@ class MybatisInitializer() : BenchmarkExecutor {
     override fun querySingleEntity() {
         sqlSessionFactory.openSession().use { session ->
             session.getMapper(UserMapper::class.java).selectById(1)
+        }
+    }
+
+    override fun querySingleMap() {
+        sqlSessionFactory.openSession().use { session ->
+            session.getMapper(UserMapper::class.java).selectMaps(QueryWrapper<User>().eq("id", 1)).single()
         }
     }
 

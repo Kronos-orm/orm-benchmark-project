@@ -6,14 +6,14 @@ import com.kotlinorm.jpaBenchmark.JpaExecutor
 import com.kotlinorm.kronosBenchmark.KronosExecutor
 import com.kotlinorm.mybatisBenchmark.MybatisInitializer
 import kotlinx.benchmark.Benchmark
-import kotlinx.benchmark.Param
 import kotlinx.benchmark.Scope
 import kotlinx.benchmark.Setup
 import kotlinx.benchmark.State
 import kotlinx.benchmark.TearDown
+import org.openjdk.jmh.annotations.Param
 
 @State(Scope.Benchmark)
-class InsertBenchmark {
+class QueryMapBenchmark {
     @Param("Jpa", "Kronos", "Mybatis")
     lateinit var ormType: String
     lateinit var executor: BenchmarkExecutor
@@ -33,11 +33,12 @@ class InsertBenchmark {
             else -> throw IllegalArgumentException("Unsupported ORM type: $ormType")
         }
         executor.init(dataSource, listOfUserMap)
+        executor.executeInsert()
     }
 
     @Benchmark
-    fun insert1000Users() {
-        executor.executeInsert()
+    fun querySingleEntity() {
+        executor.querySingleMap()
     }
 
     @TearDown

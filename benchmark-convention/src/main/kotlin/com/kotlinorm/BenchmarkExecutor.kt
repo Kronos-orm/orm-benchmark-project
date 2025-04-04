@@ -16,6 +16,11 @@ interface BenchmarkExecutor {
     fun querySingleEntity()
 
     /**
+     * Execute a query, query for single row as a map
+     */
+    fun querySingleMap()
+
+    /**
      * Execute an insert, insert a single row
      */
     fun executeInsert()
