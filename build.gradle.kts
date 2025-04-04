@@ -33,6 +33,7 @@ dependencies {
 	implementation(libs.benchmark.runtime)
 	implementation(libs.driver.jdbc.mysql)
 	implementation(libs.druid)
+	implementation(libs.datafaker)
 	testImplementation(libs.kotlin.test)
 	testImplementation(libs.kotlin.reflect)
 }

@@ -9,14 +9,13 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder
 import org.hibernate.cfg.AvailableSettings
 import javax.sql.DataSource
 
-class JpaInitializer(
-    private val users: List<User> = listOf()
-) : BenchmarkExecutor {
-
+class JpaInitializer : BenchmarkExecutor {
+    private lateinit var users: List<User>
     private lateinit var sessionFactory: SessionFactory
 
     // 初始化配置（每个基准测试只执行一次）
-    override fun init(dataSource: DataSource) {
+    override fun init(dataSource: DataSource, listOfMap: List<Map<String, Any>>) {
+        prepareData(listOfMap)
         val registry = StandardServiceRegistryBuilder().apply {
             // 基础配置
             applySettings(
@@ -43,7 +42,17 @@ class JpaInitializer(
             .buildSessionFactory()
     }
 
-    override fun executeInsert1000() {
+    override fun prepareData(listOfMap: List<Map<String, Any>>) {
+        // 预处理数据
+        users = listOfMap.map { map ->
+            User(
+                name = map["name"] as String,
+                age = map["age"] as Int
+            )
+        }
+    }
+
+    override fun executeInsert() {
         sessionFactory.openSession().use { session ->
             val transaction = session.beginTransaction()
             try {
@@ -74,8 +83,8 @@ class JpaInitializer(
         sessionFactory.openSession().use { session ->
             session.beginTransaction().apply {
                 try {
-                    session.createMutationQuery("delete from User where id != 1")
-                        .executeUpdate()
+                    // truncate 表
+                    session.createNativeQuery("TRUNCATE TABLE tb_user").executeUpdate()
                     commit()
                 } catch (e: Exception) {
                     rollback()

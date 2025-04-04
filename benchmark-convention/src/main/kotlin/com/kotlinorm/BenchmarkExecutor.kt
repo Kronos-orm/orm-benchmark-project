@@ -6,7 +6,9 @@ interface BenchmarkExecutor {
     /**
      * Initialize the benchmark executor with a data source
      */
-    fun init(dataSource: DataSource)
+    fun init(dataSource: DataSource, listOfMap: List<Map<String, Any>>)
+
+    fun prepareData(listOfMap: List<Map<String, Any>>)
 
     /**
      * Execute a query, query for single row
@@ -16,7 +18,7 @@ interface BenchmarkExecutor {
     /**
      * Execute an insert, insert a single row
      */
-    fun executeInsert1000()
+    fun executeInsert()
 
     /**
      * Clean up resources after the benchmark execution
