@@ -15,13 +15,14 @@ class KronosExecutor(
 ) : BenchmarkExecutor {
 
     override fun init(dataSource: DataSource) {
+        val wrapper = KronosBasicWrapper(dataSource)
         Kronos.init {
             // 设置字段命名策略为驼峰命名
             fieldNamingStrategy = lineHumpNamingStrategy
             // 设置表命名策略为驼峰命名
             tableNamingStrategy = lineHumpNamingStrategy
             // 设置数据源提供器
-            Kronos.dataSource = { KronosBasicWrapper(dataSource) }
+            Kronos.dataSource = { wrapper }
             strictSetValue = true
             logPath = listOf()
         }
@@ -29,6 +30,7 @@ class KronosExecutor(
 
     override fun querySingleEntity() {
         User(id = 1).select().by { it.id }.queryOne()
+//        User(id = 1).select().by { it.id }.queryMap()
     }
 
     override fun executeInsert1000() {
