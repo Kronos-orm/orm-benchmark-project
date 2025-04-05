@@ -2,6 +2,7 @@ package com.kotlinorm.benchmark
 
 import com.kotlinorm.BenchmarkExecutor
 import com.kotlinorm.benchmark.DataSourceHelper.dataSource
+import com.kotlinorm.benchmark.DataSourceHelper.sync
 import com.kotlinorm.jpaBenchmark.JpaExecutor
 import com.kotlinorm.kronosBenchmark.KronosExecutor
 import com.kotlinorm.mybatisBenchmark.MybatisInitializer
@@ -20,6 +21,7 @@ class InsertBenchmark {
 
     @Setup
     fun prepare() {
+        sync()
         val listOfUserMap = (0 until 1000).map { i ->
             mapOf(
                 "name" to faker.name().fullName(),

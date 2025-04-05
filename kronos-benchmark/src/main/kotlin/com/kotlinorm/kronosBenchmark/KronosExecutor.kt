@@ -27,6 +27,7 @@ class KronosExecutor() : BenchmarkExecutor {
             strictSetValue = true
             logPath = listOf()
         }
+        Kronos.dataSource.table.syncTable<User>()
     }
 
     override fun prepareData(listOfMap: List<Map<String, Any>>) {
