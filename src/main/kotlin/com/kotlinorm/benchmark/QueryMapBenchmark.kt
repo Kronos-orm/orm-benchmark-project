@@ -5,7 +5,7 @@ import com.kotlinorm.benchmark.DataSourceHelper.dataSource
 import com.kotlinorm.benchmark.DataSourceHelper.sync
 import com.kotlinorm.jpaBenchmark.JpaExecutor
 import com.kotlinorm.kronosBenchmark.KronosExecutor
-import com.kotlinorm.mybatisBenchmark.MybatisInitializer
+import com.kotlinorm.mybatisBenchmark.MybatisExecutor
 import kotlinx.benchmark.Benchmark
 import kotlinx.benchmark.Scope
 import kotlinx.benchmark.Setup
@@ -31,7 +31,7 @@ class QueryMapBenchmark {
         executor = when (ormType) {
             "Jpa" -> JpaExecutor()
             "Kronos" -> KronosExecutor()
-            "Mybatis" -> MybatisInitializer()
+            "Mybatis" -> MybatisExecutor()
             else -> throw IllegalArgumentException("Unsupported ORM type: $ormType")
         }
         executor.init(dataSource, listOfUserMap)

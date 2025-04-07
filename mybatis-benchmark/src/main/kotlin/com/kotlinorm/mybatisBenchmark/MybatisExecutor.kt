@@ -12,7 +12,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory
 import javax.sql.DataSource
 
-class MybatisInitializer() : BenchmarkExecutor {
+class MybatisExecutor() : BenchmarkExecutor {
     private lateinit var sqlSessionFactory: SqlSessionFactory
     private lateinit var users: List<User>
     override fun init(dataSource: DataSource, listOfMap: List<Map<String, Any>>) {
