@@ -1,4 +1,4 @@
-package com.kotlinorm.benchmark
+package com.kotlinorm.benchmark.utils
 
 import com.alibaba.druid.pool.DruidDataSource
 import com.kotlinorm.kronosBenchmark.KronosExecutor

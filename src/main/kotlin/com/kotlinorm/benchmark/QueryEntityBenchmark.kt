@@ -1,8 +1,9 @@
 package com.kotlinorm.benchmark
 
 import com.kotlinorm.BenchmarkExecutor
-import com.kotlinorm.benchmark.DataSourceHelper.dataSource
-import com.kotlinorm.benchmark.DataSourceHelper.sync
+import com.kotlinorm.benchmark.utils.DataSourceHelper.dataSource
+import com.kotlinorm.benchmark.utils.DataSourceHelper.sync
+import com.kotlinorm.benchmark.utils.faker
 import com.kotlinorm.jpaBenchmark.JpaExecutor
 import com.kotlinorm.kronosBenchmark.KronosExecutor
 import com.kotlinorm.mybatisBenchmark.MybatisExecutor
@@ -14,15 +15,19 @@ import kotlinx.benchmark.TearDown
 import org.openjdk.jmh.annotations.Param
 
 @State(Scope.Benchmark)
-class QueryBenchmark {
+class QueryEntityBenchmark {
     @Param("Jpa", "Kronos", "Mybatis")
     lateinit var ormType: String
+
+    @Param("100000")
+    lateinit var count: Integer
+
     lateinit var executor: BenchmarkExecutor
 
     @Setup
     fun prepare() {
         sync()
-        val listOfUserMap = (0 until 1000).map { i ->
+        val listOfUserMap = (0 until count.toInt()).map { i ->
             mapOf(
                 "name" to faker.name().fullName(),
                 "age" to faker.number().numberBetween(18, 100),

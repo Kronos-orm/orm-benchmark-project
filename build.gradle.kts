@@ -34,6 +34,23 @@ dependencies {
 	implementation(libs.driver.jdbc.mysql)
 	implementation(libs.druid)
 	implementation(libs.datafaker)
-	testImplementation(libs.kotlin.test)
-	testImplementation(libs.kotlin.reflect)
+	implementation(libs.dataframe)
+	implementation(libs.bundles.kandy)
+}
+
+tasks.register<JavaExec>("generateBenchmarkReport") {
+	mainClass.set("com.kotlinorm.benchmark.utils.BenchmarkReporterKt")
+	classpath = sourceSets.main.get().runtimeClasspath
+
+	doFirst {
+		val csvDir = layout.buildDirectory.dir("reports/benchmarks")
+		val csvFile = csvDir.get().asFileTree
+			.matching { include("**/main.csv") }
+			.singleFile
+
+		args = listOf(
+			csvFile.absolutePath,
+			layout.buildDirectory.dir("reports/benchmark-report").get().asFile.absolutePath
+		)
+	}
 }

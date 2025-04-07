@@ -1,4 +1,4 @@
-package com.kotlinorm.benchmark
+package com.kotlinorm.benchmark.utils
 
 import net.datafaker.Faker
 
