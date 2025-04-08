@@ -26,15 +26,6 @@ jobs:
           persist-credentials: true
           fetch-depth: 0
           ref: main
-          path: main
-
-      - name: Checkout 🛎️
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: true
-          fetch-depth: 0
-          ref: result
-          path: report-output
 
       - name: Set up JDK 21 ☕️
         uses: actions/setup-java@v4
@@ -51,23 +42,15 @@ jobs:
         run: mysql -D kronos_benchmark -e 'SELECT VERSION()'
 
       - name: Run benchmark 🧪
-        working-directory: ./main
-        run: |
-          ./gradlew benchmark --info --stacktrace
+        run: ./gradlew benchmark --info --stacktrace
 
       - name: Generate report 📊
-        working-directory: ./main
-        run: |
-          set -e
-          ./gradlew generateBenchmarkReport --info --stacktrace
-          cd ../report-output
-          find . -mindepth 1 -maxdepth 1 -not -name '.git' -exec rm -rf {} +
-          cp -R ../main/build/reports/benchmark-report/* ./
+        run: ./gradlew generateBenchmarkReport --info --stacktrace
 
       - name: Deploy to result branch 📦
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: result
-          folder: ./report-output
+          folder: ./build/reports/benchmark-report
           clean: true
           single-commit: true
