@@ -45,7 +45,9 @@ jobs:
         run: ./gradlew benchmark --info --stacktrace
 
       - name: Generate report 📊
-        run: ./gradlew generateBenchmarkReport --info --stacktrace
+        run: |
+          ./gradlew generateBenchmarkReport --info --stacktrace
+          mv ./build/reports/benchmark-report/report.md ./build/reports/benchmark-report/readme.md
 
       - name: Deploy to result branch 📦
         uses: JamesIves/github-pages-deploy-action@v4
