@@ -1,5 +1,6 @@
 package com.kotlinorm.benchmark
 
+import com.kolinorm.ktormBenchmark.KtromExecutor
 import com.kotlinorm.BenchmarkExecutor
 import com.kotlinorm.benchmark.utils.DataSourceHelper.dataSource
 import com.kotlinorm.benchmark.utils.DataSourceHelper.sync
@@ -16,7 +17,7 @@ import org.openjdk.jmh.annotations.Param
 
 @State(Scope.Benchmark)
 class QueryEntityBenchmark {
-    @Param("Jpa", "Kronos", "Mybatis")
+    @Param("Jpa", "Kronos", "Ktorm", "Mybatis")
     lateinit var ormType: String
 
     @Param("100000")
@@ -37,6 +38,7 @@ class QueryEntityBenchmark {
             "Jpa" -> JpaExecutor()
             "Kronos" -> KronosExecutor()
             "Mybatis" -> MybatisExecutor()
+            "Ktorm" -> KtromExecutor()
             else -> throw IllegalArgumentException("Unsupported ORM type: $ormType")
         }
         executor.init(dataSource, listOfUserMap)

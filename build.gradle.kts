@@ -29,6 +29,7 @@ dependencies {
 	implementation(project(":benchmark-convention"))
 	implementation(project(":jpa-benchmark"))
 	implementation(project(":kronos-benchmark"))
+	implementation(project(":ktorm-benchmark"))
 	implementation(project(":mybatis-benchmark"))
 	implementation(libs.benchmark.runtime)
 	implementation(libs.driver.jdbc.mysql)
