@@ -96,6 +96,15 @@ class JpaExecutor : BenchmarkExecutor {
         }
     }
 
+    override fun querySingleField() {
+        sessionFactory.openSession().use { session ->
+            val query = "SELECT u.name FROM User u WHERE u.id = :id"
+            session.createQuery(query, String::class.java)
+                .setParameter("id", 1L)
+                .uniqueResult()
+        }
+    }
+
     // 清理资源（基准测试结束时调用）
     override fun onDestroy() {
         sessionFactory.openSession().use { session ->

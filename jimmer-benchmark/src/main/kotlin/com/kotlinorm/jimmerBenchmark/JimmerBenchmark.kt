@@ -40,6 +40,10 @@ class JimmerBenchmark : BenchmarkExecutor {
         TODO("Not yet implemented")
     }
 
+    override fun querySingleField() {
+        TODO("Not yet implemented")
+    }
+
     override fun executeInsert() {
         TODO("Not yet implemented")
     }
