@@ -58,6 +58,16 @@ class KtromExecutor : BenchmarkExecutor {
             .map {
                 Users.columns.associate { col -> col.name to it[col]!! }
             }
+            .first()
+    }
+
+    override fun querySingleField() {
+        database
+            .from(Users)
+            .select(Users.name)
+            .where { Users.id eq 1 }
+            .map { it[Users.name]!! }
+            .first()
     }
 
     override fun executeInsert() {

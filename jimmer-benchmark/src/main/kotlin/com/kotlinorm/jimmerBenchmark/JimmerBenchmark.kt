@@ -65,6 +65,10 @@ class JimmerBenchmark : BenchmarkExecutor {
         }.fetchOne()
     }
 
+    override fun querySingleField() {
+        TODO("Not yet implemented")
+    }
+
     override fun executeInsert() {
         sqlClient.entities.saveEntities(users)
     }

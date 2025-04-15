@@ -64,6 +64,12 @@ class MybatisExecutor() : BenchmarkExecutor {
         }
     }
 
+    override fun querySingleField() {
+        sqlSessionFactory.openSession().use { session ->
+            session.getMapper(UserMapper::class.java).selectList(QueryWrapper<User>().select("name").eq("id", 1)).single().name
+        }
+    }
+
     override fun onDestroy() {
         sqlSessionFactory.openSession().use { session ->
             val connection = session.connection
