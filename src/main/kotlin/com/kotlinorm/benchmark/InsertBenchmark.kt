@@ -5,6 +5,7 @@ import com.kotlinorm.BenchmarkExecutor
 import com.kotlinorm.benchmark.utils.DataSourceHelper.dataSource
 import com.kotlinorm.benchmark.utils.DataSourceHelper.sync
 import com.kotlinorm.benchmark.utils.faker
+import com.kotlinorm.jimmerBenchmark.JimmerBenchmark
 import com.kotlinorm.jpaBenchmark.JpaExecutor
 import com.kotlinorm.kronosBenchmark.KronosExecutor
 import com.kotlinorm.mybatisBenchmark.MybatisExecutor
@@ -17,7 +18,8 @@ import kotlinx.benchmark.TearDown
 
 @State(Scope.Benchmark)
 class InsertBenchmark {
-    @Param("Jpa", "Kronos", "Ktorm", "Mybatis")
+    //    @Param("Jpa", "Kronos", "Ktorm", "Mybatis")
+    @Param("Jimmer")
     lateinit var ormType: String
 
     @Param("10000")
@@ -35,10 +37,11 @@ class InsertBenchmark {
             )
         }
         executor = when (ormType) {
+            "Jimmer" -> JimmerBenchmark()
             "Jpa" -> JpaExecutor()
             "Kronos" -> KronosExecutor()
-            "Mybatis" -> MybatisExecutor()
             "Ktorm" -> KtromExecutor()
+            "Mybatis" -> MybatisExecutor()
             else -> throw IllegalArgumentException("Unsupported ORM type: $ormType")
         }
         executor.init(dataSource, listOfUserMap)

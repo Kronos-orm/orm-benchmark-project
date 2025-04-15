@@ -27,6 +27,7 @@ benchmark {
 
 dependencies {
 	implementation(project(":benchmark-convention"))
+	implementation(project(":jimmer-benchmark"))
 	implementation(project(":jpa-benchmark"))
 	implementation(project(":kronos-benchmark"))
 	implementation(project(":ktorm-benchmark"))
