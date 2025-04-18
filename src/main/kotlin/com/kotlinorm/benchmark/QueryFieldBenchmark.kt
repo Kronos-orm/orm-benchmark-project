@@ -5,6 +5,7 @@ import com.kotlinorm.BenchmarkExecutor
 import com.kotlinorm.benchmark.utils.DataSourceHelper.dataSource
 import com.kotlinorm.benchmark.utils.DataSourceHelper.sync
 import com.kotlinorm.benchmark.utils.faker
+import com.kotlinorm.jimmerBenchmark.JimmerBenchmark
 import com.kotlinorm.jpaBenchmark.JpaExecutor
 import com.kotlinorm.kronosBenchmark.KronosExecutor
 import com.kotlinorm.mybatisBenchmark.MybatisExecutor
@@ -17,7 +18,7 @@ import org.openjdk.jmh.annotations.Param
 
 @State(Scope.Benchmark)
 class QueryFieldBenchmark {
-    @Param("Jpa", "Kronos", "Ktorm", "Mybatis")
+    @Param("Jimmer", "Jpa", "Kronos", "Ktorm", "Mybatis")
     lateinit var ormType: String
 
     @Param("100000")
@@ -35,6 +36,7 @@ class QueryFieldBenchmark {
             )
         }
         executor = when (ormType) {
+            "Jimmer" -> JimmerBenchmark()
             "Jpa" -> JpaExecutor()
             "Kronos" -> KronosExecutor()
             "Mybatis" -> MybatisExecutor()

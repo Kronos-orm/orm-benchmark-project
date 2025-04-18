@@ -18,8 +18,7 @@ import org.openjdk.jmh.annotations.Param
 
 @State(Scope.Benchmark)
 class QueryMapBenchmark {
-    //    @Param("Jpa", "Kronos", "Ktorm", "Mybatis")
-    @Param("Jimmer")
+    @Param("Jimmer", "Jpa", "Kronos", "Ktorm", "Mybatis")
     lateinit var ormType: String
 
     @Param("100000")

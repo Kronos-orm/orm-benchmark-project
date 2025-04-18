@@ -18,8 +18,7 @@ import kotlinx.benchmark.TearDown
 
 @State(Scope.Benchmark)
 class InsertBenchmark {
-    //    @Param("Jpa", "Kronos", "Ktorm", "Mybatis")
-    @Param("Jimmer")
+    @Param("Jimmer", "Jpa", "Kronos", "Ktorm", "Mybatis")
     lateinit var ormType: String
 
     @Param("10000")
