@@ -17,7 +17,7 @@ data class User(
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int? = null,  // 必须使用可空类型
+    var id: Int? = null,  // 必须使用可空类型
 
     @Column(name = "name")
     val name: String,

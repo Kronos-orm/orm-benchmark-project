@@ -57,8 +57,11 @@ class JpaExecutor : BenchmarkExecutor {
             val transaction = session.beginTransaction()
             try {
                 // 直接遍历全部数据（不手动分批）
-                users.map { User(name = it.name, age = it.age) }
-                    .forEach { session.persist(it) }
+                users
+                    .forEach {
+                        it.id = null
+                        session.persist(it)
+                    }
 
                 session.flush() // 单次刷入所有数据
                 transaction.commit()
