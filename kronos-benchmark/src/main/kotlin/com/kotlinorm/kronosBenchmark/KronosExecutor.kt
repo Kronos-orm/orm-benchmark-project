@@ -41,15 +41,15 @@ class KronosExecutor() : BenchmarkExecutor {
     }
 
     override fun querySingleEntity() {
-        User(id = 1).select().by { it.id }.single().queryOne()
+        User(id = 1).select().by { it.id }.queryOne()
     }
 
     override fun querySingleMap() {
-        User(id = 1).select().by { it.id }.single().queryMap()
+        User(id = 1).select().by { it.id }.queryMap()
     }
 
     override fun querySingleField() {
-        User(id = 1).select { it.name }.by { it.id }.single().queryOne<String>()
+        User(id = 1).select { it.name }.by { it.id }.queryOne<String>()
     }
 
     override fun executeInsert() {

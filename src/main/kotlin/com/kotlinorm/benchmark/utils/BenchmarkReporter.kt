@@ -53,7 +53,7 @@ fun generateReport(csvPath: String, outputDir: String) {
             """
             |## ${benchmarkName.toString().replace("com.kotlinorm.benchmark.", "")}
             |
-            |![${benchmarkName} Performance Chart](./images/$plotFileName)
+            |![${benchmarkName} Performance Chart](https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/images/$plotFileName)
             |
             |${group.toMarkdownTable()}
             |
