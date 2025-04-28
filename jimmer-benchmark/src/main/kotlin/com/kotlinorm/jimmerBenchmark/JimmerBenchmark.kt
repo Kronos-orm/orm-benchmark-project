@@ -2,8 +2,9 @@ package com.kotlinorm.jimmerBenchmark
 
 import com.kotlinorm.BenchmarkExecutor
 import com.kotlinorm.jimmerBenchmark.pojo.User
-import com.kotlinorm.jimmerBenchmark.pojo.age
+import com.kotlinorm.jimmerBenchmark.pojo.UserFetcherDsl
 import com.kotlinorm.jimmerBenchmark.pojo.by
+import com.kotlinorm.jimmerBenchmark.pojo.fetchBy
 import com.kotlinorm.jimmerBenchmark.pojo.id
 import com.kotlinorm.jimmerBenchmark.pojo.name
 import org.babyfish.jimmer.kt.new
@@ -13,6 +14,10 @@ import org.babyfish.jimmer.sql.kt.KSqlClient
 import org.babyfish.jimmer.sql.kt.ast.expression.eq
 import org.babyfish.jimmer.sql.kt.newKSqlClient
 import org.babyfish.jimmer.sql.runtime.ConnectionManager
+import java.math.BigDecimal
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.sql.DataSource
 
 /**
@@ -37,6 +42,8 @@ class JimmerBenchmark : BenchmarkExecutor {
             setDialect(MySqlDialect())
             setDefaultBatchSize(10000)
             setDefaultListBatchSize(10000)
+//            addScalarProvider(ByteArrayScalarProvider())
+            setScalarProvider(User::comment, ByteArrayScalarProvider())
         }
         prepareData(listOfMap)
     }
@@ -44,8 +51,22 @@ class JimmerBenchmark : BenchmarkExecutor {
     override fun prepareData(listOfMap: List<Map<String, Any>>) {
         users = listOfMap.map { map ->
             new(User::class).by {
-                name = map["name"] as String
+                uid = map["uid"] as Long
+                name = map["name"].toString()
                 age = map["age"] as Int
+                sex = map["sex"] as Boolean
+                height = map["height"] as Float
+                weight = map["weight"] as Float
+                score = map["score"] as Double
+                salary = map["salary"] as BigDecimal
+                birthday = LocalDate.parse(map["birthday"].toString())
+                email = map["email"].toString()
+                address = map["address"].toString()
+                comment = map["comment"] as ByteArray
+                version = map["version"] as Int
+                deleted = map["deleted"] as Boolean
+                createTime = LocalDateTime.ofInstant(map["createTime"] as Instant, java.time.ZoneOffset.UTC)
+                updateTime = LocalDateTime.ofInstant(map["updateTime"] as Instant, java.time.ZoneOffset.UTC)
             }
         }
     }
@@ -60,12 +81,28 @@ class JimmerBenchmark : BenchmarkExecutor {
     override fun querySingleMap() {
         sqlClient.createQuery(User::class) {
             where(table.id eq 1)
-            select(
-                table.id,
-                table.name,
-                table.age
+            select(table)
+        }.fetchOne().let {
+            mapOf(
+                "id" to it.id,
+                "uid" to it.uid,
+                "name" to it.name,
+                "age" to it.age,
+                "sex" to it.sex,
+                "height" to it.height,
+                "weight" to it.weight,
+                "score" to it.score,
+                "salary" to it.salary,
+                "birthday" to it.birthday,
+                "email" to it.email,
+                "address" to it.address,
+                "comment" to it.comment,
+                "version" to it.version,
+                "deleted" to it.deleted,
+                "createTime" to it.createTime,
+                "updateTime" to it.updateTime
             )
-        }.fetchOne()
+        }
     }
 
     override fun querySingleField() {

@@ -42,7 +42,7 @@ fun generateReport(csvPath: String, outputDir: String) {
                 }
             }
             layout {
-                title = "${benchmarkName.toString().replace("com.kotlinorm.benchmark.", "")}"
+                title = benchmarkName.toString().replace("com.kotlinorm.benchmark.", "")
                 size = 1000 to 600
                 theme = Theme.HIGH_CONTRAST_LIGHT
             }

@@ -10,6 +10,10 @@ import org.apache.ibatis.session.ExecutorType
 import org.apache.ibatis.session.SqlSessionFactory
 import org.apache.ibatis.session.SqlSessionFactoryBuilder
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory
+import java.math.BigDecimal
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.sql.DataSource
 
 class MybatisExecutor() : BenchmarkExecutor {
@@ -38,8 +42,22 @@ class MybatisExecutor() : BenchmarkExecutor {
         // 预处理数据
         users = listOfMap.map { map ->
             User(
-                name = map["name"] as String,
-                age = map["age"] as Int
+                uid = map["uid"] as Long,
+                name = map["name"].toString(),
+                age = map["age"] as Int,
+                sex = map["sex"] as Boolean,
+                height = map["height"] as Float,
+                weight = map["weight"] as Float,
+                score = map["score"] as Double,
+                salary = map["salary"] as BigDecimal,
+                birthday = LocalDate.parse(map["birthday"].toString()),
+                email = map["email"].toString(),
+                address = map["address"].toString(),
+                comment = map["comment"] as ByteArray,
+                version = map["version"] as Int,
+                deleted = map["deleted"] as Boolean,
+                createTime = LocalDateTime.ofInstant(map["createTime"] as Instant, java.time.ZoneOffset.UTC),
+                updateTime = LocalDateTime.ofInstant(map["updateTime"] as Instant, java.time.ZoneOffset.UTC)
             )
         }
     }

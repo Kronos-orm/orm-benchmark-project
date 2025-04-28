@@ -7,6 +7,10 @@ import org.hibernate.SessionFactory
 import org.hibernate.boot.MetadataSources
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder
 import org.hibernate.cfg.AvailableSettings
+import java.math.BigDecimal
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.sql.DataSource
 
 class JpaExecutor : BenchmarkExecutor {
@@ -46,8 +50,22 @@ class JpaExecutor : BenchmarkExecutor {
         // 预处理数据
         users = listOfMap.map { map ->
             User(
-                name = map["name"] as String,
-                age = map["age"] as Int
+                uid = map["uid"] as Long,
+                name = map["name"].toString(),
+                age = map["age"] as Int,
+                sex = map["sex"] as Boolean,
+                height = map["height"] as Float,
+                weight = map["weight"] as Float,
+                score = map["score"] as Double,
+                salary = map["salary"] as BigDecimal,
+                birthday = LocalDate.parse(map["birthday"].toString()),
+                email = map["email"].toString(),
+                address = map["address"].toString(),
+                comment = map["comment"] as ByteArray,
+                version = map["version"] as Int,
+                deleted = map["deleted"] as Boolean,
+                createTime = LocalDateTime.ofInstant(map["createTime"] as Instant, java.time.ZoneOffset.UTC),
+                updateTime = LocalDateTime.ofInstant(map["updateTime"] as Instant, java.time.ZoneOffset.UTC)
             )
         }
     }
@@ -56,7 +74,6 @@ class JpaExecutor : BenchmarkExecutor {
         sessionFactory.openSession().use { session ->
             val transaction = session.beginTransaction()
             try {
-                // 直接遍历全部数据（不手动分批）
                 users
                     .forEach {
                         it.id = null
@@ -74,7 +91,6 @@ class JpaExecutor : BenchmarkExecutor {
         }
     }
 
-    // 查询逻辑（示例）
     override fun querySingleEntity() {
         sessionFactory.openSession().use { session ->
             session.get(User::class.java, 1)
@@ -86,8 +102,22 @@ class JpaExecutor : BenchmarkExecutor {
             val query = """
                 SELECT new map(
                     u.id as id, 
+                    u.uid as uid,
                     u.name as name, 
-                    u.age as age
+                    u.age as age,
+                    u.sex as sex,
+                    u.height as height,
+                    u.weight as weight,
+                    u.score as score,
+                    u.salary as salary,
+                    u.birthday as birthday,
+                    u.email as email,
+                    u.address as address,
+                    u.comment as comment,
+                    u.version as version,
+                    u.deleted as deleted,
+                    u.createTime as createTime,
+                    u.updateTime as updateTime
                 ) 
                 FROM User u 
                 WHERE u.id = :id

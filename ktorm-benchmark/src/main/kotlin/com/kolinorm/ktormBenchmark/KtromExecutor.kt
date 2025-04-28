@@ -13,6 +13,9 @@ import org.ktorm.dsl.where
 import org.ktorm.entity.find
 import org.ktorm.entity.sequenceOf
 import org.ktorm.logging.NoOpLogger
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.sql.DataSource
 
 /**
@@ -39,8 +42,22 @@ class KtromExecutor : BenchmarkExecutor {
         batchInsertStatementBuilder = {
             for (user in users) {
                 item {
+                    set(it.uid, user["uid"].toString().toLong())
                     set(it.name, user["name"].toString())
                     set(it.age, user["age"]?.toString()?.toInt())
+                    set(it.sex, user["sex"].toString().toBoolean())
+                    set(it.height, user["height"].toString().toFloat())
+                    set(it.weight, user["weight"].toString().toFloat())
+                    set(it.score, user["score"].toString().toDouble())
+                    set(it.salary, user["salary"].toString().toBigDecimal())
+                    set(it.birthday, LocalDate.parse(user["birthday"].toString()))
+                    set(it.email, user["email"].toString())
+                    set(it.address, user["address"].toString())
+                    set(it.comment, user["comment"].toString().toByteArray())
+                    set(it.version, user["version"].toString().toInt())
+                    set(it.deleted, user["deleted"].toString().toBoolean())
+                    set(it.createTime, LocalDateTime.ofInstant(user["createTime"] as Instant, java.time.ZoneOffset.UTC))
+                    set(it.updateTime, LocalDateTime.ofInstant(user["updateTime"] as Instant, java.time.ZoneOffset.UTC))
                 }
             }
         }
