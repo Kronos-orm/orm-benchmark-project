@@ -3,15 +3,13 @@ package com.kotlinorm.kronosBenchmark
 import com.kotlinorm.BenchmarkExecutor
 import com.kotlinorm.Kronos
 import com.kotlinorm.KronosBasicWrapper
+import com.kotlinorm.functions.bundled.exts.PolymerizationFunctions.count
 import com.kotlinorm.kronosBenchmark.pojo.User
 import com.kotlinorm.orm.database.table
 import com.kotlinorm.orm.insert.InsertClause.Companion.execute
 import com.kotlinorm.orm.insert.insert
 import com.kotlinorm.orm.select.select
-import java.math.BigDecimal
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
+import com.kotlinorm.utils.Extensions.mapperTo
 import javax.sql.DataSource
 
 class KronosExecutor() : BenchmarkExecutor {
@@ -36,26 +34,7 @@ class KronosExecutor() : BenchmarkExecutor {
 
     override fun prepareData(listOfMap: List<Map<String, Any>>) {
         // 预处理数据
-        users = listOfMap.map { map ->
-            User(
-                uid = map["uid"] as Long,
-                name = map["name"].toString(),
-                age = map["age"] as Int,
-                sex = map["sex"] as Boolean,
-                height = map["height"] as Float,
-                weight = map["weight"] as Float,
-                score = map["score"] as Double,
-                salary = map["salary"] as BigDecimal,
-                birthday = LocalDate.parse(map["birthday"].toString()),
-                email = map["email"].toString(),
-                address = map["address"].toString(),
-                comment = map["comment"] as ByteArray,
-                version = map["version"] as Int,
-                deleted = map["deleted"] as Boolean,
-                createTime = LocalDateTime.ofInstant(map["createTime"] as Instant, java.time.ZoneOffset.UTC),
-                updateTime = LocalDateTime.ofInstant(map["updateTime"] as Instant, java.time.ZoneOffset.UTC)
-            )
-        }
+        users = listOfMap.map { User().fromMapData(it) }
     }
 
     override fun querySingleEntity() {

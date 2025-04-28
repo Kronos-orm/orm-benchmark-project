@@ -2,9 +2,7 @@ package com.kotlinorm.jimmerBenchmark
 
 import com.kotlinorm.BenchmarkExecutor
 import com.kotlinorm.jimmerBenchmark.pojo.User
-import com.kotlinorm.jimmerBenchmark.pojo.UserFetcherDsl
 import com.kotlinorm.jimmerBenchmark.pojo.by
-import com.kotlinorm.jimmerBenchmark.pojo.fetchBy
 import com.kotlinorm.jimmerBenchmark.pojo.id
 import com.kotlinorm.jimmerBenchmark.pojo.name
 import org.babyfish.jimmer.kt.new
@@ -15,7 +13,6 @@ import org.babyfish.jimmer.sql.kt.ast.expression.eq
 import org.babyfish.jimmer.sql.kt.newKSqlClient
 import org.babyfish.jimmer.sql.runtime.ConnectionManager
 import java.math.BigDecimal
-import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.sql.DataSource
@@ -59,14 +56,14 @@ class JimmerBenchmark : BenchmarkExecutor {
                 weight = map["weight"] as Float
                 score = map["score"] as Double
                 salary = map["salary"] as BigDecimal
-                birthday = LocalDate.parse(map["birthday"].toString())
+                birthday = map["birthday"] as LocalDate
                 email = map["email"].toString()
                 address = map["address"].toString()
                 comment = map["comment"] as ByteArray
                 version = map["version"] as Int
                 deleted = map["deleted"] as Boolean
-                createTime = LocalDateTime.ofInstant(map["createTime"] as Instant, java.time.ZoneOffset.UTC)
-                updateTime = LocalDateTime.ofInstant(map["updateTime"] as Instant, java.time.ZoneOffset.UTC)
+                createTime = map["createTime"] as LocalDateTime
+                updateTime = map["updateTime"] as LocalDateTime
             }
         }
     }
