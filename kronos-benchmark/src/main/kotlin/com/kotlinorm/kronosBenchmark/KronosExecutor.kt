@@ -3,13 +3,13 @@ package com.kotlinorm.kronosBenchmark
 import com.kotlinorm.BenchmarkExecutor
 import com.kotlinorm.Kronos
 import com.kotlinorm.KronosBasicWrapper
-import com.kotlinorm.functions.bundled.exts.PolymerizationFunctions.count
 import com.kotlinorm.kronosBenchmark.pojo.User
 import com.kotlinorm.orm.database.table
+import com.kotlinorm.orm.insert.InsertClause.Companion.cascade
 import com.kotlinorm.orm.insert.InsertClause.Companion.execute
 import com.kotlinorm.orm.insert.insert
 import com.kotlinorm.orm.select.select
-import com.kotlinorm.utils.Extensions.mapperTo
+import com.kotlinorm.plugins.LastInsertIdPlugin.lastInsertId
 import javax.sql.DataSource
 
 class KronosExecutor() : BenchmarkExecutor {
@@ -26,6 +26,7 @@ class KronosExecutor() : BenchmarkExecutor {
             tableNamingStrategy = lineHumpNamingStrategy
             // 设置数据源提供器
             Kronos.dataSource = { wrapper }
+            lastInsertId = false
             strictSetValue = true
             logPath = listOf()
         }
@@ -38,19 +39,19 @@ class KronosExecutor() : BenchmarkExecutor {
     }
 
     override fun querySingleEntity() {
-        User(id = 1).select().by { it.id }.queryOne()
+        User(id = 1).select().by { it.id }.cascade(false).queryOne()
     }
 
     override fun querySingleMap() {
-        User(id = 1).select().by { it.id }.queryMap()
+        User(id = 1).select().by { it.id }.cascade(false).queryMap()
     }
 
     override fun querySingleField() {
-        User(id = 1).select { it.name }.by { it.id }.queryOne<String>()
+        User(id = 1).select { it.name }.by { it.id }.cascade(false).queryOne<String>()
     }
 
     override fun executeInsert() {
-        users.insert().execute()
+        users.insert().cascade(false).execute()
     }
 
     override fun onDestroy() {
