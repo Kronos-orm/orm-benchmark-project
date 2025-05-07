@@ -9,7 +9,7 @@ import com.kotlinorm.orm.insert.InsertClause.Companion.cascade
 import com.kotlinorm.orm.insert.InsertClause.Companion.execute
 import com.kotlinorm.orm.insert.insert
 import com.kotlinorm.orm.select.select
-import com.kotlinorm.plugins.LastInsertIdPlugin.lastInsertId
+import com.kotlinorm.plugins.LastInsertIdPlugin
 import javax.sql.DataSource
 
 class KronosExecutor() : BenchmarkExecutor {
@@ -26,7 +26,7 @@ class KronosExecutor() : BenchmarkExecutor {
             tableNamingStrategy = lineHumpNamingStrategy
             // 设置数据源提供器
             Kronos.dataSource = { wrapper }
-            lastInsertId = false
+            LastInsertIdPlugin.enabled = false
             strictSetValue = true
             logPath = listOf()
         }
