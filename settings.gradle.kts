@@ -1,48 +1,30 @@
-dependencyResolutionManagement {
-    versionCatalogs {
-        create("libs") {
-            from(files("./libs.versions.toml"))
-        }
-    }
-    @Suppress("UnstableApiUsage")
-    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
-    @Suppress("UnstableApiUsage")
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-        maven {
-            name = "Central Portal Snapshots"
-            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
-        }
-        maven("https://dl.bintray.com/kotlin/kotlin-eap")
-        maven("https://maven.aliyun.com/repository/public")
-        maven("https://maven.aliyun.com/nexus/content/groups/public/")
-    }
-}
-
 pluginManagement {
+    val candidate = providers.gradleProperty("kronosCandidateRepo")
+        .orElse(providers.environmentVariable("KRONOS_CANDIDATE_REPO"))
+        .orNull ?: error("Set kronosCandidateRepo/KRONOS_CANDIDATE_REPO to the approved isolated candidate repository")
     repositories {
-        mavenCentral()
-        gradlePluginPortal()
-        maven("https://dl.bintray.com/kotlin/kotlin-eap")
-        maven("https://maven.aliyun.com/repository/public")
-        maven("https://maven.aliyun.com/nexus/content/groups/public/")
-        maven {
-            name = "Central Portal Snapshots"
-            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+        exclusiveContent {
+            forRepository { maven { name = "ApprovedKronosCandidatePlugins"; url = uri(candidate) } }
+            filter { includeGroupByRegex("com\\.kotlinorm(\\..*)?") }
         }
+        gradlePluginPortal()
+        mavenCentral()
     }
 }
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    versionCatalogs { create("libs") { from(files("libs.versions.toml")) } }
+    val candidate = providers.gradleProperty("kronosCandidateRepo")
+        .orElse(providers.environmentVariable("KRONOS_CANDIDATE_REPO"))
+        .orNull ?: error("Approved Kronos candidate repository is required")
+    repositories {
+        exclusiveContent {
+            forRepository { maven { name = "ApprovedKronosCandidate"; url = uri(candidate) } }
+            filter { includeGroupByRegex("com\\.kotlinorm(\\..*)?") }
+        }
+        mavenCentral()
+    }
 }
-
 rootProject.name = "orm-benchmark-project"
-
-include(":jpa-benchmark")
-include(":kronos-benchmark")
-include(":mybatis-benchmark")
-include("benchmark-convention")
-include("ktorm-benchmark")
-include("jimmer-benchmark")
+include(":benchmark-convention", ":kronos-benchmark", ":jpa-benchmark", ":jimmer-benchmark", ":ktorm-benchmark", ":mybatis-benchmark")

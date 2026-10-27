@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Kronos ORM benchmark report</title>
+  <link rel="stylesheet" href="./assets/report.css">
+  <script src="./assets/report.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">Local controlled JVM / MySQL experiment</p>
+      <h1>Kronos ORM benchmark report</h1>
+      <p id="identity"></p>
+      <p id="coverage" class="notice"></p>
+      <nav id="downloads" aria-label="Report evidence"></nav>
+    </header>
+    <section aria-labelledby="case-heading">
+      <h2 id="case-heading">Compare one fixed workload</h2>
+      <label for="case">Scenario</label>
+      <select id="case"></select>
+      <p id="case-description"></p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Framework</th><th>Status</th><th>Independent forks</th><th id="latency-label">Mean latency</th><th>95% mean CI</th><th>Median</th><th>Raw evidence</th></tr></thead>
+          <tbody id="results"></tbody>
+        </table>
+      </div>
+      <figure id="figure-section" hidden>
+        <img id="figure" alt="Independent JVM fork means with 95% Student t confidence intervals">
+        <figcaption id="figure-caption"></figcaption>
+      </figure>
+      <p id="case-download"></p>
+    </section>
+    <section aria-labelledby="method-heading">
+      <h2 id="method-heading">Read the uncertainty with the workload</h2>
+      <p>Each point represents one independent JVM fork/block. Measurement iterations within a fork are averaged before inference. Mean intervals use Student t over fork means; paired latency ratios use matched blocks. Five forks give limited precision.</p>
+      <p>Queries include connection/session acquisition, query construction, SQL execution, full materialization and closure. A 1-to-100-row difference includes database, transfer, driver, mapping and allocation costs. Diagnostic GC/JFR runs are separate from the primary scores.</p>
+      <p>Writes measure one assigned-key, row-wise INSERT transaction including COMMIT. Reset, fixture generation and verification occur outside timing. Operation/row rates derived from latency are labeled as conversions.</p>
+      <p id="limitations"></p>
+    </section>
+    <section aria-labelledby="environment-heading">
+      <h2 id="environment-heading">Environment and resolved artifacts</h2>
+      <dl id="environment"></dl>
+      <details><summary>Requested versions and resolved JAR identities</summary><pre id="artifacts"></pre></details>
+    </section>
+    <p id="load-error" role="alert" hidden></p>
+  </main>
+</body>
+</html>

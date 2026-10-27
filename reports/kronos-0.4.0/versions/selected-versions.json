@@ -1,0 +1,108 @@
+{
+  "asOf": "2026-10-27",
+  "components": [
+    {
+      "artifactState": "SOURCE_BUILT_PER_CI_RUN",
+      "compatibility": "Producer verifies0.4.0/Kotlin2.4.21 and exact candidate bytes; correctness/pilot remain separate runtime gates",
+      "name": "Kronos",
+      "source": "CI producer resolves the requested ref and records the exact candidate source SHA in build-manifest.json",
+      "version": "0.4.0"
+    },
+    {
+      "compatibility": "JDK21 API compilation passed; Jakarta Persistence3.2; MySQL correctness pending",
+      "name": "Hibernate ORM",
+      "pom": "https://repo.maven.apache.org/maven2/org/hibernate/orm/hibernate-core/7.4.14.Final/hibernate-core-7.4.14.Final.pom",
+      "release": "https://github.com/hibernate/hibernate-orm/releases/tag/7.4.14",
+      "released": "2026-10-25",
+      "version": "7.4.14.Final"
+    },
+    {
+      "compatibility": "Processor built against older KSP API; Kotlin2.4.21 + KSP host/API2.3.12 generated and compiled; explicit annotations2.22 required; SQL/lifecycle pending",
+      "name": "Jimmer",
+      "pom": "https://repo.maven.apache.org/maven2/org/babyfish/jimmer/jimmer-sql-kotlin/0.12.4/jimmer-sql-kotlin-0.12.4.pom",
+      "release": "https://github.com/babyfish-ct/jimmer/releases/tag/v0.12.4",
+      "released": "2026-10-06",
+      "version": "0.12.4"
+    },
+    {
+      "compatibility": "Core DSL/entity API compiled; correctness pending",
+      "name": "Ktorm",
+      "pom": "https://repo.maven.apache.org/maven2/org/ktorm/ktorm-core/4.2.1/ktorm-core-4.2.1.pom",
+      "release": "https://github.com/kotlin-orm/ktorm/releases/tag/v4.2.1",
+      "released": "2026-06-20",
+      "version": "4.2.1"
+    },
+    {
+      "compatibility": "Upstream POM declares MyBatis3.5.19; explicit3.6.0 target must pass compatibility gate, fallback only with recorded failure and rationale",
+      "name": "MyBatis-Plus",
+      "pom": "https://repo.maven.apache.org/maven2/com/baomidou/mybatis-plus/3.5.18/mybatis-plus-3.5.18.pom",
+      "release": "https://github.com/baomidou/mybatis-plus/releases/tag/v3.5.18",
+      "released": "2026-10-25",
+      "version": "3.5.18"
+    },
+    {
+      "compatibility": "Plus3.5.18 + core3.6.0 provisional compilation passed; runtime correctness pending",
+      "name": "MyBatis core",
+      "pom": "https://repo.maven.apache.org/maven2/org/mybatis/mybatis/3.6.0/mybatis-3.6.0.pom",
+      "release": "https://github.com/mybatis/mybatis-3/releases/tag/mybatis-3.6.0",
+      "released": "2026-10-23",
+      "version": "3.6.0"
+    },
+    {
+      "compatibility": "9.7.0 explicitly supports MySQL8.0+;26.7/26.10 require MySQL8.4+; all six adapters share9.7.0 with existing local8.0.22 server",
+      "latestPublishedStable": "26.10.0",
+      "latestRelease": "https://dev.mysql.com/doc/relnotes/connector-j/en/news-26-10-0.html",
+      "latestReleased": "2026-10-21",
+      "name": "MySQL Connector/J",
+      "pom": "https://repo.maven.apache.org/maven2/com/mysql/mysql-connector-j/9.7.0/mysql-connector-j-9.7.0.pom",
+      "release": "https://dev.mysql.com/doc/relnotes/connector-j/en/news-9-7-0.html",
+      "released": "2026-04-22",
+      "version": "9.7.0"
+    },
+    {
+      "compatibility": "One shared pool configuration for all six adapters; not Apache Druid",
+      "name": "Alibaba Druid",
+      "pom": "https://repo.maven.apache.org/maven2/com/alibaba/druid/1.2.28/druid-1.2.28.pom",
+      "release": "https://github.com/alibaba/druid/releases/tag/1.2.28",
+      "released": "2026-03-10",
+      "version": "1.2.28"
+    },
+    {
+      "compatibility": "KSP2 standalone versioning; explicit backing-field feature opt-in preserved; no KSP1/kapt dual processing",
+      "name": "KSP",
+      "pom": "https://repo.maven.apache.org/maven2/com/google/devtools/ksp/symbol-processing-api/2.3.12/symbol-processing-api-2.3.12.pom",
+      "release": "https://github.com/google/ksp/releases/tag/2.3.12",
+      "released": "2026-09-09",
+      "version": "2.3.12"
+    },
+    {
+      "compatibility": "Core and annotation processor same pinned version",
+      "metadata": "https://repo.maven.apache.org/maven2/org/openjdk/jmh/jmh-core/maven-metadata.xml",
+      "name": "JMH",
+      "pom": "https://repo.maven.apache.org/maven2/org/openjdk/jmh/jmh-core/1.37/jmh-core-1.37.pom",
+      "version": "1.37"
+    },
+    {
+      "compatibility": "Latest stable of retained com.fasterxml 2.x coordinates; used for validation/report JSON, outside timed operations",
+      "metadata": "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-databind/maven-metadata.xml",
+      "name": "Jackson 2 (report serialization)",
+      "pom": "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.22.4/jackson-databind-2.22.4.pom",
+      "version": "2.22.4"
+    },
+    {
+      "compatibility": "All modules and Jimmer KSP2 generated sources compiled with2.4.21; runtime JAR hashes captured in preflight evidence",
+      "name": "Kotlin compiler and shared runtime",
+      "release": "https://kotlinlang.org/docs/releases.html",
+      "version": "2.4.21"
+    },
+    {
+      "compatibility": "Explicit compile dependency required for generated JsonIgnore/JsonPropertyOrder references; minor-only upstream version",
+      "name": "Jackson annotations (Jimmer generated drafts)",
+      "pom": "https://repo.maven.apache.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.22/jackson-annotations-2.22.pom",
+      "version": "2.22"
+    }
+  ],
+  "databaseStarted": false,
+  "measured": false,
+  "status": "PINNED_TARGET_VERSION_AUDIT"
+}
