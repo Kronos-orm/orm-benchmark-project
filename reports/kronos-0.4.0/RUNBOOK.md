@@ -1,6 +1,6 @@
 # 源码准备后的运行手册
 
-更新：2026-10-27。当前执行方式已转为[CI运行协议](CI-RUNBOOK.md)。candidate7已获临时API编译放行并通过；本手册保留为本地复现途径，DB、正确性、pilot、measure/profile仍须另行放行。
+更新：2026-10-27。当前执行方式已转为[CI运行协议](CI-RUNBOOK.md)。candidate7已获临时API编译放行并通过；本手册是可选本地复现附录；当前任务只使用远程CI，本机重实验保持关闭。BENCH_ALLOW_LOAD仅是本机负载隔离开关，CI不读取它。
 
 ## 放行与候选
 
@@ -18,9 +18,9 @@
 
 复用上述runner的所有参数，将stage依次换成`validate`、`pilot`。validate要求六适配器全字段值、范围/缺失结果、SQL投影/绑定、逐行INSERT/一次commit/无生成键、连接关闭均通过。失败先修适配器和门禁语义，不能继续给该场景造跑分。
 
-pilot不进入正式统计。检查每框架的预热/measurement趋势与方差，记录具体证据到run目录`pilot-review.json`：至少有对应`sourceSha256`和实际统计`findings`。这是实施者基于数据的审查记录，不是另一次用户批准。若需统一加预热，修改源码参数、重新构建/验证/pilot后再冻结。
+pilot不进入正式统计。本地与CI调用同一个pilot_findings函数，自动生成实际warmup/measurement统计、raw摘要和marker绑定到pilot-review.json；无需手工填写接受状态。若需统一加预热，修改源码参数、重新构建/验证/pilot后再冻结。
 
-另收到正式测量放行后，再设置`BENCH_ALLOW_MEASUREMENT=1`并运行`measure`阶段。runner按固定seed在5个block内洗牌场景和ORM，单次命令一个独立fork，完整记录argv/日志/JSON/逐迭代CSV。合计780个正式JVM命令，查询部分计时时长下限约6小时。`--resume`只跳过同一制品下已成功的case；失败结果不覆盖，修复后使用新run目录并保留旧证据。
+在合适的空闲本机运行`measure`阶段；自动核对同一制品的正确性marker和pilot统计证明。runner按固定seed在5个block内洗牌场景和ORM，单次命令一个独立fork，完整记录argv/日志/JSON/逐迭代CSV。合计780个正式JVM命令，查询部分计时时长下限约6小时。`--resume`只跳过同一制品下已成功的case；失败结果不覆盖，修复后使用新run目录并保留旧证据。
 
 ## 独立诊断与分析
 
@@ -32,7 +32,7 @@ pilot不进入正式统计。检查每框架的预热/measurement趋势与方差
 
 ## 清理与交付
 
-完成后用`python3 scripts/manage_mysql.py stop --private-dir "$BENCH_PRIVATE_DIR"`只停止拥有的专用实例。保留私有datadir与全部日志以便复核；没有授权不推送/提PR/发布。交付链接应包含报告、raw与命令、源码快照/候选标识、统计脚本/独立图及canvas。
+完成后用`python3 scripts/manage_mysql.py stop --private-dir "$BENCH_PRIVATE_DIR"`只停止拥有的专用实例。保留私有datadir与全部日志以便复核；这些本地脚本不执行Git推送或发布。交付链接应包含报告、raw与命令、源码快照/候选标识、统计脚本/独立图及canvas。
 
 ## 官网报告包导出（测量后）
 

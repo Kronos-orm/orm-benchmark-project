@@ -8,9 +8,10 @@ import os
 from pathlib import Path
 import tarfile
 import zipfile
+import html
 
 RECEIPT = 'secret-audit.json'
-IDENTITY = ['candidateGitSha', 'benchmarkGitSha', 'sourceSha256', 'bundleSha256', 'executionWorkflowRunId', 'executionStage']
+IDENTITY = ['candidateGitSha', 'benchmarkGitSha', 'sourceSha256', 'bundleSha256', 'executionWorkflowRunId', 'executionWorkflowRunAttempt', 'executionStage']
 
 
 def sha(path):
@@ -60,7 +61,7 @@ def audit_directory(root, values):
     cells = []
     for path in sorted(root.rglob('*.status.json')):
         status = json.loads(path.read_text())
-        if any(status.get(k) != manifest[k] for k in ['candidateGitSha', 'sourceSha256', 'bundleSha256']):
+        if any(status.get(k) != manifest[k] for k in ['candidateGitSha', 'benchmarkGitSha', 'sourceSha256', 'bundleSha256', 'executionWorkflowRunId', 'executionWorkflowRunAttempt']):
             raise ValueError('Cell identity differs from audited execution')
         cells.append({k: status[k] for k in ['kind', 'params', 'block', 'status']})
     receipt = dict(schemaVersion=1, status='PASS', identity=identity, files=entries, cells=cells,
@@ -79,13 +80,63 @@ def verify_receipt(root, manifest, execution_run=None):
         if receipt['identity'][key] != manifest[key]: raise ValueError('Secret audit provenance mismatch: ' + key)
     if execution_run is not None and str(receipt['identity']['executionWorkflowRunId']) != str(execution_run):
         raise ValueError('Secret audit belongs to another execution run')
+    expected_attempt = str(manifest.get('executionWorkflowRunAttempt', manifest.get('workflowRunAttempt', '')))
+    if expected_attempt != '1' or str(receipt['identity'].get('executionWorkflowRunAttempt')) != expected_attempt:
+        raise ValueError('Secret audit belongs to a different or unsupported execution attempt')
     if files(root, RECEIPT) != receipt['files']:
         raise ValueError('Evidence changed after real-secret scan; upload/export blocked')
     return receipt
 
 
+def audited_failure(root, execution_run=None):
+    """Only data covered by a passing real-credential receipt can become public diagnostics."""
+    manifest = json.loads((root / 'build-manifest.json').read_text())
+    verify_receipt(root, manifest, execution_run)
+    status_file = root / 'validation/status.json'
+    failures = {}
+    if status_file.exists():
+        statuses = json.loads(status_file.read_text())
+        failures = {key: {field: str(value.get(field, ''))[:1500] for field in ['type', 'message']}
+                    for key, value in statuses.items() if isinstance(value, dict) and value.get('status') == 'FAIL'}
+    for status_file in sorted(root.rglob('*.status.json')):
+        value = json.loads(status_file.read_text())
+        if value.get('status') == 'FAIL': failures[status_file.name] = dict(type='JmhCellFailure', message=str(value.get('failure', 'JMH command failed'))[:1500])
+    if not failures and not (root / 'validation/status.json').exists() and (root / 'validation.log').exists():
+        lines = (root / 'validation.log').read_text().splitlines()
+        failures['auditedExceptionLines'] = [line[:1500] for line in lines if any(tag in line for tag in ['Exception', 'Error', 'Caused by'])][-12:]
+        if not failures['auditedExceptionLines']: failures = {}
+    return dict(identity={key: manifest[key] for key in IDENTITY}, receiptSha256=sha(root / RECEIPT), failures=failures)
+
+
+def emit_audited_failure(summary):
+    if not summary['failures']: return
+    text = json.dumps(summary, ensure_ascii=False, sort_keys=True)
+    annotation = text.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+    print('::notice title=Audited preflight failure::' + annotation)
+    if os.environ.get('GITHUB_STEP_SUMMARY'):
+        with Path(os.environ['GITHUB_STEP_SUMMARY']).open('a') as handle:
+            handle.write('<h3>Hash-verified, real-secret-audited failure</h3><pre>' + html.escape(text) + '</pre>\n')
+
+
+
+def emit_audited_pilot(root, execution_run=None):
+    """Expose actual trial evidence through the API only after byte-for-byte receipt verification."""
+    review_file = root / 'pilot-review.json'
+    if not review_file.exists(): return
+    manifest = json.loads((root / 'build-manifest.json').read_text())
+    verify_receipt(root, manifest, execution_run)
+    summary = dict(identity={key: manifest[key] for key in IDENTITY}, receiptSha256=sha(root / RECEIPT),
+                   reviewSha256=sha(review_file), review=json.loads(review_file.read_text()))
+    text = json.dumps(summary, ensure_ascii=False, sort_keys=True)
+    annotation = text.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+    print('::notice title=Audited pilot diagnostics::' + annotation)
+    if os.environ.get('GITHUB_STEP_SUMMARY'):
+        with Path(os.environ['GITHUB_STEP_SUMMARY']).open('a') as handle:
+            handle.write('<h3>Actual audited pilot diagnostics</h3><pre>' + html.escape(text) + '</pre>\n')
+
+
 def finish_aggregate(root, manifest, receipts, bindings):
-    record = dict(schemaVersion=1, identity={k: manifest[k] for k in ['candidateGitSha', 'benchmarkGitSha', 'sourceSha256', 'bundleSha256', 'executionWorkflowRunId']},
+    record = dict(schemaVersion=1, identity={k: manifest[k] for k in ['candidateGitSha', 'benchmarkGitSha', 'sourceSha256', 'bundleSha256', 'executionWorkflowRunId', 'executionWorkflowRunAttempt']},
                   receipts=receipts, bindings=bindings, files=files(root, 'audit-provenance.json'))
     save(root / 'audit-provenance.json', record)
     verify_aggregate(root)
@@ -105,6 +156,8 @@ def verify_aggregate(root):
             if receipt['identity'][key] != manifest[key]: raise ValueError('Foreign receipt')
         if str(receipt['identity']['executionWorkflowRunId']) != str(manifest['executionWorkflowRunId']):
             raise ValueError('Receipt came from another measurement run')
+        if str(receipt['identity'].get('executionWorkflowRunAttempt')) != '1' or str(manifest['executionWorkflowRunAttempt']) != '1':
+            raise ValueError('Receipt belongs to another or unsupported measurement attempt')
     for relative, origin in record['bindings'].items():
         expected = record['receipts'][origin['receipt']]['files'][origin['file']]
         if record['files'].get(relative) != expected: raise ValueError('Copied evidence is not covered by a real-secret receipt')
@@ -120,13 +173,72 @@ def verify_aggregate(root):
     return record
 
 
+def emit_audited_aggregate(root):
+    """Publish compact per-workload statistics from the same verified website analysis."""
+    record = verify_aggregate(root)
+    coverage_file = root / 'ci-coverage.json'
+    coverage = None
+    if coverage_file.exists():
+        full = json.loads(coverage_file.read_text())
+        coverage = dict(planned=full['planned'], received=full['received'], notRun=len(full['notRun']),
+                        shardFailures=len(full['shardFailures']), detailSha256=sha(coverage_file))
+    common = dict(identity=record['identity'], auditProvenanceSha256=sha(root / 'audit-provenance.json'),
+                  coverage=coverage, independentSampleUnit='JVM fork/block; iterations are averaged within fork')
+    summary_file = root / 'analysis/summary.json'
+    if not summary_file.exists():
+        print('::notice title=Audited aggregate completeness::' + json.dumps(dict(common, numericResults=False), sort_keys=True))
+        return
+    summary = json.loads(summary_file.read_text())
+    common.update(analysisSummarySha256=sha(summary_file), analysisCoverage=summary['coverage'])
+    grouped = {}
+    for item in json.loads((root / 'measure/schedule.json').read_text()):
+        key = item['kind'] + ':' + json.dumps({k: v for k, v in item['params'].items() if k != 'orm'}, sort_keys=True)
+        grouped.setdefault(item['group'], set()).add(key)
+    statuses = {}
+    for path in sorted((root / 'measure').glob('*.status.json')):
+        status = json.loads(path.read_text())
+        key = status['kind'] + ':' + json.dumps({k: v for k, v in status['params'].items() if k != 'orm'}, sort_keys=True)
+        statuses[(key, status['params']['orm'], str(status['block']))] = status
+    selected_fields = ['status', 'runStatesByBlock', 'forkMeansUS', 'operationUnit', 'rowsPerOperation', 'n', 'mean', 'median', 'sampleSD', 'mean95CI', 'mean95CIAssumption']
+    for group, keys in sorted(grouped.items()):
+        cases = {}
+        for key in sorted(keys):
+            orms = {}
+            for orm, values in summary['summaries'][key].items():
+                row = {field: values[field] for field in selected_fields if field in values}
+                row['rawSha256ByBlock'] = {block: status['rawSha256'] for (case, name, block), status in statuses.items()
+                                          if case == key and name == orm and 'rawSha256' in status}
+                orms[orm] = row
+            cases[key] = dict(definition=summary['caseDefinitions'][key], orms=orms, comparisons=summary['comparisons'][key])
+        receipts, hosts = {}, {}
+        for name, receipt in record['receipts'].items():
+            if receipt.get('executionGroup') != group: continue
+            receipts[name] = hashlib.sha256((json.dumps(receipt, indent=2, sort_keys=True) + '\n').encode()).hexdigest()
+            host_file = root / 'hosts' / name / 'host.json'
+            if host_file.exists():
+                hosts[name] = dict(sha256=sha(host_file), metadata=json.loads(host_file.read_text()))
+                for label in ['cpu', 'memory', 'idle']:
+                    evidence = host_file.parent / ('host-' + label + '.log')
+                    if evidence.exists():
+                        text = evidence.read_text()
+                        if label == 'cpu': text = '\n'.join(line for line in text.splitlines() if line.startswith(('Architecture:', 'CPU(s):', 'Model name:', 'Thread(s) per core:', 'Core(s) per socket:')))
+                        hosts[name][label] = dict(sha256=sha(evidence), observed=text)
+
+        text = json.dumps(dict(common, group=group, cases=cases, receiptSha256=receipts, hosts=hosts), sort_keys=True)
+        annotation = text.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+        print('::notice title=Audited aggregate ' + group + '::' + annotation)
+        if os.environ.get('GITHUB_STEP_SUMMARY'):
+            with Path(os.environ['GITHUB_STEP_SUMMARY']).open('a') as handle:
+                handle.write('<h3>Audited aggregate ' + html.escape(group) + '</h3><pre>' + html.escape(text) + '</pre>\n')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=['audit', 'verify-aggregate'])
     parser.add_argument('directories', type=Path, nargs='+')
     args = parser.parse_args()
     if args.command == 'verify-aggregate':
-        for root in args.directories: verify_aggregate(root)
+        for root in args.directories: emit_audited_aggregate(root)
         return
     private = Path(os.environ['BENCH_DB_PASSWORD_FILE'])
     if private.stat().st_mode & 0o077: raise ValueError('Generated secret file must have mode600')
@@ -142,6 +254,9 @@ def main():
         for root in selected: (root / RECEIPT).unlink(missing_ok=True)
         raise
     print('Real-credential scan passed; hash-bound receipts written; secret values withheld')
+    for root in selected:
+        emit_audited_failure(audited_failure(root, os.environ.get('GITHUB_RUN_ID')))
+        emit_audited_pilot(root, os.environ.get('GITHUB_RUN_ID'))
 
 
 if __name__ == '__main__': main()

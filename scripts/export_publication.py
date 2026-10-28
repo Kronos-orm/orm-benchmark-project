@@ -11,6 +11,8 @@ import tempfile
 from pathlib import Path
 from urllib.parse import quote, urlsplit, unquote
 import zipfile
+import sys
+sys.dont_write_bytecode = True
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BASE = 'https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result'
@@ -95,7 +97,7 @@ def export(run, output, base, secret_file, partial_reason, browse_base=None, ci_
     if (coverage['failedForkRuns'] or coverage['notRunForkRuns']) and not partial_reason:
         raise ValueError('Incomplete experiments require a concrete partial-reason explanation')
     figures = load(run / 'analysis/figures.json')
-    report_id = manifest['candidateGitSha'][:12] + '-' + str(manifest.get('executionWorkflowRunId', 'local')) + '-' + manifest['sourceSha256'][:12] + '-' + digest(run / 'analysis/summary.json')[:10]
+    report_id = manifest['candidateGitSha'][:12] + '-' + str(manifest.get('executionWorkflowRunId', 'local')) + '-a' + str(manifest.get('executionWorkflowRunAttempt', 1)) + '-' + manifest['sourceSha256'][:12] + '-' + digest(run / 'analysis/summary.json')[:10]
     prefix = 'runs/' + report_id
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = tempfile.TemporaryDirectory(prefix='benchmark-publication-', dir=output.parent)
@@ -216,7 +218,12 @@ def export(run, output, base, secret_file, partial_reason, browse_base=None, ci_
         commentary = load(run / 'analysis/commentary.json') if (run / 'analysis/commentary.json').is_file() else {}
         if commentary:
             copy(run / 'analysis/commentary.json', prefix + '/analysis/commentary.json')
+        provenance_links = {'Kronos source / Kronos源码': 'https://github.com/Kronos-orm/Kronos-orm/tree/' + manifest['candidateGitSha']}
+        if manifest.get('benchmarkGitSha'): provenance_links['Benchmark source / 基准源码'] = 'https://github.com/Kronos-orm/orm-benchmark-project/tree/' + manifest['benchmarkGitSha']
+        for key, label in [('workflowRunId', 'Producer run / 构建运行'), ('executionWorkflowRunId', 'Measurement run / 测量运行')]:
+            if manifest.get(key): provenance_links[label] = 'https://github.com/Kronos-orm/orm-benchmark-project/actions/runs/' + str(manifest[key]) + '/attempts/' + str(manifest.get('executionWorkflowRunAttempt' if key.startswith('execution') else 'workflowRunAttempt', 1))
         report = dict(schemaVersion=1, commentary=commentary, reportId=report_id, candidateGitSha=manifest['candidateGitSha'], benchmarkSourceSha256=manifest['sourceSha256'],
+                      provenanceLinks=provenance_links,
                       runRangeUTC=time_range, coverage=coverage, partialReason=partial_reason, environment=environment,
                       executionEnvironment=manifest.get('executionEnvironment', 'Local controlled JVM/MySQL experiment'),
                       requestedVersions=[{k: c[k] for k in ['name', 'version', 'released', 'release', 'pom'] if k in c} for c in manifest.get('versionAuditSnapshot', {}).get('components', [])],

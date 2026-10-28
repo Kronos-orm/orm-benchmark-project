@@ -8,8 +8,10 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 
 from ci_experiment import GROUPS
+from artifact_transport import require_single_attempt, freeze_artifacts
 
 
+require_single_attempt()
 ref = os.environ['REQUESTED_KRONOS_REF']
 if not ref or ref.startswith('-') or len(ref) > 200 or any(c.isspace() for c in ref):
     raise ValueError('Invalid Kronos ref')
@@ -36,6 +38,8 @@ frozen = dict(candidateGitSha=sha, requestedKronosRef=ref, kronosVersion='0.4.0'
               javaDistribution='temurin', javaVersion='21.0.10+7', runnerLabel='ubuntu-24.04',
               mysqlImage=image['tag'] + '@' + image['digest'],
               environmentScope='CI runner VMs; paired ORM comparisons share a VM and DB within each case/block')
+if mode == 'measure':
+    frozen['reuseArtifacts'] = freeze_artifacts(os.environ['PRODUCER_RUN_ID'], os.environ['GITHUB_SHA'])
 Path('frozen.json').write_text(json.dumps(frozen, indent=2, sort_keys=True) + '\n')
 matrix = dict(include=[dict(group=g, block=b) for g in GROUPS for b in range(1, 6)])
 with Path(os.environ['GITHUB_OUTPUT']).open('a') as handle:

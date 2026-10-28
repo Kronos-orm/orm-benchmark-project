@@ -18,9 +18,9 @@ on:
         description: Build only, correctness, pilot, or explicitly released formal matrix
         default: build
         type: choice
-        options: [build, validate, pilot, measure]
+        options: [build, validate, pilot, measure, diagnose]
       producer_run_id:
-        description: Formal matrix reuses runtime-bundle and successful pilot from this exact previous run ID
+        description: Original pilot run ID for formal reuse or read-only audited diagnostics
         default: ''
         type: string
 
@@ -34,6 +34,7 @@ concurrency:
 
 env:
   JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8 -Duser.timezone=UTC
+  PYTHONDONTWRITEBYTECODE: '1'
 
 jobs:
   resolve:
@@ -64,6 +65,7 @@ jobs:
           if-no-files-found: error
 
   producer:
+    if: inputs.mode != 'diagnose'
     needs: resolve
     runs-on: ubuntu-24.04
     timeout-minutes: 90
@@ -93,6 +95,11 @@ jobs:
         with:
           name: frozen-plan
           path: plan
+      - name: Verify real REST artifact ID and ZIP SHA256 on this run's small frozen plan
+        working-directory: benchmark
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/artifact_transport.py --smoke-run-id "$GITHUB_RUN_ID" --out ../plan/transport-smoke
       - name: Guard source version and build Kronos JVM candidate once
         if: inputs.mode != 'measure'
         working-directory: kronos-orm
@@ -100,6 +107,7 @@ jobs:
           EXPECTED_SHA: ${{ needs.resolve.outputs.sha }}
         run: |
           set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
           test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
           scripts/run version json > ../plan/kronos-versions.json
           python3 - <<'PY'
@@ -123,22 +131,20 @@ jobs:
           set -euo pipefail
           python3 scripts/ci_experiment.py pack --candidate ../kronos-orm/build/benchmark-candidate --classpath build/runtime-classpath.txt --frozen ../plan/frozen.json --out ../runtime-bundle > ../bundle-seal.txt
           echo "seal=$(cat ../bundle-seal.txt)" >> "$GITHUB_OUTPUT"
-      - name: Download the previously built and reviewed executable
+      - name: Validate actual shared pool setter compatibility without database access
+        if: inputs.mode != 'measure'
+        working-directory: benchmark
+        run: java -cp "$(cat build/runtime-classpath.txt)" com.kotlinorm.benchmark.InspectEnvironment --pool-config-only
+      - name: Check compact SQL equivalence and strict counterexamples without database access
+        if: inputs.mode != 'measure'
+        working-directory: benchmark
+        run: java -cp "$(cat build/runtime-classpath.txt)" com.kotlinorm.benchmark.ValidateBenchmark --sql-contract
+      - name: Download original pilot artifacts by frozen IDs and verify exact ZIP SHA256
         if: inputs.mode == 'measure'
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          name: runtime-bundle
-          run-id: ${{ inputs.producer_run_id }}
-          github-token: ${{ github.token }}
-          path: runtime-bundle
-      - name: Download the reviewed correctness and pilot evidence
-        if: inputs.mode == 'measure'
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          name: preflight
-          run-id: ${{ inputs.producer_run_id }}
-          github-token: ${{ github.token }}
-          path: approved-preflight
+        working-directory: benchmark
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/artifact_transport.py --plan ../plan/frozen.json --out ..
       - name: Verify review, original producer, source identities and every pilot cell
         if: inputs.mode == 'measure'
         id: reuse
@@ -149,6 +155,10 @@ jobs:
           set -euo pipefail
           python3 scripts/ci_experiment.py reuse --bundle ../runtime-bundle --frozen ../plan/frozen.json --gate ../approved-preflight/gate --pilot ../approved-preflight/pilot --source-run-id "$PRODUCER_RUN_ID" > ../bundle-seal.txt
           echo "seal=$(cat ../bundle-seal.txt)" >> "$GITHUB_OUTPUT"
+      - name: Verify sealed runtime through its actual consumer entrypoint before upload
+        env:
+          BUNDLE_SEAL: ${{ steps.bundle.outputs.seal || steps.reuse.outputs.seal }}
+        run: python3 -B runtime-bundle/scripts/ci_experiment.py verify --bundle runtime-bundle --seal "$BUNDLE_SEAL"
       - name: Preserve compilation evidence even on failure
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -164,6 +174,7 @@ jobs:
         with:
           name: runtime-bundle
           path: runtime-bundle
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
 
@@ -184,24 +195,24 @@ jobs:
       - name: Verify immutable producer bytes
         env:
           BUNDLE_SEAL: ${{ needs.producer.outputs.seal }}
-        run: python3 bundle/scripts/ci_experiment.py verify --bundle bundle --seal "$BUNDLE_SEAL"
+        run: python3 -B bundle/scripts/ci_experiment.py verify --bundle bundle --seal "$BUNDLE_SEAL"
       - name: Start an isolated fixed MySQL instance
         env:
           MYSQL_IMAGE: ${{ needs.resolve.outputs.mysql_image }}
-        run: python3 bundle/scripts/ci_mysql.py start --image "$MYSQL_IMAGE"
+        run: python3 -B bundle/scripts/ci_mysql.py start --image "$MYSQL_IMAGE"
       - name: Correctness, SQL, transaction and lifecycle gate
         env:
           BUNDLE_SEAL: ${{ needs.producer.outputs.seal }}
-        run: python3 bundle/scripts/ci_experiment.py validate --bundle bundle --seal "$BUNDLE_SEAL" --out gate
+        run: python3 -B bundle/scripts/ci_experiment.py validate --bundle bundle --seal "$BUNDLE_SEAL" --out gate
       - name: Short pilot using the same sealed executable
         if: inputs.mode == 'pilot'
         env:
           BUNDLE_SEAL: ${{ needs.producer.outputs.seal }}
-        run: python3 bundle/scripts/ci_experiment.py pilot --bundle bundle --seal "$BUNDLE_SEAL" --gate gate --out pilot
+        run: python3 -B bundle/scripts/ci_experiment.py pilot --bundle bundle --seal "$BUNDLE_SEAL" --gate gate --out pilot
       - name: Scan real credentials before any preflight upload
         if: always()
         id: audit
-        run: python3 bundle/scripts/secret_audit.py audit gate pilot
+        run: python3 -B bundle/scripts/secret_audit.py audit gate pilot
       - name: Preserve all preflight evidence
         if: always() && steps.audit.outcome == 'success'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -213,7 +224,23 @@ jobs:
           if-no-files-found: warn
       - name: Stop only the CI-owned MySQL instance
         if: always()
-        run: python3 bundle/scripts/ci_mysql.py stop
+        run: python3 -B bundle/scripts/ci_mysql.py stop
+
+  diagnose:
+    if: inputs.mode == 'diagnose'
+    needs: resolve
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Report only hash-bound real-secret-audited prior failure
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ inputs.producer_run_id }}
+          EXPECTED_CANDIDATE_SHA: ${{ inputs.expected_kronos_sha }}
+        run: python3 -B scripts/artifact_transport.py --diagnose-run-id "$SOURCE_RUN_ID" --expected-candidate-sha "$EXPECTED_CANDIDATE_SHA" --out "$RUNNER_TEMP/audited-diagnostic"
 
   measure:
     if: inputs.mode == 'measure'
@@ -222,7 +249,7 @@ jobs:
     timeout-minutes: 60
     strategy:
       fail-fast: false
-      max-parallel: 4
+      max-parallel: 8
       matrix: ${{ fromJSON(needs.resolve.outputs.matrix) }}
     steps:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
@@ -240,21 +267,21 @@ jobs:
       - name: Verify sealed runtime before database startup
         env:
           BUNDLE_SEAL: ${{ needs.producer.outputs.seal }}
-        run: python3 bundle/scripts/ci_experiment.py verify --bundle bundle --seal "$BUNDLE_SEAL"
+        run: python3 -B bundle/scripts/ci_experiment.py verify --bundle bundle --seal "$BUNDLE_SEAL"
       - name: Start this shard's isolated MySQL instance
         env:
           MYSQL_IMAGE: ${{ needs.resolve.outputs.mysql_image }}
-        run: python3 bundle/scripts/ci_mysql.py start --image "$MYSQL_IMAGE"
+        run: python3 -B bundle/scripts/ci_mysql.py start --image "$MYSQL_IMAGE"
       - name: Run one independent block with all six adapters on the same runner
         env:
           BUNDLE_SEAL: ${{ needs.producer.outputs.seal }}
           SCENARIO_GROUP: ${{ matrix.group }}
           BLOCK: ${{ matrix.block }}
-        run: python3 bundle/scripts/ci_experiment.py shard --bundle bundle --seal "$BUNDLE_SEAL" --gate preflight/gate --group "$SCENARIO_GROUP" --block "$BLOCK" --out shard
+        run: python3 -B bundle/scripts/ci_experiment.py shard --bundle bundle --seal "$BUNDLE_SEAL" --gate preflight/gate --group "$SCENARIO_GROUP" --block "$BLOCK" --out shard
       - name: Scan real credentials before any shard upload
         if: always()
         id: audit
-        run: python3 bundle/scripts/secret_audit.py audit shard
+        run: python3 -B bundle/scripts/secret_audit.py audit shard
       - name: Preserve successful, failed and interrupted cells
         if: always() && steps.audit.outcome == 'success'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -265,7 +292,7 @@ jobs:
           retention-days: 30
       - name: Stop only this shard's CI-owned MySQL
         if: always()
-        run: python3 bundle/scripts/ci_mysql.py stop
+        run: python3 -B bundle/scripts/ci_mysql.py stop
 
   aggregate:
     if: always() && inputs.mode == 'measure' && needs.producer.result == 'success'
@@ -290,6 +317,10 @@ jobs:
         with:
           pattern: shard-*
           path: shards
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: frozen-plan
+          path: plan
       - name: Install fixed scientific plotting runtime
         run: |
           python3 -m pip install matplotlib==3.10.8
@@ -299,16 +330,16 @@ jobs:
       - name: Validate expected cells and aggregate paired blocks
         env:
           BUNDLE_SEAL: ${{ needs.producer.outputs.seal }}
-        run: python3 bundle/scripts/ci_experiment.py aggregate --bundle bundle --seal "$BUNDLE_SEAL" --shards shards --gate preflight/gate --out aggregate
+        run: python3 -B bundle/scripts/ci_experiment.py aggregate --bundle bundle --seal "$BUNDLE_SEAL" --shards shards --gate preflight/gate --frozen plan/frozen.json --out aggregate
       - name: Verify the complete real-secret receipt derivation chain
         if: always()
         id: audit
-        run: python3 bundle/scripts/secret_audit.py verify-aggregate aggregate
+        run: python3 -B bundle/scripts/secret_audit.py verify-aggregate aggregate
       - name: Generate the reviewable website bundle from the same verified analysis
         if: always() && steps.audit.outcome == 'success'
         run: |
           if [ -f aggregate/analysis/summary.json ]; then
-            python3 bundle/scripts/export_publication.py --ci-audits --run aggregate --out publication
+            python3 -B bundle/scripts/export_publication.py --ci-audits --run aggregate --out publication
           fi
       - name: Preserve complete or partial analysis for review
         if: always() && steps.audit.outcome == 'success'

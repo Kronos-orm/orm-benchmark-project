@@ -39,6 +39,7 @@ def render_summary(report, public, browse):
     if report['partialReason']:
         lines += ['Completeness limitation / 完整性限制：' + report['partialReason'], '']
     prefix = 'runs/' + report['reportId']
+    lines += [' · '.join(f'[{label}]({url})' for label, url in report.get('provenanceLinks', {}).items()), '']
     lines += ['## Open the complete analysis / 按需查看完整分析', '',
               '- [English analysis](' + browse(prefix + '/report-en.md') + ')',
               '- [中文详细分析](' + browse(prefix + '/report-zh-CN.md') + ')',
@@ -75,6 +76,7 @@ def render_detailed(report, locale, public, browse):
     if report['partialReason']:
         lines += [('完整性限制：' if zh else 'Completeness limitation: ') + report['partialReason'], '']
     lines += ['## ' + ('环境与证据' if zh else 'Environment and evidence'), '']
+    lines += [' · '.join(f'[{label}]({url})' for label, url in report.get('provenanceLinks', {}).items()), '']
     lines += [report.get('executionEnvironment', 'Local controlled JVM/MySQL experiment'), '']
     for key in ['jdk', 'javaVendor', 'os', 'architecture', 'mysql', 'driver', 'pool', 'innodb_buffer_pool_size', 'innodb_flush_log_at_trx_commit', 'sync_binlog', 'transaction_isolation', 'time_zone']:
         if key in report['environment']:

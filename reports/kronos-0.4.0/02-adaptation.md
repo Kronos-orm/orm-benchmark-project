@@ -1,6 +1,6 @@
 # 任务二：候选接入与适配
 
-状态：In Progress；源码准备完成，尚未编译或连接数据库。
+状态：In Progress；CI已编译并执行真实数据库门禁，当前待MyBatis官方支持组合验证。
 
 ## 目标
 
@@ -12,7 +12,7 @@
 
 ## 已完成源码准备
 
-- Kotlin2.4.21/Kronos0.4.0；KSP2.3.12、Jimmer0.12.4，仅保留KSP处理；Hibernate7.4.14.Final、Ktorm4.2.1、MyBatis-Plus3.5.18与显式core3.6.0。所有兼容性仍须编译/运行证明。
+- Kotlin2.4.21/Kronos0.4.0；KSP2.3.12、Jimmer0.12.4，仅保留KSP处理；Hibernate7.4.14.Final、Ktorm4.2.1、MyBatis-Plus3.5.18.1与官方声明core3.5.19。所有兼容性仍须编译/运行证明。
 - `settings.gradle.kts`对Kronos插件marker与依赖使用独占candidate仓库，缺失路径立即报错；没有mavenLocal或Central回退。
 - Java JMH1.37 annotation processor harness取代kotlinx-benchmark，移除报告绘图库/Faker对计时classpath的依赖。
 - 六适配器共用17列、assigned Int主键；Kronos使用当前`KronosJdbcWrapper`、`Kronos.logging.enabled=false`与新结果终结API。

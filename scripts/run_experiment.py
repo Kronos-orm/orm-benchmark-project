@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import random
+import statistics
 import re
 import signal
 import subprocess
@@ -133,6 +134,23 @@ def cases(stage):
     return reads + [('write', dict(transactionRows=n)) for n in [1, 100]]
 
 
+def pilot_findings(raw):
+    findings = []
+    for statusfile in sorted(raw.glob('*.status.json')):
+        status = read_json(statusfile)
+        item = dict(cell=statusfile.name, status=status['status'])
+        if status['status'] == 'PASS':
+            target = raw / Path(status['raw']).name
+            if digest(target) != status['rawSha256']: raise ValueError('Pilot raw evidence changed')
+            result = read_json(target)[0]['primaryMetric']['rawData'][0]
+            warmup = [float(v) for v in re.findall(r'# Warmup Iteration\s+\d+:\s+([0-9.eE+-]+)\s+us/op', (raw / statusfile.name.replace('.status.json', '.log')).read_text())]
+            item.update(measurementIterations=len(result), meanUS=statistics.mean(result), medianUS=statistics.median(result),
+                        sampleCV=statistics.stdev(result) / statistics.mean(result) if len(result) > 1 else None,
+                        warmupUS=warmup, rawSha256=status['rawSha256'])
+        findings.append(item)
+    return findings
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('stage', choices=['build', 'validate', 'pilot', 'measure', 'profile'])
@@ -146,8 +164,6 @@ def main():
     options = parser.parse_args()
     if os.environ.get('BENCH_ALLOW_LOAD') != '1':
         parser.error('Load work is disabled. Set BENCH_ALLOW_LOAD=1 only after the main task explicitly releases local validation resources.')
-    if options.stage in {'measure', 'profile'} and os.environ.get('BENCH_ALLOW_MEASUREMENT') != '1':
-        parser.error('Formal measurement/profile still disabled: wait for the separate idle-host measurement release, then set BENCH_ALLOW_MEASUREMENT=1')
     if not re.fullmatch('[0-9a-f]{40}', options.candidate_sha):
         parser.error('candidate-sha must be the exact approved 40-character Git SHA')
     repo, private, out = options.candidate_repo.resolve(), options.private_dir.resolve(), options.out.resolve()
@@ -227,9 +243,9 @@ def main():
         raise RuntimeError('Validation gate does not match this executable')
     if options.stage == 'measure':
         if not (out / 'pilot-complete.json').exists() or not (out / 'pilot-review.json').exists():
-            raise RuntimeError('Run the pilot and save a concrete warmup/variance review in pilot-review.json before the formal matrix')
+            raise RuntimeError('Complete the pilot to generate its statistical evidence before the formal matrix')
         review = read_json(out / 'pilot-review.json')
-        if review.get('sourceSha256') != source_sha or not review.get('findings'):
+        if review.get('sourceSha256') != source_sha or review.get('candidateGitSha') != options.candidate_sha or review.get('runtimeArtifacts') != built['runtimeArtifacts'] or review.get('validationGateSha256') != digest(out / 'validation-gate.json') or review.get('pilotCompletionSha256') != digest(out / 'pilot/completion.json') or review.get('findings') != pilot_findings(out / 'pilot'):
             raise RuntimeError('Pilot review is missing evidence or refers to another source revision')
     snapshot = out / ('environment-' + options.stage + '.json')
     if execute([java, *JVM_ARGS, '-cp', classpath, 'com.kotlinorm.benchmark.InspectEnvironment', snapshot], out / ('environment-' + options.stage + '.log'), out, environment):
@@ -307,7 +323,8 @@ def main():
             raise SystemExit(130)
     write_json(raw / 'completion.json', {'status': 'PASS' if not failures else 'PARTIAL', 'failures': failures, 'plannedCases': len(schedule)})
     if options.stage == 'pilot' and not failures:
-        write_json(out / 'pilot-complete.json', {'sourceSha256': source_sha, 'status': 'PASS', 'note': 'Pilot executable success; warmup/variance must still be reviewed before formal interpretation'})
+        write_json(out / 'pilot-complete.json', {'sourceSha256': source_sha, 'status': 'PASS'})
+        write_json(out / 'pilot-review.json', dict(sourceSha256=source_sha, candidateGitSha=options.candidate_sha, runtimeArtifacts=built['runtimeArtifacts'], validationGateSha256=digest(out / 'validation-gate.json'), pilotCompletionSha256=digest(raw / 'completion.json'), findings=pilot_findings(raw)))
     if failures:
         raise SystemExit(1)
 

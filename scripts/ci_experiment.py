@@ -11,15 +11,16 @@ import os
 from pathlib import Path
 import random
 import re
-import statistics
 import shutil
 import subprocess
 import sys
+sys.dont_write_bytecode = True  # Sealed runtime consumers must not create __pycache__ entries.
 import tarfile
 import time
 
-from run_experiment import ORMS, JVM_ARGS, SEED, cases, digest, source_digest, source_files, write_json, read_json
+from run_experiment import ORMS, JVM_ARGS, SEED, cases, digest, source_digest, source_files, write_json, read_json, pilot_findings
 from secret_audit import verify_receipt, finish_aggregate, RECEIPT
+from artifact_transport import require_single_attempt
 
 ROOT = Path(__file__).resolve().parents[1]
 GROUPS = [f'{projection}-{size}' for projection in ['entity', 'map', 'scalar'] for size in [1000, 100000]] + ['write-1', 'write-100']
@@ -134,6 +135,11 @@ def reuse(args):
     for key in ['candidateGitSha', 'benchmarkGitSha']:
         if manifest[key] != frozen[key]:
             raise ValueError('Reviewed executable belongs to another source commit: ' + key)
+    if manifest.get('workflowRunAttempt') != '1' or frozen.get('workflowRunAttempt') != '1':
+        raise ValueError('Reuse cannot mix rerun attempts')
+    transport = frozen.get('reuseArtifacts')
+    if not transport or transport['runId'] != args.source_run_id or transport['runAttempt'] != 1 or transport['benchmarkGitSha'] != manifest['benchmarkGitSha']:
+        raise ValueError('Reuse requires frozen artifact IDs and ZIP SHA256 for the exact original pilot')
     for key in ['candidateGitSha', 'sourceSha256', 'runtimeSha256']:
         if review.get(key) != manifest[key]:
             raise ValueError('Pilot review differs from executable: ' + key)
@@ -166,6 +172,8 @@ def reuse(args):
             raise ValueError('Pilot raw evidence changed')
     if seen != {cell_name(item) for item in planned}:
         raise ValueError('Pilot evidence does not match its planned cells')
+    if review['findings'] != pilot_findings(args.pilot / 'pilot'):
+        raise ValueError('Pilot statistics differ from the actual hash-checked raw observations')
     print(review['bundleSha256'])
 
 
@@ -204,6 +212,7 @@ def execute_stage(args):
     manifest = verify(bundle, args.seal)
     manifest['bundleSha256'] = args.seal
     manifest['executionWorkflowRunId'] = os.environ.get('GITHUB_RUN_ID')
+    manifest['executionWorkflowRunAttempt'] = os.environ.get('GITHUB_RUN_ATTEMPT', '1')
     manifest['executionStage'] = args.command
     manifest['executionGroup'] = args.group if args.command == 'shard' else None
     manifest['executionBlock'] = args.block if args.command == 'shard' else None
@@ -258,8 +267,10 @@ def execute_stage(args):
             argv += ['-bm', 'ss', '-tu', 'us', '-wi', '5' if stage == 'pilot' else '10', '-i', '5' if stage == 'pilot' else '30', '-bs', '1', '-wbs', '1']
         code = run(argv, raw / (name + '.log'), out)
         status = dict(item, exitCode=code, status='FAIL', raw=str(target), sourceSha256=manifest['sourceSha256'],
+                      benchmarkGitSha=manifest['benchmarkGitSha'], executionWorkflowRunId=manifest['executionWorkflowRunId'],
+                      executionWorkflowRunAttempt=manifest['executionWorkflowRunAttempt'],
                       candidateGitSha=manifest['candidateGitSha'], bundleSha256=args.seal,
-                      pairingUnit=f"{os.environ.get('GITHUB_RUN_ID')}:{args.group}:block{item['block']}", hostMetadata='../host.json')
+                      pairingUnit=f"{os.environ.get('GITHUB_RUN_ID')}:attempt{manifest['executionWorkflowRunAttempt']}:{args.group}:block{item['block']}", hostMetadata='../host.json')
         try:
             data = read_json(target)
             if code or len(data) != 1 or data[0]['params'] != {k: str(v) for k, v in params.items()} or data[0]['primaryMetric']['scoreUnit'] != 'us/op':
@@ -279,17 +290,7 @@ def execute_stage(args):
     write_json(out / 'completion.json', dict(status='PASS' if not failures else 'PARTIAL', planned=len(planned), failures=failures,
                                             bundleSha256=args.seal, group=args.group, block=args.block))
     if args.command == 'pilot':
-        findings = []
-        for statusfile in sorted(raw.glob('*.status.json')):
-            status = read_json(statusfile)
-            item = dict(cell=statusfile.name, status=status['status'])
-            if status['status'] == 'PASS':
-                result = read_json(raw / Path(status['raw']).name)[0]['primaryMetric']['rawData'][0]
-                warmup = [float(v) for v in re.findall(r'# Warmup Iteration\s+\d+:\s+([0-9.eE+-]+)\s+us/op', (raw / statusfile.name.replace('.status.json', '.log')).read_text())]
-                item.update(measurementIterations=len(result), meanUS=statistics.mean(result), medianUS=statistics.median(result),
-                            sampleCV=statistics.stdev(result) / statistics.mean(result) if len(result) > 1 else None,
-                            warmupUS=warmup, rawSha256=status['rawSha256'])
-            findings.append(item)
+        findings = pilot_findings(raw)
         write_json(out / 'pilot-review.json', dict(bundleSha256=args.seal, candidateGitSha=manifest['candidateGitSha'],
                    sourceSha256=manifest['sourceSha256'], runtimeSha256=manifest['runtimeSha256'],
                    validationGateSha256=digest(args.gate / 'validation-gate.json'), pilotCompletionSha256=digest(out / 'completion.json'),
@@ -302,7 +303,12 @@ def execute_stage(args):
 def aggregate(args):
     manifest = verify(args.bundle, args.seal)
     out = args.out.resolve(); out.mkdir(parents=True, exist_ok=False)
-    manifest = dict(manifest, bundleSha256=args.seal, executionWorkflowRunId=os.environ.get('GITHUB_RUN_ID'), executionStage='measure-aggregate')
+    manifest = dict(manifest, bundleSha256=args.seal, executionWorkflowRunId=os.environ.get('GITHUB_RUN_ID'),
+                    executionWorkflowRunAttempt=os.environ.get('GITHUB_RUN_ATTEMPT', '1'), executionStage='measure-aggregate')
+    if getattr(args, 'frozen', None):
+        transport = read_json(args.frozen)
+        if any(transport[k] != manifest[k] for k in ['candidateGitSha', 'benchmarkGitSha']): raise ValueError('Aggregate transport plan differs from source')
+        manifest['artifactTransport'] = transport['reuseArtifacts']
     write_json(out / 'build-manifest.json', manifest)
     receipts, bindings, host_map = {}, {}, {}
     def audited_copy(source, destination, origin, identifier):
@@ -371,6 +377,7 @@ def aggregate(args):
 
 
 def main():
+    require_single_attempt()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=['pack', 'reuse', 'verify', 'plan', 'validate', 'pilot', 'shard', 'aggregate'])
     parser.add_argument('--bundle', type=Path); parser.add_argument('--seal')

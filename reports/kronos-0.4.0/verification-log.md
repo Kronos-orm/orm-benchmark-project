@@ -80,3 +80,31 @@
 - 新增DB job原地真实secret扫描与逐文件hash-bound receipt；扫描失败阻断所有待上传raw。aggregate/export验证来源、run/block/cell与精确字节，无需上传密码或提供dummy文件。8项合同测试通过。
 - 移除任意release phrase与人工ACCEPTED条件；pilot自动保留实际warmup/iteration统计、raw摘要与正确性marker，正式measure复用原bundle。
 - 主任务曾条件放行532e8372f1059ae50f62f171dcc4cf2e69fdb685一次CI pilot，触发前因Native metadata修复将改变SHA而暂缓。当前只build-only复验；待新SHA后同run构建→正确性→pilot，不单独validate、不运行正式矩阵或发布。
+
+## Provisional pilot与immutable consumer修复（2026-10-28）
+
+- [6878 provisional pilot](https://github.com/Kronos-orm/orm-benchmark-project/actions/runs/40608167300)完成producer，首个consumer seal校验失败；DB启动/validate/48pilot均未执行，没有性能数字。主仓同SHA覆盖率需补测，故此源不能用于最终formal bundle。
+- 真实Python子进程合同复现：consumer导入模块新建__pycache__，改变sealed文件集。修复为workflow全局PYTHONDONTWRITEBYTECODE、-B消费者命令与独立入口sys.dont_write_bytecode；不排除新文件、不放宽seal。13项合同通过，包含verify和validate前导读取后全文件集/hash不变，且无DB访问。
+- producer上传前从真实bundle入口再校验，runtime artifact明确保留全部sealed文件。正常更新PR构建验证；不对6878重复pilot，等待主任务新源SHA。
+
+## 真实DB配置失败与只读诊断（2026-10-28）
+
+- [f49 pilot](https://github.com/Kronos-orm/orm-benchmark-project/actions/runs/40611024823)首次通过immutable consumer并启动独立MySQL，但共同Druid池在ORM校验前失败；48试跑未执行，真实secret扫描通过后保留了19KB preflight artifact。
+- [只读diagnose](https://github.com/Kronos-orm/orm-benchmark-project/actions/runs/40612227523)按精确artifact ID/ZIP digest下载、核验receipt后，定位实际IllegalArgumentException：timeBetweenEvictionRunsMillis must > 0。统一改为正数24h，所有六适配器一致、testWhileIdle=false，并记录实际pool policy；producer新增不连接DB的真实Druid setter contract。
+- 正常audit成功后直接从同一hash-bound证据发简洁安全failure annotation/step summary；未审计内容不输出，以后不必重复dispatch诊断桥。
+- 当前主仓source仍可能因IDE测试修复改变；按主任务安排下一步只对f49做validate-only适配，不运行48pilot或formal，validate bundle不能用作pilot复用。
+
+## SQL紧凑表示的共同规范化（2026-10-28）
+
+- [f49 validate-only](https://github.com/Kronos-orm/orm-benchmark-project/actions/runs/40613160401)已通过Jdbc/Kronos前序检查，JPA在SQL形状核对失败；audit后安全annotation保留实际同17列/range/order SQL，仅操作符两侧没有空白。
+- 改为共同SQL token规范化：保留字符串字面量与参数边界，只统一token间空白/简单标识符qualifier/谓词分组。producer无DB契约输入采用这条真实compact SQL及spaced形式；>=改>、AND改OR、order DESC、缺参数、quoted问号和named参数均必须拒绝。未增加Hibernate特判、未放宽列集合/绑定值/连接事务检查。
+
+## MyBatis声明兼容组合（2026-10-28）
+
+- validate40634312963在前五adapter通过后，MyBatisPlus3.5.18+强制core3.6.0实际NoSuchMethodError(findForClass)。最新Plus3.5.18.1直接Central可解析，仍声明core3.5.19，现采用该官方组合；保留错误和POM依据，不记录失败性能分数。
+
+- 正式矩阵max-parallel由4提高为8；40 jobs/780 cells/5独立blocks不变，六adapter仍在各自同一VM与独立DB内随机排序。未发现需限制为4的科学约束；账户配额/host分配待实际run记录，预计读取净下限48分钟并非实测完成时间。
+
+- 本机GitHub artifact存储TLS EOF仍可重现；runner下载校验正常。补充scan receipt/全部字节hash校验后的真实pilot成功diagnostics notice，包含原review及receipt/review摘要，供API即时审阅warmup/CV而不改变计时。新增合同拒绝scan后review变更且不打印任何内容；15合同通过。
+
+- validate-only40636419426（Kronos f49、benchmark8bd）完整六adapter门禁PASS，Plus3.5.18.1/core3.5.19已实际验证。正式aggregate在完整receipt派生链验证后按原8group发API可读同源summary：fork means/均值CI/paired ratios/raw及receipt hash/来源与host证据；没有第二套计算或改计时。变更summary即拒绝输出合同及全部16合同通过。

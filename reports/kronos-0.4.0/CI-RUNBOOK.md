@@ -9,7 +9,7 @@ experiment.yml支持PR→main的build-only入口，以及手动build/validate/pi
 1. resolve冻结Kronos/benchmark SHA、JDK、MySQL image digest和780单元计划。
 2. build/validate/pilot的producer在JDK21执行一次`scripts/run release jvm-stage --repository build/benchmark-candidate`及check-candidate，接着一次Gradle构建全部适配器/JDBC/JMH。两个release子命令均清除ambient GITHUB_SHA并显式传入resolve得到的KRONOS_SOURCE_SHA，避免跨仓库将benchmark SHA误标为Kronos SHA；pack再次核对candidate manifest.sha。lockfiles、candidate manifest/JAR、runtime classes/resources/JAR摘要、源码快照进入bundle；seal SHA通过job output传递。正式measure的producer仅下载/核验已审阅pilot run的同一bundle，不再次编译。
 3. preflight只下载并校验bundle，无checkout/Gradle/Kotlin编译。独立MySQL中validate核对SQL、列、绑定、结果、commit、连接生命周期；pilot模式另跑8场景×6框架短跑。pilot自动保存真实warmup/iteration统计及正确性/完成marker摘要，作为后续判断预热和噪声的证据，不另设用户批准步骤。
-4. measure为8场景组×5独立block=40job，max-parallel4；每job执行其block内全部六适配器，框架/场景顺序按固定seed随机。每case命令-f1，总计26场景×6框架×5block=780，不在shard内再扩五fork。
+4. measure为8场景组×5独立block=40job，max-parallel8；每job执行其block内全部六适配器，框架/场景顺序按固定seed随机。每case命令-f1，总计26场景×6框架×5block=780，不在shard内再扩五fork。
 5. aggregate以always条件运行，汇总全部可得shard；只接收同一seal/源码/候选，拒绝重复、越界、错误分片与摘要不符。完整780单元缺失列表、FAIL/NOT_RUN与raw JSON/CSV/日志留存。可用数据生成部分分析；零成功只生成状态，不产生数字或空图。
 
 ## 固定环境与边界
@@ -45,3 +45,9 @@ benchmark.yml仍为独立手动已审阅bundle发布任务，矩阵不调用它�
 aggregate先校验每份receipt的精确文件集合、字节与run身份，再复制数据；原始status保持逐字节不变，host路径由ci-host-map.json派生映射。audit-provenance.json绑定所有copy来源与生成文件；export_publication --ci-audits验证完整证明链即可导出，不传输密码。缺receipt、数据改动、外来run或未覆盖DB证据都阻断导出。本地仍可--secret-file扫描本次真实实验凭据。
 
 aggregate从同一analysis生成可审阅publication artifact，不自动发布。根readme稳定，图/明细使用candidate source SHA + execution run ID + benchmark source/summary摘要的不可变runs目录与绝对URL；发布保留旧runs目录，使旧缓存readme仍能解析对应旧图。
+
+## Run/attempt与跨run artifact身份
+
+实验只接受GITHUB_RUN_ATTEMPT=1；失败重试使用新workflow_dispatch/run ID，避免rerun混入同名旧artifact。manifest、每cell、receipt及aggregate证明链均绑定attempt。复用前检查原run成功、workflow_dispatch、同一benchmark SHA/工作流和attempt1，再冻结runtime-bundle/preflight的REST artifact ID、ZIP SHA256和size；按ID下载并在解压前硬校验，随后才校验runtime seal及pilot raw。下载storage URL不转发GitHub Authorization header。
+
+共同Druid housekeeping interval固定为正数86400000ms（24h），以兼容Druid1.2.28；所有单fork远短于此，testWhileIdle=false，配置记录在environment.json。producer在无密码/无init/无连接条件下验证真实Druid setter API。正常DB失败在实际secret audit成功后自动输出已审计的type/message到annotation和step summary；只读diagnose用于历史证据，不构建或启动DB。

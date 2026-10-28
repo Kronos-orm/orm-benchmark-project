@@ -33,20 +33,23 @@
       "version": "4.2.1"
     },
     {
-      "compatibility": "Upstream POM declares MyBatis3.5.19; explicit3.6.0 target must pass compatibility gate, fallback only with recorded failure and rationale",
+      "compatibility": "Latest official stable patch is directly available in Central despite stale metadata.release3.5.18; use its declared core3.5.19",
       "name": "MyBatis-Plus",
-      "pom": "https://repo.maven.apache.org/maven2/com/baomidou/mybatis-plus/3.5.18/mybatis-plus-3.5.18.pom",
-      "release": "https://github.com/baomidou/mybatis-plus/releases/tag/v3.5.18",
-      "released": "2026-10-25",
-      "version": "3.5.18"
+      "pom": "https://repo.maven.apache.org/maven2/com/baomidou/mybatis-plus/3.5.18.1/mybatis-plus-3.5.18.1.pom",
+      "release": "https://github.com/baomidou/mybatis-plus/releases/tag/v3.5.18.1",
+      "released": "2026-10-27",
+      "version": "3.5.18.1"
     },
     {
-      "compatibility": "Plus3.5.18 + core3.6.0 provisional compilation passed; runtime correctness pending",
+      "compatibility": "Pinned to latest MyBatis-Plus3.5.18.1 official core POM dependency; forcing3.6.0 produced an actual ReflectorFactory.findForClass NoSuchMethodError in validation, no performance score",
+      "failureRun": "https://github.com/Kronos-orm/orm-benchmark-project/actions/runs/40634312963",
+      "latestPublishedStable": "3.6.0",
+      "latestReleased": "2026-10-23",
       "name": "MyBatis core",
-      "pom": "https://repo.maven.apache.org/maven2/org/mybatis/mybatis/3.6.0/mybatis-3.6.0.pom",
-      "release": "https://github.com/mybatis/mybatis-3/releases/tag/mybatis-3.6.0",
-      "released": "2026-10-23",
-      "version": "3.6.0"
+      "pom": "https://repo.maven.apache.org/maven2/org/mybatis/mybatis/3.5.19/mybatis-3.5.19.pom",
+      "release": "https://github.com/mybatis/mybatis-3/releases/tag/mybatis-3.5.19",
+      "released": "2025-01-02",
+      "version": "3.5.19"
     },
     {
       "compatibility": "9.7.0 explicitly supports MySQL8.0+;26.7/26.10 require MySQL8.4+; all six adapters share9.7.0 with existing local8.0.22 server",

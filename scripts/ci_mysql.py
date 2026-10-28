@@ -7,6 +7,9 @@ from pathlib import Path
 import secrets
 import subprocess
 import time
+import sys
+sys.dont_write_bytecode = True
+from artifact_transport import require_single_attempt
 
 
 def main():
@@ -23,6 +26,7 @@ def main():
         if probe.returncode == 0 and probe.stdout.strip() == os.environ['GITHUB_RUN_ID']:
             subprocess.run(['docker', 'rm', '-f', name], check=True, stdout=subprocess.DEVNULL)
         return
+    require_single_attempt()
     if not args.image or '@sha256:' not in args.image:
         parser.error('Pin the MySQL image by registry digest')
     if subprocess.run(['docker', 'inspect', name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0:

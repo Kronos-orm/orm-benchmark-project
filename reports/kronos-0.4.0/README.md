@@ -34,3 +34,5 @@
 ## 后续交付
 
 预计保留可复现运行脚本、固定版本依赖、SQL/绑定类型证据、全字段正确性结果、环境 manifest、JMH raw JSON/CSV、命令与退出码、统计分析与独立图文件。最终报告区分已运行、失败、跳过与未运行；主交付保留result/readme.md双语摘要、固定关键图与绝对资源链接；中文/英文完整分析及场景/raw按需打开，同时提供静态Web报告与辅助canvas，所有图表有指标、单位、来源与范围。
+
+当前候选：6878a760b86ea9d25f472fe393c98ca642738bc3。真实transport smoke通过后可触发一次包含唯一producer/validate的pilot；正式measure等待同SHA主仓门禁及实际pilot统计，不等发布tag。阶段命令和配置耗时估算见[DISPATCH.md](DISPATCH.md)。

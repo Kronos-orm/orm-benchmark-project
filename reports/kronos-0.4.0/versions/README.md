@@ -15,7 +15,7 @@
 - **Hibernate ORM 7.4.14.Final**，2026-10-25发布。[官方稳定系列](https://hibernate.org/orm/releases/7.4/)、[官方release](https://github.com/hibernate/hibernate-orm/releases/tag/7.4.14)、[Central POM](https://repo.maven.apache.org/maven2/org/hibernate/orm/hibernate-core/7.4.14.Final/hibernate-core-7.4.14.Final.pom)。使用其Jakarta Persistence3.2.0；MySQLDialect7.4.14源码最低版本为8，JDK21与本机MySQL8.0.22仍须经实际门禁证明。
 - **Jimmer 0.12.4**，2026-10-06发布。core/sql-kotlin/ksp均统一0.12.4。[官方release](https://github.com/babyfish-ct/jimmer/releases/tag/v0.12.4)、[Central POM](https://repo.maven.apache.org/maven2/org/babyfish/jimmer/jimmer-sql-kotlin/0.12.4/jimmer-sql-kotlin-0.12.4.pom)。原先0.9.72不再作为默认对照。
 - **Ktorm 4.2.1**，2026-06-20发布。[官方release](https://github.com/kotlin-orm/ktorm/releases/tag/v4.2.1)、[Central POM](https://repo.maven.apache.org/maven2/org/ktorm/ktorm-core/4.2.1/ktorm-core-4.2.1.pom)。本实验仅用core DSL/entity绑定，不引入Ktorm KSP插件。
-- **MyBatis-Plus 3.5.18**，2026-10-25发布，同时显式计划使用**MyBatis core 3.6.0**，后者2026-10-23发布。[Plus release](https://github.com/baomidou/mybatis-plus/releases/tag/v3.5.18)、[core release](https://github.com/mybatis/mybatis-3/releases/tag/mybatis-3.6.0)。Plus当前[POM](https://repo.maven.apache.org/maven2/com/baomidou/mybatis-plus/3.5.18/mybatis-plus-3.5.18.pom)仍声明core3.5.19，因此3.6.0组合是待编译/运行证明的升级目标，不是已证实兼容。若不兼容，必须保留具体错误证据，说明是否选用Plus官方声明组合，不可静默降级或将Plus换成原生MyBatis再沿用原标签。使用MybatisSqlSessionFactoryBuilder完成Plus初始化；JavaTime handler已内置core，移除重复的旧jsr310扩展JAR。
+- **MyBatis-Plus 3.5.18.1 + MyBatis core 3.5.19**。Plus最新patch于2026-10-27发布，其官方core POM指定3.5.19；强制最新core3.6.0已被真实validate证明二进制不兼容，具体错误/run与选型依据见下节。使用MybatisSqlSessionFactoryBuilder完成Plus初始化；JavaTime handler已内置core，不加入重复jsr310扩展JAR。
 - **Kronos 0.4.0**使用主任务随后批准的精确候选仓库/SHA，不能与上述已发布稳定版本混淆；所有框架仍有相同功能与正确性门禁。
 
 ## 共同基础设施
@@ -35,3 +35,7 @@ Kotlin编译器统一2.4.21，Kotlin BOM和reflect2.4.21统一运行时；实际
 以上支持源码层的兼容推断，不代替编译验证。放行后先运行Jimmer KSP/适配器窄编译，再检查生成实体/Draft是否完整、SQL结果是否一致。遇到问题先依据错误定位，不降低Kronos编译器版本、不更换查询/写入语义、不把失败场景计入成绩。
 
 Jimmer当前仍支持单实体save(INSERT_ONLY)。适配器用单实体入口执行每行INSERT，消除先包成单元素Iterable再走batch facade的多余工作，保持17列、assigned key、每行一次INSERT、外部一次事务。其新createInsert为typed-source DML，未据此改变本实验的实体输入语义。
+
+## 2026-10-28支持的MyBatis组合
+
+真实validate run40634312963在Jdbc/Kronos/JPA/Jimmer/Ktorm通过后，于MyBatisPlus3.5.18+强制core3.6.0触发ReflectorFactory.findForClass NoSuchMethodError。失败没有性能分数。官方最新patch3.5.18.1已直接发布Central，metadata.release仍滞后为3.5.18；其core POM仍指定MyBatis3.5.19，因此固定最新Plus3.5.18.1+官方声明core3.5.19。保留最新core3.6.0与真实失败作为兼容性证据，不修改框架源码或静默降级。证据见upstream/mybatis-supported-pair.json及直接POM。

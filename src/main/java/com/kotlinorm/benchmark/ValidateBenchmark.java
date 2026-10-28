@@ -13,6 +13,10 @@ public final class ValidateBenchmark {
     private static final List<String> ORMS = List.of("Jdbc", "Kronos", "Jpa", "Jimmer", "Ktorm", "Mybatis");
 
     public static void main(String[] args) throws Exception {
+        if (args.length == 1 && args[0].equals("--sql-contract")) {
+            sqlContract();
+            return;
+        }
         if (args.length != 1) throw new IllegalArgumentException("Usage: ValidateBenchmark <output-directory>");
         Path directory = Path.of(args[0]); Files.createDirectories(directory);
         Map<String, Object> summary = new LinkedHashMap<>();
@@ -94,8 +98,58 @@ public final class ValidateBenchmark {
         return events.stream().filter(e -> e.get("kind").toString().startsWith("execute")).toList();
     }
     private static String normalized(String sql) {
-        return sql.toLowerCase(Locale.ROOT).replace("`", "").replaceAll("[a-zA-Z_][a-zA-Z0-9_]*\\.", "")
-            .replaceAll("[()\\s]+", " ").trim();
+        // Tokenize before normalization: operators inside quoted literals are data, not predicates.
+        var matcher = java.util.regex.Pattern.compile("'(?:''|\\\\.|[^'\\\\])*'|\"(?:\"\"|\\\\.|[^\"\\\\])*\"|`(?:``|[^`])*`|[A-Za-z_][A-Za-z0-9_$]*|\\d+(?:\\.\\d+)?|>=|<=|<>|!=|\\S").matcher(sql);
+        List<String> tokens = new ArrayList<>();
+        while (matcher.find()) {
+            String token = matcher.group();
+            char first = token.charAt(0);
+            if (first == '\'' || first == '"') {
+                if (token.length() < 2 || token.charAt(token.length() - 1) != first) throw new IllegalStateException("Unclosed SQL literal");
+                tokens.add(token);
+            } else if (first == '`') {
+                if (!token.matches("`[A-Za-z_][A-Za-z0-9_$]*`")) throw new IllegalStateException("Unexpected quoted identifier");
+                tokens.add(token.substring(1, token.length() - 1).toLowerCase(Locale.ROOT));
+            } else tokens.add(token.toLowerCase(Locale.ROOT));
+        }
+        List<String> canonical = new ArrayList<>();
+        for (int i = 0; i < tokens.size(); i++) {
+            String token = tokens.get(i);
+            if (i + 2 < tokens.size() && token.matches("[a-z_][a-z0-9_$]*") && tokens.get(i + 1).equals(".") && tokens.get(i + 2).matches("[a-z_][a-z0-9_$]*")) {
+                i++; // Remove an identifier qualifier, never text inside a literal.
+                continue;
+            }
+            if (!token.equals("(") && !token.equals(")")) canonical.add(token);
+        }
+        return String.join(" ", canonical);
+    }
+
+    private static List<Map<String, Object>> queryEvents(String sql, int parameterCount) {
+        Map<Integer, Object> bindings = new LinkedHashMap<>();
+        for (int i = 1; i <= parameterCount; i++) bindings.put(i, Map.of("value", i == 1 ? "1" : "101", "javaType", "java.lang.Integer"));
+        return List.of(Map.<String, Object>of("kind", "connection.open"),
+                       Map.<String, Object>of("kind", "executeQuery", "sql", sql, "bindings", bindings),
+                       Map.<String, Object>of("kind", "connection.close"));
+    }
+
+    private static void sqlContract() {
+        // This compact form comes from the audited Hibernate7.4 failure, with the same logical range/order.
+        String prefix = "select u1_0.id,u1_0.address,u1_0.age,u1_0.birthday,u1_0.comment,u1_0.create_time,u1_0.deleted,u1_0.email,u1_0.height,u1_0.name,u1_0.salary,u1_0.score,u1_0.sex,u1_0.uid,u1_0.update_time,u1_0.version,u1_0.weight from tb_user u1_0 ";
+        String compact = prefix + "where u1_0.id>=? and u1_0.id<? order by u1_0.id";
+        String spaced = prefix + "where (u1_0.id >= ? and u1_0.id < ?) order by u1_0.id asc";
+        checkQuery(queryEvents(compact, 2), "entity", 1, 100);
+        checkQuery(queryEvents(spaced, 2), "entity", 1, 100);
+        List<String> invalid = List.of(compact.replace(">=", ">"), compact.replace(" and ", " or "), compact + " desc",
+                                      compact.replace("id>=?", "id>='?'"), compact.replace("id<?", "id<:named"));
+        for (String sql : invalid) {
+            try { checkQuery(queryEvents(sql, 2), "entity", 1, 100); }
+            catch (IllegalStateException expected) { continue; }
+            throw new IllegalStateException("SQL contract accepted different predicate/order/parameter semantics");
+        }
+        try { checkQuery(queryEvents(compact, 1), "entity", 1, 100); throw new AssertionError("Missing bind accepted"); }
+        catch (IllegalStateException expected) { /* Required exact binding count remains enforced. */ }
+        if (!normalized("select 'A >= B and x.id' from tb_user").contains("'A >= B and x.id'")) throw new IllegalStateException("Literal changed during normalization");
+        System.out.println("PASS: actual compact/spaced SQL accepted; predicate, order, literal and binding changes rejected without DB access");
     }
     private static void checkConnections(List<Map<String, Object>> events) {
         for (String kind : List.of("connection.open", "connection.close")) {
@@ -157,7 +211,8 @@ public final class ValidateBenchmark {
         result.put("os", System.getProperty("os.name") + " " + System.getProperty("os.version"));
         result.put("architecture", System.getProperty("os.arch"));
         result.put("jdbcUrlWithoutCredentials", DataSourceHelper.URL);
-        result.put("pool", Map.of("initial", 1, "maximum", 1, "autoCommit", true, "isolation", "READ_COMMITTED", "poolPreparedStatements", false));
+        result.put("pool", Map.of("initial", 1, "maximum", 1, "autoCommit", true, "isolation", "READ_COMMITTED", "poolPreparedStatements", false,
+                                 "testWhileIdle", pool.isTestWhileIdle(), "housekeepingIntervalMillis", pool.getTimeBetweenEvictionRunsMillis()));
         result.put("ddl", FixtureSupport.DDL); result.put("seed", FixtureSupport.SEED);
         try (Connection c = pool.getConnection(); Statement statement = c.createStatement()) {
             result.put("driver", c.getMetaData().getDriverName() + " " + c.getMetaData().getDriverVersion());
