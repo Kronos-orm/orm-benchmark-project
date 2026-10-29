@@ -1,0 +1,64 @@
+{
+  "blocks": 5,
+  "calibrationEvidence": {
+    "read": {
+      "controllerGitSha": "0fd75efcfbdeb4a3abb647bf503207733268e2bd",
+      "runId": "40641317494"
+    },
+    "write": {
+      "controllerGitSha": "24fc586b39be12e8eafc881c0b0a402f1163e47e",
+      "runId": "40642271051"
+    }
+  },
+  "caseScheduleSha256": "1f50ef75c4ffc8582ff11a23273748c15b15c73734faa89c49516f120bcc2622",
+  "classification": "FORMAL",
+  "expectedCells": 780,
+  "forksPerCell": 1,
+  "interpretation": {
+    "environment": "All six adapters share runner VM and DB per case/block; physical host and neighbors uncontrolled",
+    "outliers": "All iterations and forks retained; no selective deletion/retries",
+    "sampleUnit": "Five independent fork/block means; iterations averaged within fork",
+    "write": "First assigned-key row-wise INSERT transaction after TRUNCATE reset outside timing; execution and COMMIT timed. Not sustained append throughput."
+  },
+  "maxParallel": 8,
+  "name": "formal-v2-runtime1497",
+  "runtime": {
+    "benchmarkGitSha": "1497bd730b6d598879fb09774fe6d48e4c9e2f03",
+    "bundleSha256": "0f4e4532a9fa5086265abdb3af55c4e9e606d10aca5fb32cec7b793a5021f02e",
+    "candidateGitSha": "13e592738ec885ec6a233737ef501c221ab1daa4",
+    "producerRunId": "40637176946",
+    "sourceSha256": "4452aecd1c213bf599ad6190600125af13bfddeb44a3a896377817b66a13729c"
+  },
+  "schemaVersion": 1,
+  "seed": 2026102704,
+  "timing": {
+    "read": [
+      "-bm",
+      "avgt",
+      "-tu",
+      "us",
+      "-wi",
+      "5",
+      "-w",
+      "2s",
+      "-i",
+      "10",
+      "-r",
+      "2s"
+    ],
+    "write": [
+      "-bm",
+      "ss",
+      "-tu",
+      "us",
+      "-wi",
+      "2000",
+      "-i",
+      "300",
+      "-bs",
+      "1",
+      "-wbs",
+      "1"
+    ]
+  }
+}

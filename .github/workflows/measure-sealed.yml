@@ -1,0 +1,262 @@
+name: Measure frozen protocol using original sealed runtime
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      expected_controller_sha:
+        required: true
+        type: string
+      expected_protocol_sha:
+        required: true
+        type: string
+concurrency:
+  group: orm-sealed-${{ github.ref }}
+  cancel-in-progress: false
+permissions:
+  contents: read
+  actions: read
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8 -Duser.timezone=UTC
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - run: python3 -B -m unittest discover -s scripts -p test_ci_contract.py -v
+      - name: Read actual JMH JSON header schema from the audited original pilot without JVM or DB
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 -B scripts/execution_protocol.py inspect-schema --protocol config/formal.json --out "$RUNNER_TEMP/original-jmh-schema"
+
+  freeze:
+    if: github.event_name == 'workflow_dispatch'
+    needs: contracts
+    runs-on: ubuntu-24.04
+    outputs:
+      context_sha: ${{ steps.freeze.outputs.context_sha }}
+      matrix: ${{ steps.freeze.outputs.matrix }}
+      seal: ${{ steps.freeze.outputs.seal }}
+      mysql_image: ${{ steps.freeze.outputs.mysql_image }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - id: freeze
+        name: Verify original pilot and freeze independent controller/protocol context
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_CONTROLLER: ${{ inputs.expected_controller_sha }}
+          EXPECTED_PROTOCOL: ${{ inputs.expected_protocol_sha }}
+        run: python3 -B scripts/execution_protocol.py freeze --protocol config/formal.json --expected-protocol "$EXPECTED_PROTOCOL" --expected-controller "$EXPECTED_CONTROLLER" --out execution-plan
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: execution-plan
+          path: |
+            execution-plan/execution-plan.json
+            execution-plan/controller-source-*.tar.gz
+          if-no-files-found: error
+  preflight:
+    needs: freeze
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: execution-plan
+          path: plan
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '21.0.10+7.0.LTS'
+      - name: Verify original artifact IDs, ZIPs, pilot evidence and runtime seal (no build)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CONTEXT_SHA: ${{ needs.freeze.outputs.context_sha }}
+        run: python3 -B scripts/execution_protocol.py prepare --plan plan/execution-plan.json --expected-context "$CONTEXT_SHA" --out artifacts
+      - name: Start the fixed isolated database
+        env:
+          MYSQL_IMAGE: ${{ needs.freeze.outputs.mysql_image }}
+        run: python3 -B artifacts/runtime-bundle/scripts/ci_mysql.py start --image "$MYSQL_IMAGE"
+      - name: Validate original JVM classes under the frozen execution context
+        env:
+          SEAL: ${{ needs.freeze.outputs.seal }}
+          CONTEXT_SHA: ${{ needs.freeze.outputs.context_sha }}
+        run: python3 -B scripts/ci_experiment.py validate --bundle artifacts/runtime-bundle --seal "$SEAL" --execution-plan plan/execution-plan.json --expected-context "$CONTEXT_SHA" --out gate
+      - name: Scan real credentials before preflight evidence upload
+        if: always()
+        id: audit
+        run: python3 -B scripts/secret_audit.py audit gate
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && steps.audit.outcome == 'success'
+        with:
+          name: preflight
+          path: gate
+          if-no-files-found: error
+      - name: Stop only this run's database
+        if: always()
+        run: |
+          if [ -f artifacts/runtime-bundle/scripts/ci_mysql.py ]; then
+            python3 -B artifacts/runtime-bundle/scripts/ci_mysql.py stop
+          fi
+  measure:
+    needs: [freeze, preflight]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.freeze.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: execution-plan
+          path: plan
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: preflight
+          path: gate
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '21.0.10+7.0.LTS'
+      - name: Consume the exact original sealed runtime (no Gradle or Kotlin)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CONTEXT_SHA: ${{ needs.freeze.outputs.context_sha }}
+        run: python3 -B scripts/execution_protocol.py prepare --plan plan/execution-plan.json --expected-context "$CONTEXT_SHA" --out artifacts
+      - name: Start this shard's isolated fixed database
+        env:
+          MYSQL_IMAGE: ${{ needs.freeze.outputs.mysql_image }}
+        run: python3 -B artifacts/runtime-bundle/scripts/ci_mysql.py start --image "$MYSQL_IMAGE"
+      - name: Measure the registered paired group/block under the single protocol
+        env:
+          SEAL: ${{ needs.freeze.outputs.seal }}
+          CONTEXT_SHA: ${{ needs.freeze.outputs.context_sha }}
+          GROUP: ${{ matrix.group }}
+          BLOCK: ${{ matrix.block }}
+        run: python3 -B scripts/ci_experiment.py shard --bundle artifacts/runtime-bundle --seal "$SEAL" --execution-plan plan/execution-plan.json --expected-context "$CONTEXT_SHA" --gate gate --group "$GROUP" --block "$BLOCK" --out shard
+      - name: Scan all raw files and logs with actual credentials before upload
+        if: always()
+        id: audit
+        run: python3 -B scripts/secret_audit.py audit shard
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && steps.audit.outcome == 'success'
+        with:
+          name: shard-${{ matrix.group }}-${{ matrix.block }}
+          path: shard
+          if-no-files-found: error
+          retention-days: 90
+      - name: Stop only this run's database
+        if: always()
+        run: |
+          if [ -f artifacts/runtime-bundle/scripts/ci_mysql.py ]; then
+            python3 -B artifacts/runtime-bundle/scripts/ci_mysql.py stop
+          fi
+  aggregate:
+    if: always() && needs.freeze.result == 'success' && needs.preflight.result == 'success'
+    needs: [freeze, preflight, measure]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.9'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: execution-plan
+          path: plan
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: preflight
+          path: preflight/gate
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        continue-on-error: true
+        with:
+          pattern: shard-*
+          path: shards
+      - name: Verify runtime and controller provenance without rebuilding
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CONTEXT_SHA: ${{ needs.freeze.outputs.context_sha }}
+        run: python3 -B scripts/execution_protocol.py prepare --plan plan/execution-plan.json --expected-context "$CONTEXT_SHA" --out artifacts
+      - name: Install the fixed scientific plotting runtime
+        run: |
+          python3 -m pip install matplotlib==3.10.8
+          mkdir -p analysis-environment
+          python3 -m pip freeze > analysis-environment/pip-freeze.txt
+          python3 --version > analysis-environment/python-version.txt
+      - name: Reject mixed contexts and aggregate all 780 expected cells
+        env:
+          SEAL: ${{ needs.freeze.outputs.seal }}
+          CONTEXT_SHA: ${{ needs.freeze.outputs.context_sha }}
+        run: python3 -B scripts/ci_experiment.py aggregate --bundle artifacts/runtime-bundle --seal "$SEAL" --execution-plan plan/execution-plan.json --expected-context "$CONTEXT_SHA" --frozen plan/execution-plan.json --shards shards --gate preflight/gate --out aggregate
+      - name: Verify full secret-scan receipt derivation and controller/protocol identity
+        if: always()
+        id: audit
+        run: python3 -B scripts/secret_audit.py verify-aggregate aggregate
+      - name: Generate reviewable website output from the same canonical analysis
+        if: always() && steps.audit.outcome == 'success'
+        run: |
+          if [ -f aggregate/analysis/summary.json ]; then
+            python3 -B scripts/export_publication.py --ci-audits --run aggregate --out publication
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && steps.audit.outcome == 'success'
+        with:
+          name: aggregate-reviewed-before-publication
+          path: |
+            aggregate
+            publication
+            analysis-environment
+          if-no-files-found: error
+          retention-days: 90
+
+  publish:
+    needs: [freeze, measure, aggregate]
+    if: needs.measure.result == 'success' && needs.aggregate.result == 'success'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      actions: read
+    concurrency:
+      group: benchmark-result-publication
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: execution-plan
+          path: plan
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: aggregate-reviewed-before-publication
+          path: measured
+      - name: Verify Markdown contract and all 780 same-run audited formal cells
+        env:
+          CONTEXT_SHA: ${{ needs.freeze.outputs.context_sha }}
+          CONTROLLER_SHA: ${{ inputs.expected_controller_sha }}
+          PROTOCOL_SHA: ${{ inputs.expected_protocol_sha }}
+        run: python3 -B scripts/validate_publication.py measured/publication --aggregate measured/aggregate --execution-plan plan/execution-plan.json --expected-context "$CONTEXT_SHA" --expected-controller "$CONTROLLER_SHA" --expected-protocol "$PROTOCOL_SHA" --expected-run "$GITHUB_RUN_ID" --expected-public-base https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result
+      - name: Automatically refresh result Markdown and versioned evidence
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445
+        with:
+          branch: result
+          folder: measured/publication
+          clean: false
+          single-commit: false
+          commit-message: Publish complete ORM benchmark run ${{ github.run_id }} from controller ${{ github.sha }}

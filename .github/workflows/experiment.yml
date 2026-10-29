@@ -1,0 +1,354 @@
+name: Build and run reproducible ORM experiment
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      kronos_ref:
+        description: Kronos branch, tag or SHA; resolved once before producer (0.4.0 required)
+        required: true
+        default: main
+        type: string
+      expected_kronos_sha:
+        description: Exact expected Kronos 40 SHA; mandatory for pilot and formal matrix
+        default: ''
+        type: string
+      mode:
+        description: Build only, correctness, pilot, or explicitly released formal matrix
+        default: build
+        type: choice
+        options: [build, validate, pilot, measure, diagnose]
+      producer_run_id:
+        description: Original pilot run ID for formal reuse or read-only audited diagnostics
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: orm-experiment-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8 -Duser.timezone=UTC
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  resolve:
+    runs-on: ubuntu-24.04
+    outputs:
+      sha: ${{ steps.freeze.outputs.sha }}
+      matrix: ${{ steps.freeze.outputs.matrix }}
+      mysql_image: ${{ steps.freeze.outputs.mysql_image }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Freeze requested Kronos ref and experiment plan
+        id: freeze
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REQUESTED_KRONOS_REF: ${{ inputs.kronos_ref || 'codex/kmp-continuation' }}
+          EXPECTED_KRONOS_SHA: ${{ inputs.expected_kronos_sha }}
+          BENCHMARK_MODE: ${{ inputs.mode || 'build' }}
+          PRODUCER_RUN_ID: ${{ inputs.producer_run_id }}
+        run: python3 scripts/resolve_ci.py
+      - name: Check deterministic matrix, sealed transport and missing-cell handling
+        run: python3 -m unittest discover -s scripts -p test_ci_contract.py -v
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: frozen-plan
+          path: frozen.json
+          if-no-files-found: error
+
+  producer:
+    if: inputs.mode != 'diagnose'
+    needs: resolve
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    outputs:
+      seal: ${{ steps.bundle.outputs.seal || steps.reuse.outputs.seal }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          path: benchmark
+          persist-credentials: false
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        if: inputs.mode != 'measure'
+        with:
+          repository: Kronos-orm/Kronos-orm
+          ref: ${{ needs.resolve.outputs.sha }}
+          path: kronos-orm
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '21.0.10+7.0.LTS'
+      - uses: ./kronos-orm/.github/actions/setup-toolchain
+        if: inputs.mode != 'measure'
+        with:
+          lane: publication-jvm
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: frozen-plan
+          path: plan
+      - name: Verify real REST artifact ID and ZIP SHA256 on this run's small frozen plan
+        working-directory: benchmark
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/artifact_transport.py --smoke-run-id "$GITHUB_RUN_ID" --out ../plan/transport-smoke
+      - name: Guard source version and build Kronos JVM candidate once
+        if: inputs.mode != 'measure'
+        working-directory: kronos-orm
+        env:
+          EXPECTED_SHA: ${{ needs.resolve.outputs.sha }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          scripts/run version json > ../plan/kronos-versions.json
+          python3 - <<'PY'
+          import json
+          v=json.load(open('../plan/kronos-versions.json'))
+          assert v['version']=='0.4.0' and v['kotlin']=='2.4.21', v
+          PY
+          env -u GITHUB_SHA KRONOS_SOURCE_SHA="$EXPECTED_SHA" scripts/run release jvm-stage --repository build/benchmark-candidate
+          env -u GITHUB_SHA KRONOS_SOURCE_SHA="$EXPECTED_SHA" scripts/run release check-candidate --repository build/benchmark-candidate
+      - name: Compile every adapter and JMH annotation output once
+        if: inputs.mode != 'measure'
+        working-directory: benchmark
+        env:
+          KRONOS_CANDIDATE_REPO: ${{ github.workspace }}/kronos-orm/build/benchmark-candidate
+        run: ./gradlew --no-daemon --max-workers=2 --write-locks -Dorg.gradle.jvmargs="-Xmx2g -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" -Pkotlin.compiler.execution.strategy=in-process classes writeRuntimeClasspath
+      - name: Seal portable runtime, source, candidate and runner scripts
+        if: inputs.mode != 'measure'
+        id: bundle
+        working-directory: benchmark
+        run: |
+          set -euo pipefail
+          python3 scripts/ci_experiment.py pack --candidate ../kronos-orm/build/benchmark-candidate --classpath build/runtime-classpath.txt --frozen ../plan/frozen.json --out ../runtime-bundle > ../bundle-seal.txt
+          echo "seal=$(cat ../bundle-seal.txt)" >> "$GITHUB_OUTPUT"
+      - name: Validate actual shared pool setter compatibility without database access
+        if: inputs.mode != 'measure'
+        working-directory: benchmark
+        run: java -cp "$(cat build/runtime-classpath.txt)" com.kotlinorm.benchmark.InspectEnvironment --pool-config-only
+      - name: Check compact SQL equivalence and strict counterexamples without database access
+        if: inputs.mode != 'measure'
+        working-directory: benchmark
+        run: java -cp "$(cat build/runtime-classpath.txt)" com.kotlinorm.benchmark.ValidateBenchmark --sql-contract
+      - name: Download original pilot artifacts by frozen IDs and verify exact ZIP SHA256
+        if: inputs.mode == 'measure'
+        working-directory: benchmark
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/artifact_transport.py --plan ../plan/frozen.json --out ..
+      - name: Verify review, original producer, source identities and every pilot cell
+        if: inputs.mode == 'measure'
+        id: reuse
+        working-directory: benchmark
+        env:
+          PRODUCER_RUN_ID: ${{ inputs.producer_run_id }}
+        run: |
+          set -euo pipefail
+          python3 scripts/ci_experiment.py reuse --bundle ../runtime-bundle --frozen ../plan/frozen.json --gate ../approved-preflight/gate --pilot ../approved-preflight/pilot --source-run-id "$PRODUCER_RUN_ID" > ../bundle-seal.txt
+          echo "seal=$(cat ../bundle-seal.txt)" >> "$GITHUB_OUTPUT"
+      - name: Verify sealed runtime through its actual consumer entrypoint before upload
+        env:
+          BUNDLE_SEAL: ${{ steps.bundle.outputs.seal || steps.reuse.outputs.seal }}
+        run: python3 -B runtime-bundle/scripts/ci_experiment.py verify --bundle runtime-bundle --seal "$BUNDLE_SEAL"
+      - name: Preserve compilation evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: producer-evidence
+          path: |
+            plan
+            benchmark/**/gradle.lockfile
+            benchmark/build/reports
+            kronos-orm/build/benchmark-candidate/ci-candidate.json
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: runtime-bundle
+          path: runtime-bundle
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+  preflight:
+    if: github.event_name == 'workflow_dispatch' && (inputs.mode == 'validate' || inputs.mode == 'pilot' || inputs.mode == 'measure')
+    needs: [resolve, producer]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: runtime-bundle
+          path: bundle
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '21.0.10+7.0.LTS'
+      - name: Verify immutable producer bytes
+        env:
+          BUNDLE_SEAL: ${{ needs.producer.outputs.seal }}
+        run: python3 -B bundle/scripts/ci_experiment.py verify --bundle bundle --seal "$BUNDLE_SEAL"
+      - name: Start an isolated fixed MySQL instance
+        env:
+          MYSQL_IMAGE: ${{ needs.resolve.outputs.mysql_image }}
+        run: python3 -B bundle/scripts/ci_mysql.py start --image "$MYSQL_IMAGE"
+      - name: Correctness, SQL, transaction and lifecycle gate
+        env:
+          BUNDLE_SEAL: ${{ needs.producer.outputs.seal }}
+        run: python3 -B bundle/scripts/ci_experiment.py validate --bundle bundle --seal "$BUNDLE_SEAL" --out gate
+      - name: Short pilot using the same sealed executable
+        if: inputs.mode == 'pilot'
+        env:
+          BUNDLE_SEAL: ${{ needs.producer.outputs.seal }}
+        run: python3 -B bundle/scripts/ci_experiment.py pilot --bundle bundle --seal "$BUNDLE_SEAL" --gate gate --out pilot
+      - name: Scan real credentials before any preflight upload
+        if: always()
+        id: audit
+        run: python3 -B bundle/scripts/secret_audit.py audit gate pilot
+      - name: Preserve all preflight evidence
+        if: always() && steps.audit.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: preflight
+          path: |
+            gate
+            pilot
+          if-no-files-found: warn
+      - name: Stop only the CI-owned MySQL instance
+        if: always()
+        run: python3 -B bundle/scripts/ci_mysql.py stop
+
+  diagnose:
+    if: inputs.mode == 'diagnose'
+    needs: resolve
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Report only hash-bound real-secret-audited prior failure
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ inputs.producer_run_id }}
+          EXPECTED_CANDIDATE_SHA: ${{ inputs.expected_kronos_sha }}
+        run: python3 -B scripts/artifact_transport.py --diagnose-run-id "$SOURCE_RUN_ID" --expected-candidate-sha "$EXPECTED_CANDIDATE_SHA" --out "$RUNNER_TEMP/audited-diagnostic"
+
+  measure:
+    if: inputs.mode == 'measure'
+    needs: [resolve, producer, preflight]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.resolve.outputs.matrix) }}
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: runtime-bundle
+          path: bundle
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: preflight
+          path: preflight
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '21.0.10+7.0.LTS'
+      - name: Verify sealed runtime before database startup
+        env:
+          BUNDLE_SEAL: ${{ needs.producer.outputs.seal }}
+        run: python3 -B bundle/scripts/ci_experiment.py verify --bundle bundle --seal "$BUNDLE_SEAL"
+      - name: Start this shard's isolated MySQL instance
+        env:
+          MYSQL_IMAGE: ${{ needs.resolve.outputs.mysql_image }}
+        run: python3 -B bundle/scripts/ci_mysql.py start --image "$MYSQL_IMAGE"
+      - name: Run one independent block with all six adapters on the same runner
+        env:
+          BUNDLE_SEAL: ${{ needs.producer.outputs.seal }}
+          SCENARIO_GROUP: ${{ matrix.group }}
+          BLOCK: ${{ matrix.block }}
+        run: python3 -B bundle/scripts/ci_experiment.py shard --bundle bundle --seal "$BUNDLE_SEAL" --gate preflight/gate --group "$SCENARIO_GROUP" --block "$BLOCK" --out shard
+      - name: Scan real credentials before any shard upload
+        if: always()
+        id: audit
+        run: python3 -B bundle/scripts/secret_audit.py audit shard
+      - name: Preserve successful, failed and interrupted cells
+        if: always() && steps.audit.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: shard-${{ matrix.group }}-${{ matrix.block }}
+          path: shard
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Stop only this shard's CI-owned MySQL
+        if: always()
+        run: python3 -B bundle/scripts/ci_mysql.py stop
+
+  aggregate:
+    if: always() && inputs.mode == 'measure' && needs.producer.result == 'success'
+    needs: [resolve, producer, preflight, measure]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.13.9'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: runtime-bundle
+          path: bundle
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        continue-on-error: true
+        with:
+          name: preflight
+          path: preflight
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        continue-on-error: true
+        with:
+          pattern: shard-*
+          path: shards
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: frozen-plan
+          path: plan
+      - name: Install fixed scientific plotting runtime
+        run: |
+          python3 -m pip install matplotlib==3.10.8
+          mkdir -p analysis-environment
+          python3 -m pip freeze > analysis-environment/pip-freeze.txt
+          python3 --version > analysis-environment/python-version.txt
+      - name: Validate expected cells and aggregate paired blocks
+        env:
+          BUNDLE_SEAL: ${{ needs.producer.outputs.seal }}
+        run: python3 -B bundle/scripts/ci_experiment.py aggregate --bundle bundle --seal "$BUNDLE_SEAL" --shards shards --gate preflight/gate --frozen plan/frozen.json --out aggregate
+      - name: Verify the complete real-secret receipt derivation chain
+        if: always()
+        id: audit
+        run: python3 -B bundle/scripts/secret_audit.py verify-aggregate aggregate
+      - name: Generate the reviewable website bundle from the same verified analysis
+        if: always() && steps.audit.outcome == 'success'
+        run: |
+          if [ -f aggregate/analysis/summary.json ]; then
+            python3 -B bundle/scripts/export_publication.py --ci-audits --run aggregate --out publication
+          fi
+      - name: Preserve complete or partial analysis for review
+        if: always() && steps.audit.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: aggregate-reviewed-before-publication
+          path: |
+            aggregate
+            analysis-environment
+            publication
+          if-no-files-found: error
+          retention-days: 90

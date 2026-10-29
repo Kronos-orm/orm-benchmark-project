@@ -2,101 +2,57 @@ package com.kolinorm.ktormBenchmark
 
 import com.kolinorm.ktormBenchmark.table.Users
 import com.kotlinorm.BenchmarkExecutor
+import com.kotlinorm.FixtureRow
 import org.ktorm.database.Database
-import org.ktorm.dsl.BatchInsertStatementBuilder
-import org.ktorm.dsl.batchInsert
-import org.ktorm.dsl.eq
-import org.ktorm.dsl.from
-import org.ktorm.dsl.map
-import org.ktorm.dsl.select
-import org.ktorm.dsl.where
-import org.ktorm.entity.find
-import org.ktorm.entity.sequenceOf
+import org.ktorm.dsl.*
 import org.ktorm.logging.NoOpLogger
-import java.math.BigDecimal
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
 import javax.sql.DataSource
 
-/**
- *@program: orm-benchmark-project
- *@author: Jieyao Lu
- *@description:
- *@create: 2025/4/7 10:19
- **/
 class KtromExecutor : BenchmarkExecutor {
-
     private lateinit var database: Database
-    private lateinit var users: List<Map<String, Any>>
-    private lateinit var batchInsertStatementBuilder: BatchInsertStatementBuilder<Users>.() -> Unit
+    private var rows: List<FixtureRow> = emptyList()
 
-    val Database.user get() = this.sequenceOf(Users)
-
-    override fun init(dataSource: DataSource, listOfMap: List<Map<String, Any>>) {
-        prepareData(listOfMap)
+    override fun init(dataSource: DataSource) {
         database = Database.connect(dataSource, logger = NoOpLogger)
     }
 
-    override fun prepareData(listOfMap: List<Map<String, Any>>) {
-        users = listOfMap.toList()
-        batchInsertStatementBuilder = {
-            for (user in users) {
-                item {
-                    set(it.uid, user["uid"] as Long)
-                    set(it.name, user["name"] as String)
-                    set(it.age, user["age"] as Int)
-                    set(it.sex, user["sex"] as Boolean)
-                    set(it.height, user["height"] as Float)
-                    set(it.weight, user["weight"] as Float)
-                    set(it.score, user["score"] as Double)
-                    set(it.salary, user["salary"] as BigDecimal)
-                    set(it.birthday, user["birthday"] as LocalDate)
-                    set(it.email, user["email"] as String)
-                    set(it.address, user["address"] as String)
-                    set(it.comment, user["comment"] as ByteArray)
-                    set(it.version, user["version"] as Int)
-                    set(it.deleted, user["deleted"] as Boolean)
-                    set(it.createTime, user["createTime"] as LocalDateTime)
-                    set(it.updateTime, user["updateTime"] as LocalDateTime)
-                }
+    override fun queryEntities(firstId: Int, rowCount: Int): List<Any> = database.from(Users)
+        .select(Users.columns).where { (Users.id greaterEq firstId) and (Users.id less firstId + rowCount) }
+        .orderBy(Users.id.asc()).map { Users.createEntity(it) }
+
+    override fun queryMaps(firstId: Int, rowCount: Int): List<Map<String, Any?>> = database.from(Users)
+        .select(Users.columns).where { (Users.id greaterEq firstId) and (Users.id less firstId + rowCount) }
+        .orderBy(Users.id.asc()).map { row -> Users.columns.associate { it.name to row[it] } }
+
+    override fun queryNames(firstId: Int, rowCount: Int): List<String> = database.from(Users)
+        .select(Users.name).where { (Users.id greaterEq firstId) and (Users.id less firstId + rowCount) }
+        .orderBy(Users.id.asc()).map { it[Users.name]!! }
+
+    override fun prepareInsert(rows: List<FixtureRow>) { this.rows = rows.toList() }
+
+    override fun insertTransaction(): Int = database.useTransaction {
+        rows.sumOf { row ->
+            database.insert(Users) {
+                    set(it.id, row.id)
+                    set(it.uid, row.uid)
+                    set(it.name, row.name)
+                    set(it.age, row.age)
+                    set(it.sex, row.sex)
+                    set(it.height, row.height)
+                    set(it.weight, row.weight)
+                    set(it.score, row.score)
+                    set(it.salary, row.salary)
+                    set(it.birthday, row.birthday)
+                    set(it.email, row.email)
+                    set(it.address, row.address)
+                    set(it.comment, row.comment)
+                    set(it.version, row.version)
+                    set(it.deleted, row.deleted)
+                    set(it.createTime, row.createTime)
+                    set(it.updateTime, row.updateTime)
             }
         }
     }
 
-    override fun querySingleEntity() {
-        database.user.find { it.id eq 1 }
-    }
-
-    override fun querySingleMap() {
-        database
-            .from(Users)
-            .select()
-            .where { Users.id eq 1 }
-            .map {
-                Users.columns.associate { col -> col.name to it[col]!! }
-            }
-            .first()
-    }
-
-    override fun querySingleField() {
-        database
-            .from(Users)
-            .select(Users.name)
-            .where { Users.id eq 1 }
-            .map { it[Users.name]!! }
-            .first()
-    }
-
-    override fun executeInsert() {
-        database.batchInsert(Users, batchInsertStatementBuilder)
-    }
-
-    override fun onDestroy() {
-        database.useConnection { conn ->
-            conn.createStatement().use { stmt ->
-                stmt.executeUpdate("TRUNCATE TABLE tb_user")
-            }
-        }
-    }
+    override fun close() { rows = emptyList() }
 }

@@ -1,156 +1,95 @@
-// JpaExecutor.kt
 package com.kotlinorm.jpaBenchmark
 
 import com.kotlinorm.BenchmarkExecutor
+import com.kotlinorm.FixtureRow
 import com.kotlinorm.jpaBenchmark.pojo.User
 import org.hibernate.SessionFactory
 import org.hibernate.boot.MetadataSources
+import org.hibernate.boot.registry.StandardServiceRegistry
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder
-import org.hibernate.cfg.AvailableSettings
-import java.math.BigDecimal
-import java.time.LocalDate
-import java.time.LocalDateTime
 import javax.sql.DataSource
 
 class JpaExecutor : BenchmarkExecutor {
-    private lateinit var users: List<User>
-    private lateinit var sessionFactory: SessionFactory
+    private lateinit var registry: StandardServiceRegistry
+    private lateinit var factory: SessionFactory
+    private var users: List<User> = emptyList()
 
-    // 初始化配置（每个基准测试只执行一次）
-    override fun init(dataSource: DataSource, listOfMap: List<Map<String, Any>>) {
-        prepareData(listOfMap)
-        val registry = StandardServiceRegistryBuilder().apply {
-            // 基础配置
-            applySettings(
-                mapOf(
-                    AvailableSettings.DATASOURCE to dataSource,
-                    AvailableSettings.DIALECT to "org.hibernate.dialect.MySQL8Dialect",
-                    AvailableSettings.SHOW_SQL to false,
-                    AvailableSettings.HBM2DDL_AUTO to "validate",
-                    AvailableSettings.STATEMENT_BATCH_SIZE to 1000,
-                    AvailableSettings.ORDER_INSERTS to true,
-                    AvailableSettings.SHOW_SQL to false,
-                    AvailableSettings.FORMAT_SQL to false,
-                    AvailableSettings.GENERATE_STATISTICS to false,
-                    AvailableSettings.LOG_JDBC_WARNINGS to false,
-                    AvailableSettings.USE_QUERY_CACHE to false,
-                    AvailableSettings.QUERY_PLAN_CACHE_ENABLED to false
-                )
-            )
-        }.build()
-
-        sessionFactory = MetadataSources(registry)
-            .addAnnotatedClass(User::class.java)
-            .buildMetadata()
-            .buildSessionFactory()
-    }
-
-    override fun prepareData(listOfMap: List<Map<String, Any>>) {
-        // 预处理数据
-        users = listOfMap.map { map ->
-            User(
-                uid = map["uid"] as Long,
-                name = map["name"] as String,
-                age = map["age"] as Int,
-                sex = map["sex"] as Boolean,
-                height = map["height"] as Float,
-                weight = map["weight"] as Float,
-                score = map["score"] as Double,
-                salary = map["salary"] as BigDecimal,
-                birthday = map["birthday"] as LocalDate,
-                email = map["email"] as String,
-                address = map["address"] as String,
-                comment = map["comment"] as ByteArray,
-                version = map["version"] as Int,
-                deleted = map["deleted"] as Boolean,
-                createTime = map["createTime"] as LocalDateTime,
-                updateTime = map["updateTime"] as LocalDateTime
-            )
+    override fun init(dataSource: DataSource) {
+        registry = StandardServiceRegistryBuilder().applySettings(mapOf(
+            "hibernate.connection.datasource" to dataSource,
+            "hibernate.dialect" to "org.hibernate.dialect.MySQLDialect",
+            "hibernate.hbm2ddl.auto" to "validate",
+            "hibernate.show_sql" to false,
+            "hibernate.format_sql" to false,
+            "hibernate.generate_statistics" to false,
+            "hibernate.cache.use_second_level_cache" to false,
+            "hibernate.cache.use_query_cache" to false,
+            "hibernate.jdbc.batch_size" to 0,
+            "hibernate.jdbc.time_zone" to "UTC"
+        )).build()
+        try {
+            factory = MetadataSources(registry).addAnnotatedClass(User::class.java)
+                .buildMetadata().buildSessionFactory()
+        } catch (failure: Throwable) {
+            StandardServiceRegistryBuilder.destroy(registry)
+            throw failure
         }
     }
 
-    override fun executeInsert() {
-        sessionFactory.openSession().use { session ->
-            val transaction = session.beginTransaction()
-            try {
-                users
-                    .forEach {
-                        it.id = null
-                        session.persist(it)
-                    }
+    override fun queryEntities(firstId: Int, rowCount: Int): List<Any> = factory.openSession().use {
+        it.createQuery("from User u where u.id >= :first and u.id < :end order by u.id", User::class.java)
+            .setParameter("first", firstId).setParameter("end", firstId + rowCount).resultList
+    }
 
-                session.flush() // 单次刷入所有数据
-                transaction.commit()
-            } catch (e: Exception) {
-                transaction.rollback()
-                throw e
-            } finally {
-                session.clear() // 清理一级缓存
-            }
+    @Suppress("UNCHECKED_CAST")
+    override fun queryMaps(firstId: Int, rowCount: Int): List<Map<String, Any?>> = factory.openSession().use {
+        it.createQuery("select new map(u.id as id, u.uid as uid, u.name as name, u.age as age, u.sex as sex, u.height as height, u.weight as weight, u.score as score, u.salary as salary, u.birthday as birthday, u.email as email, u.address as address, u.comment as comment, u.version as version, u.deleted as deleted, u.createTime as createTime, u.updateTime as updateTime) from User u where u.id >= :first and u.id < :end order by u.id", Map::class.java)
+            .setParameter("first", firstId).setParameter("end", firstId + rowCount).resultList as List<Map<String, Any?>>
+    }
+
+    override fun queryNames(firstId: Int, rowCount: Int): List<String> = factory.openSession().use {
+        it.createQuery("select u.name from User u where u.id >= :first and u.id < :end order by u.id", String::class.java)
+            .setParameter("first", firstId).setParameter("end", firstId + rowCount).resultList
+    }
+
+    override fun prepareInsert(rows: List<FixtureRow>) {
+        users = rows.map { row -> User(
+                id = row.id,
+                uid = row.uid,
+                name = row.name,
+                age = row.age,
+                sex = row.sex,
+                height = row.height,
+                weight = row.weight,
+                score = row.score,
+                salary = row.salary,
+                birthday = row.birthday,
+                email = row.email,
+                address = row.address,
+                comment = row.comment,
+                version = row.version,
+                deleted = row.deleted,
+                createTime = row.createTime,
+                updateTime = row.updateTime,
+        ) }
+    }
+
+    override fun insertTransaction(): Int = factory.openSession().use { session ->
+        val transaction = session.beginTransaction()
+        try {
+            users.forEach(session::persist)
+            session.flush()
+            transaction.commit()
+            users.size
+        } catch (failure: Throwable) {
+            if (transaction.isActive) transaction.rollback()
+            throw failure
         }
     }
 
-    override fun querySingleEntity() {
-        sessionFactory.openSession().use { session ->
-            session.get(User::class.java, 1)
-        }
-    }
-
-    override fun querySingleMap() {
-        sessionFactory.openSession().use { session ->
-            val query = """
-                SELECT new map(
-                    u.id as id, 
-                    u.uid as uid,
-                    u.name as name, 
-                    u.age as age,
-                    u.sex as sex,
-                    u.height as height,
-                    u.weight as weight,
-                    u.score as score,
-                    u.salary as salary,
-                    u.birthday as birthday,
-                    u.email as email,
-                    u.address as address,
-                    u.comment as comment,
-                    u.version as version,
-                    u.deleted as deleted,
-                    u.createTime as createTime,
-                    u.updateTime as updateTime
-                ) 
-                FROM User u 
-                WHERE u.id = :id
-            """
-
-            session.createQuery(query, Map::class.java)
-                .setParameter("id", 1L)
-                .uniqueResult() as Map<String, Any>
-        }
-    }
-
-    override fun querySingleField() {
-        sessionFactory.openSession().use { session ->
-            val query = "SELECT u.name FROM User u WHERE u.id = :id"
-            session.createQuery(query, String::class.java)
-                .setParameter("id", 1L)
-                .uniqueResult()
-        }
-    }
-
-    // 清理资源（基准测试结束时调用）
-    override fun onDestroy() {
-        sessionFactory.openSession().use { session ->
-            session.beginTransaction().apply {
-                try {
-                    // truncate 表
-                    session.createNativeQuery("TRUNCATE TABLE tb_user").executeUpdate()
-                    commit()
-                } catch (e: Exception) {
-                    rollback()
-                    throw e
-                }
-            }
-        }
-        sessionFactory.close()
+    override fun close() {
+        try { if (::factory.isInitialized) factory.close() }
+        finally { if (::registry.isInitialized) StandardServiceRegistryBuilder.destroy(registry) }
+        users = emptyList()
     }
 }

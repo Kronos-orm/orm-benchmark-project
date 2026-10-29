@@ -1,0 +1,94 @@
+name: Read audited experiment statistics
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        required: true
+        type: string
+      candidate_sha:
+        required: true
+        type: string
+      benchmark_sha:
+        required: true
+        type: string
+      controller_sha:
+        default: ''
+        type: string
+      kind:
+        required: true
+        type: choice
+        options: [pilot, aggregate]
+permissions:
+  contents: read
+  actions: read
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - run: python3 -B -m unittest discover -s scripts -p test_ci_contract.py -v
+  freeze:
+    if: github.event_name == 'workflow_dispatch'
+    needs: contracts
+    runs-on: ubuntu-24.04
+    outputs:
+      plan: ${{ steps.freeze.outputs.plan }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - id: freeze
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN: ${{ inputs.source_run_id }}
+          CANDIDATE_SHA: ${{ inputs.candidate_sha }}
+          BENCHMARK_SHA: ${{ inputs.benchmark_sha }}
+          CONTROLLER_SHA: ${{ inputs.controller_sha }}
+          OBSERVATION_KIND: ${{ inputs.kind }}
+        run: |
+          python3 -B scripts/artifact_transport.py --freeze-observation-run-id "$SOURCE_RUN" --expected-candidate-sha "$CANDIDATE_SHA" --expected-benchmark-sha "$BENCHMARK_SHA" --expected-controller-sha "$CONTROLLER_SHA" --observation-kind "$OBSERVATION_KIND" --out frozen-observation.json
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          from pathlib import Path
+          print('plan=' + Path('frozen-observation.json').read_text().strip())
+          PY
+  observe:
+    needs: freeze
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        group: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Verify original artifact bytes and audited provenance without executing downloaded code
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OBSERVATION_PLAN: ${{ needs.freeze.outputs.plan }}
+          GROUP_INDEX: ${{ matrix.group }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          Path('frozen-observation.json').write_text(os.environ['OBSERVATION_PLAN'])
+          PY
+          python3 -B scripts/artifact_transport.py --observe-plan frozen-observation.json --group-index "$GROUP_INDEX" --out observation
+      - name: Audited structured summary slot 0 (at most ten notices)
+        run: python3 -B scripts/artifact_transport.py --emit-observation observation --slot 0 --out observation
+      - name: Audited structured summary slot 1 (at most ten notices)
+        run: python3 -B scripts/artifact_transport.py --emit-observation observation --slot 1 --out observation
+      - name: Audited structured summary slot 2 (at most ten notices)
+        run: python3 -B scripts/artifact_transport.py --emit-observation observation --slot 2 --out observation
+      - name: Audited structured summary slot 3 (at most ten notices)
+        run: python3 -B scripts/artifact_transport.py --emit-observation observation --slot 3 --out observation
+      - name: Audited shared execution context (at most ten notices)
+        run: python3 -B scripts/artifact_transport.py --emit-observation observation --slot 4 --out observation

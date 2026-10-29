@@ -1,126 +1,110 @@
 package com.kotlinorm.jimmerBenchmark
 
 import com.kotlinorm.BenchmarkExecutor
-import com.kotlinorm.jimmerBenchmark.pojo.User
-import com.kotlinorm.jimmerBenchmark.pojo.by
-import com.kotlinorm.jimmerBenchmark.pojo.id
-import com.kotlinorm.jimmerBenchmark.pojo.name
+import com.kotlinorm.FixtureRow
+import com.kotlinorm.jimmerBenchmark.pojo.*
 import org.babyfish.jimmer.kt.new
 import org.babyfish.jimmer.sql.ast.mutation.SaveMode
 import org.babyfish.jimmer.sql.dialect.MySqlDialect
 import org.babyfish.jimmer.sql.kt.KSqlClient
-import org.babyfish.jimmer.sql.kt.ast.expression.eq
+import org.babyfish.jimmer.sql.kt.ast.expression.*
 import org.babyfish.jimmer.sql.kt.newKSqlClient
 import org.babyfish.jimmer.sql.runtime.ConnectionManager
-import java.math.BigDecimal
-import java.time.LocalDate
-import java.time.LocalDateTime
 import javax.sql.DataSource
 
-/**
- * @description:
- * @author: lujieyao
- * @date: 2025/4/9
- */
 class JimmerBenchmark : BenchmarkExecutor {
+    private lateinit var dataSource: DataSource
+    private lateinit var client: KSqlClient
+    private var users: List<User> = emptyList()
 
-    private lateinit var sqlClient: KSqlClient
-    private lateinit var users: List<User>
-
-    override fun init(
-        dataSource: DataSource,
-        listOfMap: List<Map<String, Any>>
-    ) {
-        sqlClient = newKSqlClient {
-            setConnectionManager(
-                ConnectionManager.simpleConnectionManager(dataSource)
-            )
-            setCaches { null }
+    override fun init(dataSource: DataSource) {
+        this.dataSource = dataSource
+        client = newKSqlClient {
+            setConnectionManager(ConnectionManager.simpleConnectionManager(dataSource))
             setDialect(MySqlDialect())
-            setDefaultBatchSize(10000)
-            setDefaultListBatchSize(10000)
-//            addScalarProvider(ByteArrayScalarProvider())
+            setCaches { /* No entity, association or property caches are configured. */ }
             setScalarProvider(User::comment, ByteArrayScalarProvider())
         }
-        prepareData(listOfMap)
     }
 
-    override fun prepareData(listOfMap: List<Map<String, Any>>) {
-        users = listOfMap.map { map ->
-            new(User::class).by {
-                uid = map["uid"] as Long
-                name = map["name"].toString()
-                age = map["age"] as Int
-                sex = map["sex"] as Boolean
-                height = map["height"] as Float
-                weight = map["weight"] as Float
-                score = map["score"] as Double
-                salary = map["salary"] as BigDecimal
-                birthday = map["birthday"] as LocalDate
-                email = map["email"].toString()
-                address = map["address"].toString()
-                comment = map["comment"] as ByteArray
-                version = map["version"] as Int
-                deleted = map["deleted"] as Boolean
-                createTime = map["createTime"] as LocalDateTime
-                updateTime = map["updateTime"] as LocalDateTime
-            }
-        }
-    }
-
-    override fun querySingleEntity() {
-        sqlClient.createQuery(User::class) {
-            where(table.id eq 1)
+    override fun queryEntities(firstId: Int, rowCount: Int): List<Any> =
+        client.createQuery(User::class) {
+            where(table.id ge firstId, table.id lt firstId + rowCount)
+            orderBy(table.id.asc())
             select(table)
-        }.fetchOne()
-    }
+        }.execute()
 
-    override fun querySingleMap() {
-        sqlClient.createQuery(User::class) {
-            where(table.id eq 1)
+    override fun queryMaps(firstId: Int, rowCount: Int): List<Map<String, Any?>> =
+        client.createQuery(User::class) {
+            where(table.id ge firstId, table.id lt firstId + rowCount)
+            orderBy(table.id.asc())
             select(table)
-        }.fetchOne().let {
-            mapOf(
-                "id" to it.id,
-                "uid" to it.uid,
-                "name" to it.name,
-                "age" to it.age,
-                "sex" to it.sex,
-                "height" to it.height,
-                "weight" to it.weight,
-                "score" to it.score,
-                "salary" to it.salary,
-                "birthday" to it.birthday,
-                "email" to it.email,
-                "address" to it.address,
-                "comment" to it.comment,
-                "version" to it.version,
-                "deleted" to it.deleted,
-                "createTime" to it.createTime,
-                "updateTime" to it.updateTime
+        }.execute().map {
+            // Jimmer has no native map result: entity + explicit conversion is disclosed.
+            linkedMapOf(
+            "id" to it.id,
+            "uid" to it.uid,
+            "name" to it.name,
+            "age" to it.age,
+            "sex" to it.sex,
+            "height" to it.height,
+            "weight" to it.weight,
+            "score" to it.score,
+            "salary" to it.salary,
+            "birthday" to it.birthday,
+            "email" to it.email,
+            "address" to it.address,
+            "comment" to it.comment,
+            "version" to it.version,
+            "deleted" to it.deleted,
+            "createTime" to it.createTime,
+            "updateTime" to it.updateTime
             )
         }
-    }
 
-    override fun querySingleField() {
-        sqlClient.createQuery(User::class) {
-            where(table.id eq 1)
+    override fun queryNames(firstId: Int, rowCount: Int): List<String> =
+        client.createQuery(User::class) {
+            where(table.id ge firstId, table.id lt firstId + rowCount)
+            orderBy(table.id.asc())
             select(table.name)
-        }.fetchOne()
+        }.execute()
+
+    override fun prepareInsert(rows: List<FixtureRow>) {
+        users = rows.map { row -> new(User::class).by {
+                id = row.id
+                uid = row.uid
+                name = row.name
+                age = row.age
+                sex = row.sex
+                height = row.height
+                weight = row.weight
+                score = row.score
+                salary = row.salary
+                birthday = row.birthday
+                email = row.email
+                address = row.address
+                comment = row.comment
+                version = row.version
+                deleted = row.deleted
+                createTime = row.createTime
+                updateTime = row.updateTime
+        } }
     }
 
-    override fun executeInsert() {
-        sqlClient.entities.saveEntities(users) {
-            setMode(SaveMode.INSERT_ONLY)
-        }
-    }
-
-    override fun onDestroy() {
-        sqlClient.javaClient.connectionManager.execute { conn ->
-            conn.createStatement().use { stmt ->
-                stmt.executeUpdate("TRUNCATE TABLE tb_user")
+    override fun insertTransaction(): Int = dataSource.connection.use { connection ->
+        connection.autoCommit = false
+        try {
+            val entities = client.entities.forConnection(connection)
+            val affected = users.sumOf { user ->
+                entities.save(user, SaveMode.INSERT_ONLY).totalAffectedRowCount
             }
-            null
+            connection.commit()
+            affected
+        } catch (failure: Throwable) {
+            connection.rollback()
+            throw failure
         }
     }
+
+    override fun close() { users = emptyList() }
 }

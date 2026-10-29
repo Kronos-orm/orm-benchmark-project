@@ -27,7 +27,7 @@ object Users: Table<User>("tb_user") {
     val birthday = date("birthday").bindTo { it.birthday }
     val email = varchar("email").bindTo { it.email }
     val address = varchar("address").bindTo { it.address }
-    val comment = blob("comment").bindTo { it.comment }
+    val comment = bytes("comment").bindTo { it.comment }
     val version = int("version").bindTo { it.version }
     val deleted = boolean("deleted").bindTo { it.deleted }
     val createTime = datetime("create_time").bindTo { it.createTime }

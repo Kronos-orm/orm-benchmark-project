@@ -1,98 +1,85 @@
 package com.kotlinorm.mybatisBenchmark
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration
+import com.baomidou.mybatisplus.core.MybatisSqlSessionFactoryBuilder
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.kotlinorm.BenchmarkExecutor
+import com.kotlinorm.FixtureRow
 import com.kotlinorm.mybatisBenchmark.dao.User
 import com.kotlinorm.mybatisBenchmark.mapper.UserMapper
+import org.apache.ibatis.logging.nologging.NoLoggingImpl
 import org.apache.ibatis.mapping.Environment
-import org.apache.ibatis.session.ExecutorType
-import org.apache.ibatis.session.SqlSessionFactory
-import org.apache.ibatis.session.SqlSessionFactoryBuilder
+import org.apache.ibatis.session.*
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory
-import java.math.BigDecimal
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
 import javax.sql.DataSource
 
-class MybatisExecutor() : BenchmarkExecutor {
-    private lateinit var sqlSessionFactory: SqlSessionFactory
-    private lateinit var users: List<User>
-    override fun init(dataSource: DataSource, listOfMap: List<Map<String, Any>>) {
-        prepareData(listOfMap)
+class MybatisExecutor : BenchmarkExecutor {
+    private lateinit var factory: SqlSessionFactory
+    private var users: List<User> = emptyList()
+
+    override fun init(dataSource: DataSource) {
         val configuration = MybatisConfiguration().apply {
-            environment = Environment(
-                "benchmark",
-                JdbcTransactionFactory(),
-                dataSource
-            )
+            environment = Environment("benchmark", JdbcTransactionFactory(), dataSource)
             isMapUnderscoreToCamelCase = true
-            isUseGeneratedKeys = true
-            defaultExecutorType = ExecutorType.BATCH
+            isUseGeneratedKeys = false
+            defaultExecutorType = ExecutorType.SIMPLE
+            localCacheScope = LocalCacheScope.STATEMENT
             isCacheEnabled = false
+            logImpl = NoLoggingImpl::class.java
             addMapper(UserMapper::class.java)
         }
-
-        sqlSessionFactory = SqlSessionFactoryBuilder()
-            .build(configuration)
+        factory = MybatisSqlSessionFactoryBuilder().build(configuration)
     }
 
-    override fun prepareData(listOfMap: List<Map<String, Any>>) {
-        // 预处理数据
-        users = listOfMap.map { map ->
-            User(
-                uid = map["uid"] as Long,
-                name = map["name"] as String,
-                age = map["age"] as Int,
-                sex = map["sex"] as Boolean,
-                height = map["height"] as Float,
-                weight = map["weight"] as Float,
-                score = map["score"] as Double,
-                salary = map["salary"] as BigDecimal,
-                birthday = map["birthday"] as LocalDate,
-                email = map["email"] as String,
-                address = map["address"] as String,
-                comment = map["comment"] as ByteArray,
-                version = map["version"] as Int,
-                deleted = map["deleted"] as Boolean,
-                createTime = map["createTime"] as LocalDateTime,
-                updateTime = map["createTime"] as LocalDateTime
-            )
-        }
+    private fun range(firstId: Int, rowCount: Int) = QueryWrapper<User>()
+        .ge("id", firstId).lt("id", firstId + rowCount).orderByAsc("id")
+
+    override fun queryEntities(firstId: Int, rowCount: Int): List<Any> = factory.openSession(true).use {
+        it.getMapper(UserMapper::class.java).selectList(range(firstId, rowCount))
     }
 
-    override fun executeInsert() {
-        sqlSessionFactory.openSession(ExecutorType.BATCH).use { session ->
+    override fun queryMaps(firstId: Int, rowCount: Int): List<Map<String, Any?>> = factory.openSession(true).use {
+        it.getMapper(UserMapper::class.java).selectMaps(range(firstId, rowCount))
+    }
+
+    override fun queryNames(firstId: Int, rowCount: Int): List<String> = factory.openSession(true).use {
+        // Scalar projection avoids constructing partially populated User objects.
+        it.getMapper(UserMapper::class.java).selectObjs<String>(range(firstId, rowCount).select("name"))
+    }
+
+    override fun prepareInsert(rows: List<FixtureRow>) {
+        users = rows.map { row -> User(
+                id = row.id,
+                uid = row.uid,
+                name = row.name,
+                age = row.age,
+                sex = row.sex,
+                height = row.height,
+                weight = row.weight,
+                score = row.score,
+                salary = row.salary,
+                birthday = row.birthday,
+                email = row.email,
+                address = row.address,
+                comment = row.comment,
+                version = row.version,
+                deleted = row.deleted,
+                createTime = row.createTime,
+                updateTime = row.updateTime,
+        ) }
+    }
+
+    override fun insertTransaction(): Int = factory.openSession(ExecutorType.SIMPLE, false).use { session ->
+        try {
             val mapper = session.getMapper(UserMapper::class.java)
-            users.forEach { mapper.insert(it) }
+            val affected = users.sumOf { mapper.insert(it) }
             session.commit()
+            affected
+        } catch (failure: Throwable) {
+            session.rollback()
+            throw failure
         }
     }
 
-    override fun querySingleEntity() {
-        sqlSessionFactory.openSession().use { session ->
-            session.getMapper(UserMapper::class.java).selectById(1)
-        }
-    }
-
-    override fun querySingleMap() {
-        sqlSessionFactory.openSession().use { session ->
-            session.getMapper(UserMapper::class.java).selectMaps(QueryWrapper<User>().eq("id", 1)).single()
-        }
-    }
-
-    override fun querySingleField() {
-        sqlSessionFactory.openSession().use { session ->
-            session.getMapper(UserMapper::class.java).selectList(QueryWrapper<User>().select("name").eq("id", 1)).single().name
-        }
-    }
-
-    override fun onDestroy() {
-        sqlSessionFactory.openSession().use { session ->
-            val connection = session.connection
-            connection.prepareStatement("TRUNCATE table tb_user").executeUpdate()
-            session.commit()
-        }
-    }
+    override fun close() { users = emptyList() }
 }

@@ -1,0 +1,160 @@
+name: Calibrate planned formal warmup on sealed runtime
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      pilot_run_id:
+        required: true
+        type: string
+      candidate_sha:
+        required: true
+        type: string
+      benchmark_sha:
+        required: true
+        type: string
+      bundle_seal:
+        required: true
+        type: string
+      preset:
+        default: planned-formal
+        type: choice
+        options: [planned-formal, write-warm2000]
+permissions:
+  contents: read
+  actions: read
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8 -Duser.timezone=UTC
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - run: python3 -B -m unittest discover -s scripts -p test_ci_contract.py -v
+  freeze:
+    if: github.event_name == 'workflow_dispatch'
+    needs: contracts
+    runs-on: ubuntu-24.04
+    outputs:
+      plan: ${{ steps.freeze.outputs.plan }}
+      matrix: ${{ steps.freeze.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - id: freeze
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ORIGINAL_RUN: ${{ inputs.pilot_run_id }}
+          CANDIDATE_SHA: ${{ inputs.candidate_sha }}
+          BENCHMARK_SHA: ${{ inputs.benchmark_sha }}
+          BUNDLE_SEAL: ${{ inputs.bundle_seal }}
+          CALIBRATION_PRESET: ${{ inputs.preset || 'planned-formal' }}
+        run: |
+          python3 -B scripts/calibration.py freeze --run-id "$ORIGINAL_RUN" --candidate-sha "$CANDIDATE_SHA" --benchmark-sha "$BENCHMARK_SHA" --seal "$BUNDLE_SEAL" --preset "$CALIBRATION_PRESET" --out frozen-calibration.json
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          plan=json.loads(Path('frozen-calibration.json').read_text())
+          print('plan=' + json.dumps(plan, separators=(',', ':')))
+          print('matrix=' + json.dumps(dict(group=list(range(2 if plan['preset']=='write-warm2000' else 8))), separators=(',', ':')))
+          PY
+  calibrate:
+    needs: freeze
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.freeze.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '21.0.10+7.0.LTS'
+      - name: Consume and verify original pilot runtime bytes without any JVM build
+        id: original
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CALIBRATION_PLAN: ${{ needs.freeze.outputs.plan }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          Path('frozen-calibration.json').write_text(os.environ['CALIBRATION_PLAN'])
+          PY
+          python3 -B scripts/calibration.py prepare --plan frozen-calibration.json --out artifacts
+      - name: Start the same isolated fixed MySQL configuration
+        env:
+          MYSQL_IMAGE: ${{ steps.original.outputs.mysql_image }}
+        run: python3 -B artifacts/runtime-bundle/scripts/ci_mysql.py start --image "$MYSQL_IMAGE"
+      - name: Revalidate SQL, values and lifecycle on this runner and database
+        env:
+          BUNDLE_SEAL: ${{ inputs.bundle_seal }}
+        run: python3 -B artifacts/runtime-bundle/scripts/ci_experiment.py validate --bundle artifacts/runtime-bundle --seal "$BUNDLE_SEAL" --out gate
+      - name: Six adapters on one runner using planned-formal parameters (calibration only)
+        env:
+          BUNDLE_SEAL: ${{ inputs.bundle_seal }}
+          SCENARIO_INDEX: ${{ matrix.group }}
+          CALIBRATION_PRESET: ${{ inputs.preset || 'planned-formal' }}
+        run: python3 -B scripts/calibration.py run --bundle artifacts/runtime-bundle --seal "$BUNDLE_SEAL" --gate gate --group "$SCENARIO_INDEX" --preset "$CALIBRATION_PRESET" --out calibration
+      - name: Scan actual credentials before publishing any calibration evidence
+        if: always()
+        id: audit
+        run: python3 -B scripts/secret_audit.py audit gate calibration
+      - name: Derive bounded structured observations from the verified receipts
+        if: always() && steps.audit.outcome == 'success'
+        id: summary
+        run: python3 -B scripts/calibration.py summarize --out calibration --gate gate --observations observations
+      - name: Scan every derived summary byte with the same actual credentials
+        if: always() && steps.summary.outcome == 'success'
+        id: summary_audit
+        run: python3 -B scripts/secret_audit.py audit observations
+      - name: Audited calibration samples adapter 1
+        if: always() && steps.summary_audit.outcome == 'success'
+        run: python3 -B scripts/artifact_transport.py --emit-observation observations --slot 0 --out observations
+      - name: Audited calibration samples adapter 2
+        if: always() && steps.summary_audit.outcome == 'success'
+        run: python3 -B scripts/artifact_transport.py --emit-observation observations --slot 1 --out observations
+      - name: Audited calibration samples adapter 3
+        if: always() && steps.summary_audit.outcome == 'success'
+        run: python3 -B scripts/artifact_transport.py --emit-observation observations --slot 2 --out observations
+      - name: Audited calibration samples adapter 4
+        if: always() && steps.summary_audit.outcome == 'success'
+        run: python3 -B scripts/artifact_transport.py --emit-observation observations --slot 3 --out observations
+      - name: Audited calibration samples adapter 5
+        if: always() && steps.summary_audit.outcome == 'success'
+        run: python3 -B scripts/artifact_transport.py --emit-observation observations --slot 4 --out observations
+      - name: Audited calibration samples adapter 6
+        if: always() && steps.summary_audit.outcome == 'success'
+        run: python3 -B scripts/artifact_transport.py --emit-observation observations --slot 5 --out observations
+      - name: Preserve complete or partial calibration evidence separately from formal results
+        if: always() && steps.audit.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: calibration-scenario-${{ matrix.group }}
+          path: |
+            gate
+            calibration
+          retention-days: 90
+          if-no-files-found: error
+      - name: Preserve the independently audited summary segments
+        if: always() && steps.summary_audit.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: calibration-summary-${{ matrix.group }}
+          path: observations
+          retention-days: 90
+          if-no-files-found: error
+      - name: Stop only this run's ephemeral MySQL instance
+        if: always()
+        run: |
+          if [ -f artifacts/runtime-bundle/scripts/ci_mysql.py ]; then
+            python3 -B artifacts/runtime-bundle/scripts/ci_mysql.py stop
+          fi
