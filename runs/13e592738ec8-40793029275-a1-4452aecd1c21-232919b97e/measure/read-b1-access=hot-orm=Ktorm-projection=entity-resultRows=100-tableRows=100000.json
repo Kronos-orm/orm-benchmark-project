@@ -1,0 +1,75 @@
+[
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "com.kotlinorm.benchmark.ReadBenchmark.query",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.10-7.0.LTS/x64/bin/java",
+        "jvmArgs" : [
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC",
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC"
+        ],
+        "jdkVersion" : "21.0.10",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.10+7-LTS",
+        "warmupIterations" : 5,
+        "warmupTime" : "2 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "2 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "access" : "hot",
+            "orm" : "Ktorm",
+            "projection" : "entity",
+            "resultRows" : "100",
+            "tableRows" : "100000"
+        },
+        "primaryMetric" : {
+            "score" : 811.2021586851381,
+            "scoreError" : 7.191317258720716,
+            "scoreConfidence" : [
+                804.0108414264174,
+                818.3934759438588
+            ],
+            "scorePercentiles" : {
+                "0.0" : 803.0571124046568,
+                "50.0" : 812.00529585454,
+                "90.0" : 817.0571202971189,
+                "95.0" : 817.1247377450981,
+                "99.0" : 817.1247377450981,
+                "99.9" : 817.1247377450981,
+                "99.99" : 817.1247377450981,
+                "99.999" : 817.1247377450981,
+                "99.9999" : 817.1247377450981,
+                "100.0" : 817.1247377450981
+            },
+            "scoreUnit" : "us/op",
+            "rawData" : [
+                [
+                    811.8106205357143,
+                    803.0571124046568,
+                    812.1999711733658,
+                    808.4378888888889,
+                    804.0848806270096,
+                    814.5420598534201,
+                    813.1678857723577,
+                    817.1247377450981,
+                    816.4485632653061,
+                    811.1478665855636
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    }
+]
+
+

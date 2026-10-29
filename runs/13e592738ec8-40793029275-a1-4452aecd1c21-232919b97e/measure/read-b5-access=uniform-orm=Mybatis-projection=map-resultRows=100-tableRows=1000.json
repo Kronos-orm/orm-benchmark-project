@@ -1,0 +1,75 @@
+[
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "com.kotlinorm.benchmark.ReadBenchmark.query",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.10-7.0.LTS/x64/bin/java",
+        "jvmArgs" : [
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC",
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC"
+        ],
+        "jdkVersion" : "21.0.10",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.10+7-LTS",
+        "warmupIterations" : 5,
+        "warmupTime" : "2 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "2 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "access" : "uniform",
+            "orm" : "Mybatis",
+            "projection" : "map",
+            "resultRows" : "100",
+            "tableRows" : "1000"
+        },
+        "primaryMetric" : {
+            "score" : 666.1985050235179,
+            "scoreError" : 34.61804623431047,
+            "scoreConfidence" : [
+                631.5804587892075,
+                700.8165512578283
+            ],
+            "scorePercentiles" : {
+                "0.0" : 652.3545392892077,
+                "50.0" : 657.4033290391955,
+                "90.0" : 722.7640879116883,
+                "95.0" : 727.4666167272727,
+                "99.0" : 727.4666167272727,
+                "99.9" : 727.4666167272727,
+                "99.99" : 727.4666167272727,
+                "99.999" : 727.4666167272727,
+                "99.9999" : 727.4666167272727,
+                "100.0" : 727.4666167272727
+            },
+            "scoreUnit" : "us/op",
+            "rawData" : [
+                [
+                    727.4666167272727,
+                    680.4413285714286,
+                    656.5500124712833,
+                    658.2566456071077,
+                    655.408123525557,
+                    659.7025046174142,
+                    652.3545392892077,
+                    655.529130733945,
+                    660.5743764861295,
+                    655.7017722058341
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    }
+]
+
+

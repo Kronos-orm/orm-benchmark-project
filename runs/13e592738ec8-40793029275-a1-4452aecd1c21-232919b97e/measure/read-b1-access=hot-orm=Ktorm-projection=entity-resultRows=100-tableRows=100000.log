@@ -1,0 +1,67 @@
+Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8 -Duser.timezone=UTC
+# JMH version: 1.37
+# VM version: JDK 21.0.10, OpenJDK 64-Bit Server VM, 21.0.10+7-LTS
+# VM invoker: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.10-7.0.LTS/x64/bin/java
+# VM options: -Xms1g -Xmx1g -XX:+UseG1GC -Duser.timezone=UTC -Xms1g -Xmx1g -XX:+UseG1GC -Duser.timezone=UTC
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 2 s each
+# Measurement: 10 iterations, 2 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: com.kotlinorm.benchmark.ReadBenchmark.query
+# Parameters: (access = hot, orm = Ktorm, projection = entity, resultRows = 100, tableRows = 100000)
+
+# Run progress: 0.00% complete, ETA 00:00:30
+# Fork: 1 of 1
+Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8 -Duser.timezone=UTC
+# Warmup Iteration   1: SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Oct 29, 2026 12:26:53 AM com.alibaba.druid.pool.DruidDataSource info
+INFO: {dataSource-1} inited
+1676.113 us/op
+# Warmup Iteration   2: 951.100 us/op
+# Warmup Iteration   3: 878.910 us/op
+# Warmup Iteration   4: 895.634 us/op
+# Warmup Iteration   5: 851.937 us/op
+Iteration   1: 811.811 us/op
+Iteration   2: 803.057 us/op
+Iteration   3: 812.200 us/op
+Iteration   4: 808.438 us/op
+Iteration   5: 804.085 us/op
+Iteration   6: 814.542 us/op
+Iteration   7: 813.168 us/op
+Iteration   8: 817.125 us/op
+Iteration   9: 816.449 us/op
+Iteration  10: Oct 29, 2026 12:27:37 AM com.alibaba.druid.pool.DruidDataSource info
+INFO: {dataSource-1} closing ...
+Oct 29, 2026 12:27:37 AM com.alibaba.druid.pool.DruidDataSource info
+INFO: {dataSource-1} closed
+811.148 us/op
+
+
+Result "com.kotlinorm.benchmark.ReadBenchmark.query":
+  811.202 ±(99.9%) 7.191 us/op [Average]
+  (min, avg, max) = (803.057, 811.202, 817.125), stdev = 4.757
+  CI (99.9%): [804.011, 818.393] (assumes normal distribution)
+
+
+# Run complete. Total time: 00:00:44
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark            (access)  (orm)  (projection)  (resultRows)  (tableRows)  Mode  Cnt    Score   Error  Units
+ReadBenchmark.query       hot  Ktorm        entity           100       100000  avgt   10  811.202 ± 7.191  us/op
+
+Benchmark result is saved to /home/runner/work/orm-benchmark-project/orm-benchmark-project/shard/measure/read-b1-access=hot-orm=Ktorm-projection=entity-resultRows=100-tableRows=100000.json

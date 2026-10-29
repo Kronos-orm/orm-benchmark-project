@@ -1,0 +1,75 @@
+[
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "com.kotlinorm.benchmark.ReadBenchmark.query",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.10-7.0.LTS/x64/bin/java",
+        "jvmArgs" : [
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC",
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC"
+        ],
+        "jdkVersion" : "21.0.10",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.10+7-LTS",
+        "warmupIterations" : 5,
+        "warmupTime" : "2 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "2 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "access" : "uniform",
+            "orm" : "Kronos",
+            "projection" : "entity",
+            "resultRows" : "100",
+            "tableRows" : "100000"
+        },
+        "primaryMetric" : {
+            "score" : 2327.733968765063,
+            "scoreError" : 88.74190347570723,
+            "scoreConfidence" : [
+                2238.9920652893557,
+                2416.47587224077
+            ],
+            "scorePercentiles" : {
+                "0.0" : 2253.1237764044945,
+                "50.0" : 2318.8673619338797,
+                "90.0" : 2427.9606057727246,
+                "95.0" : 2432.7465783718103,
+                "99.0" : 2432.7465783718103,
+                "99.9" : 2432.7465783718103,
+                "99.99" : 2432.7465783718103,
+                "99.999" : 2432.7465783718103,
+                "99.9999" : 2432.7465783718103,
+                "100.0" : 2432.7465783718103
+            },
+            "scoreUnit" : "us/op",
+            "rawData" : [
+                [
+                    2373.8701411625148,
+                    2384.8868523809524,
+                    2348.6127330210775,
+                    2432.7465783718103,
+                    2351.0759952996473,
+                    2288.1339657142858,
+                    2253.1237764044945,
+                    2280.0182608200457,
+                    2275.749393629124,
+                    2289.121990846682
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    }
+]
+
+

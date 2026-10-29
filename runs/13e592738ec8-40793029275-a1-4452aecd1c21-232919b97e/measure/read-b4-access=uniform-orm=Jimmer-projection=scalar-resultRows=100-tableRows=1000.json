@@ -1,0 +1,75 @@
+[
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "com.kotlinorm.benchmark.ReadBenchmark.query",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.10-7.0.LTS/x64/bin/java",
+        "jvmArgs" : [
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC",
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC"
+        ],
+        "jdkVersion" : "21.0.10",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.10+7-LTS",
+        "warmupIterations" : 5,
+        "warmupTime" : "2 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "2 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "access" : "uniform",
+            "orm" : "Jimmer",
+            "projection" : "scalar",
+            "resultRows" : "100",
+            "tableRows" : "1000"
+        },
+        "primaryMetric" : {
+            "score" : 177.98064726968485,
+            "scoreError" : 2.354706623470317,
+            "scoreConfidence" : [
+                175.62594064621453,
+                180.33535389315517
+            ],
+            "scorePercentiles" : {
+                "0.0" : 175.67463955735113,
+                "50.0" : 178.0481952093421,
+                "90.0" : 179.95565786362585,
+                "95.0" : 179.95723562753037,
+                "99.0" : 179.95723562753037,
+                "99.9" : 179.95723562753037,
+                "99.99" : 179.95723562753037,
+                "99.999" : 179.95723562753037,
+                "99.9999" : 179.95723562753037,
+                "100.0" : 179.95723562753037
+            },
+            "scoreUnit" : "us/op",
+            "rawData" : [
+                [
+                    179.95723562753037,
+                    177.11235629537808,
+                    175.99174579850418,
+                    179.3898091650973,
+                    176.85078877099912,
+                    178.29641281868425,
+                    175.67463955735113,
+                    177.7999776,
+                    179.94145798848507,
+                    178.79204907481898
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    }
+]
+
+

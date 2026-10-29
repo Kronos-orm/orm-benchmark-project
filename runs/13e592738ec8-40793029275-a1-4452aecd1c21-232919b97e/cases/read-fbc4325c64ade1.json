@@ -1,0 +1,956 @@
+{
+  "comparisons": {
+    "Jdbc": {
+      "blockBootstrapPercentile95CI": [
+        0.6465564813344452,
+        0.7481845395526607
+      ],
+      "geometricMeanLatencyRatio": 0.6955167598857704,
+      "limitation": "Five blocks provide limited bootstrap resolution; exploratory comparisons are not universal rankings",
+      "logRatioT95CI": [
+        0.6208923082250295,
+        0.7791102528953824
+      ],
+      "n": 5,
+      "pairedBlocks": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ratioDefinition": "other latency / Kronos latency; above 1 means lower measured Kronos latency",
+      "status": "COMPLETE"
+    },
+    "Jimmer": {
+      "blockBootstrapPercentile95CI": [
+        0.6804924212214984,
+        0.7926308278124823
+      ],
+      "geometricMeanLatencyRatio": 0.7344244489073853,
+      "limitation": "Five blocks provide limited bootstrap resolution; exploratory comparisons are not universal rankings",
+      "logRatioT95CI": [
+        0.6514170174170076,
+        0.8280091811105244
+      ],
+      "n": 5,
+      "pairedBlocks": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ratioDefinition": "other latency / Kronos latency; above 1 means lower measured Kronos latency",
+      "status": "COMPLETE"
+    },
+    "Jpa": {
+      "blockBootstrapPercentile95CI": [
+        0.6791137427160647,
+        0.7593997106259928
+      ],
+      "geometricMeanLatencyRatio": 0.7181356276503167,
+      "limitation": "Five blocks provide limited bootstrap resolution; exploratory comparisons are not universal rankings",
+      "logRatioT95CI": [
+        0.6569050083571911,
+        0.785073599896034
+      ],
+      "n": 5,
+      "pairedBlocks": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ratioDefinition": "other latency / Kronos latency; above 1 means lower measured Kronos latency",
+      "status": "COMPLETE"
+    },
+    "Ktorm": {
+      "blockBootstrapPercentile95CI": [
+        0.7038336059488817,
+        0.7982117139999964
+      ],
+      "geometricMeanLatencyRatio": 0.7495386774378323,
+      "limitation": "Five blocks provide limited bootstrap resolution; exploratory comparisons are not universal rankings",
+      "logRatioT95CI": [
+        0.6794451133873701,
+        0.8268633005164505
+      ],
+      "n": 5,
+      "pairedBlocks": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ratioDefinition": "other latency / Kronos latency; above 1 means lower measured Kronos latency",
+      "status": "COMPLETE"
+    },
+    "Mybatis": {
+      "blockBootstrapPercentile95CI": [
+        0.7945078034999344,
+        0.8750378042781195
+      ],
+      "geometricMeanLatencyRatio": 0.8338011536669965,
+      "limitation": "Five blocks provide limited bootstrap resolution; exploratory comparisons are not universal rankings",
+      "logRatioT95CI": [
+        0.7725338662144614,
+        0.8999273614542286
+      ],
+      "n": 5,
+      "pairedBlocks": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "ratioDefinition": "other latency / Kronos latency; above 1 means lower measured Kronos latency",
+      "status": "COMPLETE"
+    }
+  },
+  "definition": {
+    "kind": "read",
+    "parameters": {
+      "access": "uniform",
+      "projection": "scalar",
+      "resultRows": 1,
+      "tableRows": 1000
+    },
+    "primaryUnit": "us/query"
+  },
+  "details": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/cases/read-fbc4325c64ade1.json",
+  "figure": {
+    "absoluteUrls": {
+      "pdf": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/figures/18-read.pdf",
+      "png": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/figures/18-read.png",
+      "svg": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/figures/18-read.svg"
+    },
+    "pdf": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/figures/18-read.pdf",
+    "png": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/figures/18-read.png",
+    "svg": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/figures/18-read.svg"
+  },
+  "frameworks": {
+    "Jdbc": {
+      "derivedRateNote": "Reciprocal of each fork mean latency; not an independent throughput or concurrency experiment",
+      "derivedSingleThreadOperationsPerSecond": {
+        "independentUnit": "JVM fork/block",
+        "mean": 8824.968937843654,
+        "mean95CI": [
+          3553.11707032506,
+          14096.820805362247
+        ],
+        "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+        "median": 8584.80221392259,
+        "n": 5,
+        "sampleSD": 4245.796024441613
+      },
+      "derivedSingleThreadRowsPerSecond": {
+        "independentUnit": "JVM fork/block",
+        "mean": 8824.968937843654,
+        "mean95CI": [
+          3553.11707032506,
+          14096.820805362247
+        ],
+        "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+        "median": 8584.80221392259,
+        "n": 5,
+        "sampleSD": 4245.796024441613
+      },
+      "forkMeansUS": {
+        "1": 214.8745932242606,
+        "2": 216.01925810384722,
+        "3": 76.5101674339332,
+        "4": 116.48492010430108,
+        "5": 75.8334670335166
+      },
+      "independentUnit": "JVM fork/block",
+      "mean": 139.94448117997175,
+      "mean95CI": [
+        51.95618665467265,
+        227.93277570527084
+      ],
+      "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+      "median": 116.48492010430108,
+      "n": 5,
+      "operationUnit": "query",
+      "raw": [
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 1,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 2,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 3,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 4,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJdbc-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 5,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jdbc-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        }
+      ],
+      "rowsPerOperation": 1,
+      "runStatesByBlock": {
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "PASS",
+        "5": "PASS"
+      },
+      "sampleSD": 70.86321097044652,
+      "status": "COMPLETE"
+    },
+    "Jimmer": {
+      "derivedRateNote": "Reciprocal of each fork mean latency; not an independent throughput or concurrency experiment",
+      "derivedSingleThreadOperationsPerSecond": {
+        "independentUnit": "JVM fork/block",
+        "mean": 8372.607317960246,
+        "mean95CI": [
+          3303.3970495645854,
+          13441.817586355908
+        ],
+        "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+        "median": 7958.454836424696,
+        "n": 5,
+        "sampleSD": 4082.5943796375054
+      },
+      "derivedSingleThreadRowsPerSecond": {
+        "independentUnit": "JVM fork/block",
+        "mean": 8372.607317960246,
+        "mean95CI": [
+          3303.3970495645854,
+          13441.817586355908
+        ],
+        "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+        "median": 7958.454836424696,
+        "n": 5,
+        "sampleSD": 4082.5943796375054
+      },
+      "forkMeansUS": {
+        "1": 227.23499790024343,
+        "2": 227.19936974155476,
+        "3": 80.47344459700959,
+        "4": 125.65253187379349,
+        "5": 78.8894197879758
+      },
+      "independentUnit": "JVM fork/block",
+      "mean": 147.8899527801154,
+      "mean95CI": [
+        55.0009949563251,
+        240.77891060390573
+      ],
+      "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+      "median": 125.65253187379349,
+      "n": 5,
+      "operationUnit": "query",
+      "raw": [
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 1,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 2,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 3,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 4,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJimmer-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 5,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jimmer-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        }
+      ],
+      "rowsPerOperation": 1,
+      "runStatesByBlock": {
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "PASS",
+        "5": "PASS"
+      },
+      "sampleSD": 74.8100625271187,
+      "status": "COMPLETE"
+    },
+    "Jpa": {
+      "derivedRateNote": "Reciprocal of each fork mean latency; not an independent throughput or concurrency experiment",
+      "derivedSingleThreadOperationsPerSecond": {
+        "independentUnit": "JVM fork/block",
+        "mean": 8478.53735382825,
+        "mean95CI": [
+          3597.4538505890505,
+          13359.620857067448
+        ],
+        "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+        "median": 8299.766309064158,
+        "n": 5,
+        "sampleSD": 3931.082559566519
+      },
+      "derivedSingleThreadRowsPerSecond": {
+        "independentUnit": "JVM fork/block",
+        "mean": 8478.53735382825,
+        "mean95CI": [
+          3597.4538505890505,
+          13359.620857067448
+        ],
+        "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+        "median": 8299.766309064158,
+        "n": 5,
+        "sampleSD": 3931.082559566519
+      },
+      "forkMeansUS": {
+        "1": 218.21718616132114,
+        "2": 217.07540282995987,
+        "3": 79.42806208637948,
+        "4": 120.48532003942111,
+        "5": 81.21084074762521
+      },
+      "independentUnit": "JVM fork/block",
+      "mean": 143.28336237294135,
+      "mean95CI": [
+        56.565354609217465,
+        230.00137013666523
+      ],
+      "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+      "median": 120.48532003942111,
+      "n": 5,
+      "operationUnit": "query",
+      "raw": [
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 1,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 2,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 3,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 4,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DJpa-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 5,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Jpa-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        }
+      ],
+      "rowsPerOperation": 1,
+      "runStatesByBlock": {
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "PASS",
+        "5": "PASS"
+      },
+      "sampleSD": 69.84015899217927,
+      "status": "COMPLETE"
+    },
+    "Kronos": {
+      "derivedRateNote": "Reciprocal of each fork mean latency; not an independent throughput or concurrency experiment",
+      "derivedSingleThreadOperationsPerSecond": {
+        "independentUnit": "JVM fork/block",
+        "mean": 5942.977564762315,
+        "mean95CI": [
+          2966.6035611997813,
+          8919.351568324848
+        ],
+        "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+        "median": 6001.393535773217,
+        "n": 5,
+        "sampleSD": 2397.0849768063213
+      },
+      "derivedSingleThreadRowsPerSecond": {
+        "independentUnit": "JVM fork/block",
+        "mean": 5942.977564762315,
+        "mean95CI": [
+          2966.6035611997813,
+          8919.351568324848
+        ],
+        "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+        "median": 6001.393535773217,
+        "n": 5,
+        "sampleSD": 2397.0849768063213
+      },
+      "forkMeansUS": {
+        "1": 281.2292189826491,
+        "2": 285.0074279332523,
+        "3": 121.30420770853681,
+        "4": 166.62796632801724,
+        "5": 118.97314192059277
+      },
+      "independentUnit": "JVM fork/block",
+      "mean": 194.62839257460965,
+      "mean95CI": [
+        91.5772971367592,
+        297.67948801246007
+      ],
+      "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+      "median": 166.62796632801724,
+      "n": 5,
+      "operationUnit": "query",
+      "raw": [
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 1,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 2,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 3,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 4,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DKronos-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 5,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Kronos-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        }
+      ],
+      "rowsPerOperation": 1,
+      "runStatesByBlock": {
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "PASS",
+        "5": "PASS"
+      },
+      "sampleSD": 82.99435232999468,
+      "status": "COMPLETE"
+    },
+    "Ktorm": {
+      "derivedRateNote": "Reciprocal of each fork mean latency; not an independent throughput or concurrency experiment",
+      "derivedSingleThreadOperationsPerSecond": {
+        "independentUnit": "JVM fork/block",
+        "mean": 8150.424627467733,
+        "mean95CI": [
+          3375.0210116802737,
+          12925.828243255193
+        ],
+        "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+        "median": 7899.463437420706,
+        "n": 5,
+        "sampleSD": 3845.9710546756914
+      },
+      "derivedSingleThreadRowsPerSecond": {
+        "independentUnit": "JVM fork/block",
+        "mean": 8150.424627467733,
+        "mean95CI": [
+          3375.0210116802737,
+          12925.828243255193
+        ],
+        "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+        "median": 7899.463437420706,
+        "n": 5,
+        "sampleSD": 3845.9710546756914
+      },
+      "forkMeansUS": {
+        "1": 228.30511292726973,
+        "2": 229.28147541922837,
+        "3": 83.81917497786148,
+        "4": 126.59087644647863,
+        "5": 82.09735331200638
+      },
+      "independentUnit": "JVM fork/block",
+      "mean": 150.01879861656892,
+      "mean95CI": [
+        58.02687659502283,
+        242.010720638115
+      ],
+      "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+      "median": 126.59087644647863,
+      "n": 5,
+      "operationUnit": "query",
+      "raw": [
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 1,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 2,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 3,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 4,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DKtorm-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 5,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Ktorm-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        }
+      ],
+      "rowsPerOperation": 1,
+      "runStatesByBlock": {
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "PASS",
+        "5": "PASS"
+      },
+      "sampleSD": 74.08761600573285,
+      "status": "COMPLETE"
+    },
+    "Mybatis": {
+      "derivedRateNote": "Reciprocal of each fork mean latency; not an independent throughput or concurrency experiment",
+      "derivedSingleThreadOperationsPerSecond": {
+        "independentUnit": "JVM fork/block",
+        "mean": 7277.3757850109905,
+        "mean95CI": [
+          3146.0028298292227,
+          11408.748740192757
+        ],
+        "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+        "median": 7058.181409887847,
+        "n": 5,
+        "sampleSD": 3327.2875090954894
+      },
+      "derivedSingleThreadRowsPerSecond": {
+        "independentUnit": "JVM fork/block",
+        "mean": 7277.3757850109905,
+        "mean95CI": [
+          3146.0028298292227,
+          11408.748740192757
+        ],
+        "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+        "median": 7058.181409887847,
+        "n": 5,
+        "sampleSD": 3327.2875090954894
+      },
+      "forkMeansUS": {
+        "1": 249.28119280593546,
+        "2": 249.75517822545754,
+        "3": 94.61989113567121,
+        "4": 141.67955482117452,
+        "5": 93.06965957497006
+      },
+      "independentUnit": "JVM fork/block",
+      "mean": 165.68109531264176,
+      "mean95CI": [
+        67.60611427654699,
+        263.75607634873654
+      ],
+      "mean95CIAssumption": "Student t interval over independent fork means; approximately normal fork means",
+      "median": 141.67955482117452,
+      "n": 5,
+      "operationUnit": "query",
+      "raw": [
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 1,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b1-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 2,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b2-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 3,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b3-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 4,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b4-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        },
+        {
+          "absoluteUrls": {
+            "csvPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.csv",
+            "logPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.log",
+            "path": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "rawPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.json",
+            "statusPath": "https://raw.githubusercontent.com/Kronos-orm/orm-benchmark-project/result/runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access%3Duniform-orm%3DMybatis-projection%3Dscalar-resultRows%3D1-tableRows%3D1000.status.json"
+          },
+          "block": 5,
+          "csvPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.csv",
+          "logPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.log",
+          "path": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.json",
+          "rawPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.json",
+          "status": "PASS",
+          "statusPath": "runs/13e592738ec8-40793029275-a1-4452aecd1c21-232919b97e/measure/read-b5-access=uniform-orm=Mybatis-projection=scalar-resultRows=1-tableRows=1000.status.json"
+        }
+      ],
+      "rowsPerOperation": 1,
+      "runStatesByBlock": {
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "PASS",
+        "5": "PASS"
+      },
+      "sampleSD": 78.9867346512215,
+      "status": "COMPLETE"
+    }
+  },
+  "id": "read-fbc4325c64ade1",
+  "key": "read:{\"access\": \"uniform\", \"projection\": \"scalar\", \"resultRows\": 1, \"tableRows\": 1000}",
+  "rowCountSensitivity": {}
+}

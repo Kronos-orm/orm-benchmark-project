@@ -1,0 +1,75 @@
+[
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "com.kotlinorm.benchmark.ReadBenchmark.query",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.10-7.0.LTS/x64/bin/java",
+        "jvmArgs" : [
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC",
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC"
+        ],
+        "jdkVersion" : "21.0.10",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.10+7-LTS",
+        "warmupIterations" : 5,
+        "warmupTime" : "2 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "2 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "access" : "uniform",
+            "orm" : "Mybatis",
+            "projection" : "entity",
+            "resultRows" : "1",
+            "tableRows" : "100000"
+        },
+        "primaryMetric" : {
+            "score" : 180.62425712538146,
+            "scoreError" : 5.033908279687605,
+            "scoreConfidence" : [
+                175.59034884569385,
+                185.65816540506907
+            ],
+            "scorePercentiles" : {
+                "0.0" : 175.8030565125681,
+                "50.0" : 179.85450980727268,
+                "90.0" : 185.47629191866108,
+                "95.0" : 185.59183433818754,
+                "99.0" : 185.59183433818754,
+                "99.9" : 185.59183433818754,
+                "99.99" : 185.59183433818754,
+                "99.999" : 185.59183433818754,
+                "99.9999" : 185.59183433818754,
+                "100.0" : 185.59183433818754
+            },
+            "scoreUnit" : "us/op",
+            "rawData" : [
+                [
+                    185.59183433818754,
+                    178.40449134855513,
+                    183.90808790300358,
+                    181.30452826599023,
+                    178.09739316239316,
+                    178.32680092716413,
+                    184.436410142923,
+                    175.8030565125681,
+                    178.0517951045839,
+                    182.3181735484459
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    }
+]
+
+

@@ -1,0 +1,75 @@
+[
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "com.kotlinorm.benchmark.ReadBenchmark.query",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.10-7.0.LTS/x64/bin/java",
+        "jvmArgs" : [
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC",
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC"
+        ],
+        "jdkVersion" : "21.0.10",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.10+7-LTS",
+        "warmupIterations" : 5,
+        "warmupTime" : "2 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "2 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "access" : "uniform",
+            "orm" : "Kronos",
+            "projection" : "scalar",
+            "resultRows" : "1",
+            "tableRows" : "100000"
+        },
+        "primaryMetric" : {
+            "score" : 114.30873550542599,
+            "scoreError" : 3.7792216154567546,
+            "scoreConfidence" : [
+                110.52951388996924,
+                118.08795712088273
+            ],
+            "scorePercentiles" : {
+                "0.0" : 111.31146229617674,
+                "50.0" : 114.24823117402907,
+                "90.0" : 119.12888678729722,
+                "95.0" : 119.43121781705278,
+                "99.0" : 119.43121781705278,
+                "99.9" : 119.43121781705278,
+                "99.99" : 119.43121781705278,
+                "99.999" : 119.43121781705278,
+                "99.9999" : 119.43121781705278,
+                "100.0" : 119.43121781705278
+            },
+            "scoreUnit" : "us/op",
+            "rawData" : [
+                [
+                    119.43121781705278,
+                    115.84716147341597,
+                    112.43056127037661,
+                    116.40790751949714,
+                    114.49498528906697,
+                    114.00147705899117,
+                    115.02999200598114,
+                    112.12450826840069,
+                    112.00808205530058,
+                    111.31146229617674
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    }
+]
+
+

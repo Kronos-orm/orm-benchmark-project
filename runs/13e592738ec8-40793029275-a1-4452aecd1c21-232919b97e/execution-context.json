@@ -1,0 +1,45 @@
+{
+  "controller": {
+    "gitSha": "64aee4260df853cf8d6d6b25c883abb6240b4b01",
+    "snapshotFile": "controller-source-64aee4260df853cf.tar.gz",
+    "snapshotSha256": "455ec279d9cbc5c92fd2d31a58b8a0eeeb26d89452a3d20bb27fcae4565b9fd7",
+    "sourceFiles": {
+      ".github/workflows/calibration.yml": "631c31062bf0ec69580bc66ed06239773d75f9ccc793ec25feae6c329d13b336",
+      ".github/workflows/diagnostics.yml": "9684aa7fff850be88a1928db7e7a7409103f77ae572216372c5ab94e0b11e51d",
+      ".github/workflows/experiment.yml": "54edcb064b99b92ad4aecd76f332099621f5ffa51271cc00dc9211c05a87e220",
+      ".github/workflows/measure-sealed.yml": "579039885e1282c7359bca79614ee4d6ce0d338a7cb932b254c3717e0cf43190",
+      "README.md": "3d9dd9f693b2349cf4442844ff0f15bf8257ef6a49977d2453b9f542fb4f53d5",
+      "config/formal.json": "78098ea6f7aac6264bbf3bb28f7e72bccaa53449e44a423433e69d22b6bb5b15",
+      "config/mysql.json": "07be891af7c1e3563f4cd009da99fe992d31ec642a959439ef9322ccf3699095",
+      "scripts/analyze_results.py": "0b28047d6d110e66fede813961666f1a98c5820270e71a38455ca5041665ae5a",
+      "scripts/artifact_transport.py": "571f96cdfeffd1f4a730465f025f67e655856b606cbf7124dda4be1e5012992d",
+      "scripts/calibration.py": "8f8e1c089ed8ccb9f00cf44cbb36b4052d23b06dac4e0d59395e369e68a2d9be",
+      "scripts/ci_experiment.py": "04b864d119649fb1f288bc648f255e22fa64b7c7b2125c4c0557a0757d965488",
+      "scripts/ci_mysql.py": "a9fc9124e01179ef3c512bac9e264a84dd6d09848807a59ea965673bc8d0e93c",
+      "scripts/execution_protocol.py": "ca38780dc4be15f8337bf3c95686da65b9ba8094246b96f602c08f3003448ebb",
+      "scripts/export_publication.py": "d7ba68b5e32eb8190581b9214357f97f00605977d74108e2d198768573d5a795",
+      "scripts/manage_mysql.py": "ad930d4aed63af27ef925a9e7c00d4e0d264a2147fb9c161ef453cf445b7549b",
+      "scripts/publication_markdown.py": "0ecdd1170c712f991ddca864f69c2a34e2544320fa96d69a15d6d74f3f43dd7d",
+      "scripts/resolve_ci.py": "089c053f8e9b54958ecc264a00db2e1e952a7fe9e571d80be972262d8dd50d49",
+      "scripts/run_experiment.py": "6785b715bc73959e2d4a252ac59d9a2d0d8a28d0f4bce0594cd6559bdd07525d",
+      "scripts/secret_audit.py": "1bdec157536de2223196eaaf7a6eb01af3a75c92c052b9bf30a238aaeee26b9a",
+      "scripts/test_ci_contract.py": "a4aa1b6e53104ba79359c92ff24e75ce6fd5cb68fcd92ebc9589ccd469d5c682",
+      "scripts/validate_publication.py": "1ba9fc0d4990d85e35dcc1e426f950576d25101ec7e9b633853d4d451073fccb"
+    },
+    "sourceTreeSha256": "454dcc4834f627ddb50ec3ed13ff7c86f6352b083d98bb2123dd3188c2e77430"
+  },
+  "measurementRunAttempt": "1",
+  "measurementRunId": "40793029275",
+  "protocolFile": "config/formal.json",
+  "protocolJSON": "{\n  \"blocks\": 5,\n  \"calibrationEvidence\": {\n    \"read\": {\n      \"controllerGitSha\": \"0fd75efcfbdeb4a3abb647bf503207733268e2bd\",\n      \"runId\": \"40641317494\"\n    },\n    \"write\": {\n      \"controllerGitSha\": \"24fc586b39be12e8eafc881c0b0a402f1163e47e\",\n      \"runId\": \"40642271051\"\n    }\n  },\n  \"caseScheduleSha256\": \"1f50ef75c4ffc8582ff11a23273748c15b15c73734faa89c49516f120bcc2622\",\n  \"classification\": \"FORMAL\",\n  \"expectedCells\": 780,\n  \"forksPerCell\": 1,\n  \"interpretation\": {\n    \"environment\": \"All six adapters share runner VM and DB per case/block; physical host and neighbors uncontrolled\",\n    \"outliers\": \"All iterations and forks retained; no selective deletion/retries\",\n    \"sampleUnit\": \"Five independent fork/block means; iterations averaged within fork\",\n    \"write\": \"First assigned-key row-wise INSERT transaction after TRUNCATE reset outside timing; execution and COMMIT timed. Not sustained append throughput.\"\n  },\n  \"maxParallel\": 8,\n  \"name\": \"formal-v2-runtime1497\",\n  \"runtime\": {\n    \"benchmarkGitSha\": \"1497bd730b6d598879fb09774fe6d48e4c9e2f03\",\n    \"bundleSha256\": \"0f4e4532a9fa5086265abdb3af55c4e9e606d10aca5fb32cec7b793a5021f02e\",\n    \"candidateGitSha\": \"13e592738ec885ec6a233737ef501c221ab1daa4\",\n    \"producerRunId\": \"40637176946\",\n    \"sourceSha256\": \"4452aecd1c213bf599ad6190600125af13bfddeb44a3a896377817b66a13729c\"\n  },\n  \"schemaVersion\": 1,\n  \"seed\": 2026102704,\n  \"timing\": {\n    \"read\": [\n      \"-bm\",\n      \"avgt\",\n      \"-tu\",\n      \"us\",\n      \"-wi\",\n      \"5\",\n      \"-w\",\n      \"2s\",\n      \"-i\",\n      \"10\",\n      \"-r\",\n      \"2s\"\n    ],\n    \"write\": [\n      \"-bm\",\n      \"ss\",\n      \"-tu\",\n      \"us\",\n      \"-wi\",\n      \"2000\",\n      \"-i\",\n      \"300\",\n      \"-bs\",\n      \"1\",\n      \"-wbs\",\n      \"1\"\n    ]\n  }\n}\n",
+  "protocolSha256": "78098ea6f7aac6264bbf3bb28f7e72bccaa53449e44a423433e69d22b6bb5b15",
+  "runtime": {
+    "benchmarkGitSha": "1497bd730b6d598879fb09774fe6d48e4c9e2f03",
+    "bundleSha256": "0f4e4532a9fa5086265abdb3af55c4e9e606d10aca5fb32cec7b793a5021f02e",
+    "candidateGitSha": "13e592738ec885ec6a233737ef501c221ab1daa4",
+    "producerRunId": "40637176946",
+    "runtimeSha256": "40c8a71207de3a81e1d3cc74088464a09c4f4813e16d1ab59509c69dc5a0d800",
+    "sourceSha256": "4452aecd1c213bf599ad6190600125af13bfddeb44a3a896377817b66a13729c"
+  },
+  "schemaVersion": 1
+}

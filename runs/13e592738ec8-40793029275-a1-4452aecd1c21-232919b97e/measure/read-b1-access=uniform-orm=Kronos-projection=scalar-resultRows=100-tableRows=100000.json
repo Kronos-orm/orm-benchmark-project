@@ -1,0 +1,75 @@
+[
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "com.kotlinorm.benchmark.ReadBenchmark.query",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.10-7.0.LTS/x64/bin/java",
+        "jvmArgs" : [
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC",
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC"
+        ],
+        "jdkVersion" : "21.0.10",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.10+7-LTS",
+        "warmupIterations" : 5,
+        "warmupTime" : "2 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "2 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "access" : "uniform",
+            "orm" : "Kronos",
+            "projection" : "scalar",
+            "resultRows" : "100",
+            "tableRows" : "100000"
+        },
+        "primaryMetric" : {
+            "score" : 421.87304422083196,
+            "scoreError" : 4.722953213065611,
+            "scoreConfidence" : [
+                417.1500910077663,
+                426.5959974338976
+            ],
+            "scorePercentiles" : {
+                "0.0" : 418.22792912398074,
+                "50.0" : 421.69297536268726,
+                "90.0" : 427.4827735747856,
+                "95.0" : 427.78101561163385,
+                "99.0" : 427.78101561163385,
+                "99.9" : 427.78101561163385,
+                "99.99" : 427.78101561163385,
+                "99.999" : 427.78101561163385,
+                "99.9999" : 427.78101561163385,
+                "100.0" : 427.78101561163385
+            },
+            "scoreUnit" : "us/op",
+            "rawData" : [
+                [
+                    427.78101561163385,
+                    424.7985952431514,
+                    419.2464495912807,
+                    418.22792912398074,
+                    424.5080515704584,
+                    421.54555342465756,
+                    419.9307319479429,
+                    421.840397300717,
+                    422.5670492184199,
+                    418.28466917607693
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    }
+]
+
+

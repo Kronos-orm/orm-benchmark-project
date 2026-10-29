@@ -1,0 +1,75 @@
+[
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "com.kotlinorm.benchmark.ReadBenchmark.query",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.10-7.0.LTS/x64/bin/java",
+        "jvmArgs" : [
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC",
+            "-Xms1g",
+            "-Xmx1g",
+            "-XX:+UseG1GC",
+            "-Duser.timezone=UTC"
+        ],
+        "jdkVersion" : "21.0.10",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "21.0.10+7-LTS",
+        "warmupIterations" : 5,
+        "warmupTime" : "2 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 10,
+        "measurementTime" : "2 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "access" : "uniform",
+            "orm" : "Mybatis",
+            "projection" : "scalar",
+            "resultRows" : "100",
+            "tableRows" : "1000"
+        },
+        "primaryMetric" : {
+            "score" : 209.39972211392336,
+            "scoreError" : 5.184306998024627,
+            "scoreConfidence" : [
+                204.21541511589874,
+                214.58402911194798
+            ],
+            "scorePercentiles" : {
+                "0.0" : 202.47332938556534,
+                "50.0" : 209.54776979507244,
+                "90.0" : 213.16254204662377,
+                "95.0" : 213.16365134099618,
+                "99.0" : 213.16365134099618,
+                "99.9" : 213.16365134099618,
+                "99.99" : 213.16365134099618,
+                "99.999" : 213.16365134099618,
+                "99.9999" : 213.16365134099618,
+                "100.0" : 213.16365134099618
+            },
+            "scoreUnit" : "us/op",
+            "rawData" : [
+                [
+                    209.85440526647085,
+                    213.15255839727195,
+                    213.16365134099618,
+                    212.3017620462747,
+                    211.91327754237287,
+                    209.24113432367403,
+                    207.53564256069723,
+                    206.3719542969153,
+                    207.98950597899554,
+                    202.47332938556534
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    }
+]
+
+

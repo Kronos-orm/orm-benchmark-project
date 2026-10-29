@@ -1,0 +1,2380 @@
+Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8 -Duser.timezone=UTC
+# JMH version: 1.37
+# VM version: JDK 21.0.10, OpenJDK 64-Bit Server VM, 21.0.10+7-LTS
+# VM invoker: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.10-7.0.LTS/x64/bin/java
+# VM options: -Xms1g -Xmx1g -XX:+UseG1GC -Duser.timezone=UTC -Xms1g -Xmx1g -XX:+UseG1GC -Duser.timezone=UTC
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 2000 iterations, single-shot each
+# Measurement: 300 iterations, single-shot each
+# Timeout: 10 min per iteration
+# Threads: 1 thread
+# Benchmark mode: Single shot invocation time
+# Benchmark: com.kotlinorm.benchmark.InsertBenchmark.insertTransaction
+# Parameters: (orm = Mybatis, transactionRows = 100)
+
+# Run progress: 0.00% complete, ETA 00:00:02
+# Fork: 1 of 1
+Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF-8 -Duser.timezone=UTC
+# Warmup Iteration   1: SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Oct 29, 2026 1:25:08 AM com.alibaba.druid.pool.DruidDataSource info
+INFO: {dataSource-1} inited
+227609.307 us/op
+# Warmup Iteration   2: 117136.340 us/op
+# Warmup Iteration   3: 87200.040 us/op
+# Warmup Iteration   4: 96060.292 us/op
+# Warmup Iteration   5: 93193.382 us/op
+# Warmup Iteration   6: 93153.019 us/op
+# Warmup Iteration   7: 71475.346 us/op
+# Warmup Iteration   8: 73490.232 us/op
+# Warmup Iteration   9: 75191.206 us/op
+# Warmup Iteration  10: 60156.830 us/op
+# Warmup Iteration  11: 65585.520 us/op
+# Warmup Iteration  12: 60428.864 us/op
+# Warmup Iteration  13: 65947.290 us/op
+# Warmup Iteration  14: 62882.326 us/op
+# Warmup Iteration  15: 57916.913 us/op
+# Warmup Iteration  16: 58195.707 us/op
+# Warmup Iteration  17: 62267.171 us/op
+# Warmup Iteration  18: 54334.324 us/op
+# Warmup Iteration  19: 58759.937 us/op
+# Warmup Iteration  20: 51518.578 us/op
+# Warmup Iteration  21: 51033.325 us/op
+# Warmup Iteration  22: 48567.823 us/op
+# Warmup Iteration  23: 54663.800 us/op
+# Warmup Iteration  24: 49944.241 us/op
+# Warmup Iteration  25: 51125.521 us/op
+# Warmup Iteration  26: 52325.657 us/op
+# Warmup Iteration  27: 58283.261 us/op
+# Warmup Iteration  28: 54367.764 us/op
+# Warmup Iteration  29: 54558.836 us/op
+# Warmup Iteration  30: 53639.843 us/op
+# Warmup Iteration  31: 53760.595 us/op
+# Warmup Iteration  32: 54682.836 us/op
+# Warmup Iteration  33: 48485.453 us/op
+# Warmup Iteration  34: 51448.759 us/op
+# Warmup Iteration  35: 54392.477 us/op
+# Warmup Iteration  36: 49647.694 us/op
+# Warmup Iteration  37: 49605.656 us/op
+# Warmup Iteration  38: 46008.035 us/op
+# Warmup Iteration  39: 50922.550 us/op
+# Warmup Iteration  40: 53983.402 us/op
+# Warmup Iteration  41: 54409.846 us/op
+# Warmup Iteration  42: 48556.767 us/op
+# Warmup Iteration  43: 48720.088 us/op
+# Warmup Iteration  44: 49123.038 us/op
+# Warmup Iteration  45: 49282.545 us/op
+# Warmup Iteration  46: 50812.012 us/op
+# Warmup Iteration  47: 49400.353 us/op
+# Warmup Iteration  48: 54193.366 us/op
+# Warmup Iteration  49: 48514.097 us/op
+# Warmup Iteration  50: 51768.252 us/op
+# Warmup Iteration  51: 60729.718 us/op
+# Warmup Iteration  52: 60283.801 us/op
+# Warmup Iteration  53: 53524.660 us/op
+# Warmup Iteration  54: 53882.599 us/op
+# Warmup Iteration  55: 53262.617 us/op
+# Warmup Iteration  56: 49525.314 us/op
+# Warmup Iteration  57: 52717.162 us/op
+# Warmup Iteration  58: 52253.278 us/op
+# Warmup Iteration  59: 45986.034 us/op
+# Warmup Iteration  60: 46102.580 us/op
+# Warmup Iteration  61: 46185.371 us/op
+# Warmup Iteration  62: 48323.866 us/op
+# Warmup Iteration  63: 49118.954 us/op
+# Warmup Iteration  64: 55228.034 us/op
+# Warmup Iteration  65: 51464.819 us/op
+# Warmup Iteration  66: 50046.163 us/op
+# Warmup Iteration  67: 50630.764 us/op
+# Warmup Iteration  68: 50464.636 us/op
+# Warmup Iteration  69: 52025.473 us/op
+# Warmup Iteration  70: 49972.325 us/op
+# Warmup Iteration  71: 50659.696 us/op
+# Warmup Iteration  72: 45432.223 us/op
+# Warmup Iteration  73: 45064.138 us/op
+# Warmup Iteration  74: 46706.124 us/op
+# Warmup Iteration  75: 49631.297 us/op
+# Warmup Iteration  76: 49700.671 us/op
+# Warmup Iteration  77: 51007.791 us/op
+# Warmup Iteration  78: 45073.038 us/op
+# Warmup Iteration  79: 46133.819 us/op
+# Warmup Iteration  80: 45012.441 us/op
+# Warmup Iteration  81: 45868.109 us/op
+# Warmup Iteration  82: 45539.512 us/op
+# Warmup Iteration  83: 44580.573 us/op
+# Warmup Iteration  84: 44921.553 us/op
+# Warmup Iteration  85: 44667.015 us/op
+# Warmup Iteration  86: 45450.810 us/op
+# Warmup Iteration  87: 47822.751 us/op
+# Warmup Iteration  88: 51403.201 us/op
+# Warmup Iteration  89: 48167.416 us/op
+# Warmup Iteration  90: 44269.358 us/op
+# Warmup Iteration  91: 44140.545 us/op
+# Warmup Iteration  92: 44820.473 us/op
+# Warmup Iteration  93: 44778.662 us/op
+# Warmup Iteration  94: 44994.460 us/op
+# Warmup Iteration  95: 43936.953 us/op
+# Warmup Iteration  96: 45916.523 us/op
+# Warmup Iteration  97: 53021.985 us/op
+# Warmup Iteration  98: 54498.780 us/op
+# Warmup Iteration  99: 44290.136 us/op
+# Warmup Iteration 100: 43421.798 us/op
+# Warmup Iteration 101: 43697.263 us/op
+# Warmup Iteration 102: 43643.439 us/op
+# Warmup Iteration 103: 44320.066 us/op
+# Warmup Iteration 104: 43552.304 us/op
+# Warmup Iteration 105: 43842.769 us/op
+# Warmup Iteration 106: 44063.661 us/op
+# Warmup Iteration 107: 43733.100 us/op
+# Warmup Iteration 108: 48476.183 us/op
+# Warmup Iteration 109: 46403.110 us/op
+# Warmup Iteration 110: 43624.776 us/op
+# Warmup Iteration 111: 43565.725 us/op
+# Warmup Iteration 112: 43721.796 us/op
+# Warmup Iteration 113: 43638.322 us/op
+# Warmup Iteration 114: 46618.349 us/op
+# Warmup Iteration 115: 43868.327 us/op
+# Warmup Iteration 116: 47045.011 us/op
+# Warmup Iteration 117: 43698.077 us/op
+# Warmup Iteration 118: 45703.623 us/op
+# Warmup Iteration 119: 42968.804 us/op
+# Warmup Iteration 120: 42242.787 us/op
+# Warmup Iteration 121: 42970.738 us/op
+# Warmup Iteration 122: 43712.730 us/op
+# Warmup Iteration 123: 43029.738 us/op
+# Warmup Iteration 124: 43657.839 us/op
+# Warmup Iteration 125: 43217.754 us/op
+# Warmup Iteration 126: 43373.652 us/op
+# Warmup Iteration 127: 45764.831 us/op
+# Warmup Iteration 128: 44605.649 us/op
+# Warmup Iteration 129: 57088.877 us/op
+# Warmup Iteration 130: 52437.147 us/op
+# Warmup Iteration 131: 43543.401 us/op
+# Warmup Iteration 132: 42317.507 us/op
+# Warmup Iteration 133: 47434.606 us/op
+# Warmup Iteration 134: 51638.956 us/op
+# Warmup Iteration 135: 42780.420 us/op
+# Warmup Iteration 136: 42705.669 us/op
+# Warmup Iteration 137: 42616.332 us/op
+# Warmup Iteration 138: 42454.076 us/op
+# Warmup Iteration 139: 43521.373 us/op
+# Warmup Iteration 140: 43219.304 us/op
+# Warmup Iteration 141: 42791.391 us/op
+# Warmup Iteration 142: 42683.029 us/op
+# Warmup Iteration 143: 43334.389 us/op
+# Warmup Iteration 144: 42990.255 us/op
+# Warmup Iteration 145: 42634.875 us/op
+# Warmup Iteration 146: 43444.085 us/op
+# Warmup Iteration 147: 42236.526 us/op
+# Warmup Iteration 148: 43168.911 us/op
+# Warmup Iteration 149: 45562.088 us/op
+# Warmup Iteration 150: 42540.227 us/op
+# Warmup Iteration 151: 42324.301 us/op
+# Warmup Iteration 152: 46057.957 us/op
+# Warmup Iteration 153: 43075.586 us/op
+# Warmup Iteration 154: 43460.780 us/op
+# Warmup Iteration 155: 42514.216 us/op
+# Warmup Iteration 156: 42439.440 us/op
+# Warmup Iteration 157: 42570.717 us/op
+# Warmup Iteration 158: 42553.379 us/op
+# Warmup Iteration 159: 42197.303 us/op
+# Warmup Iteration 160: 42404.719 us/op
+# Warmup Iteration 161: 42544.526 us/op
+# Warmup Iteration 162: 43020.957 us/op
+# Warmup Iteration 163: 42328.767 us/op
+# Warmup Iteration 164: 42793.513 us/op
+# Warmup Iteration 165: 42535.157 us/op
+# Warmup Iteration 166: 43354.948 us/op
+# Warmup Iteration 167: 42820.634 us/op
+# Warmup Iteration 168: 42857.310 us/op
+# Warmup Iteration 169: 42602.704 us/op
+# Warmup Iteration 170: 42692.060 us/op
+# Warmup Iteration 171: 46171.541 us/op
+# Warmup Iteration 172: 43135.425 us/op
+# Warmup Iteration 173: 42402.766 us/op
+# Warmup Iteration 174: 42318.340 us/op
+# Warmup Iteration 175: 42522.674 us/op
+# Warmup Iteration 176: 42360.352 us/op
+# Warmup Iteration 177: 43388.724 us/op
+# Warmup Iteration 178: 42282.460 us/op
+# Warmup Iteration 179: 43163.990 us/op
+# Warmup Iteration 180: 40532.211 us/op
+# Warmup Iteration 181: 40391.883 us/op
+# Warmup Iteration 182: 40683.628 us/op
+# Warmup Iteration 183: 41238.160 us/op
+# Warmup Iteration 184: 41292.299 us/op
+# Warmup Iteration 185: 41190.608 us/op
+# Warmup Iteration 186: 40817.109 us/op
+# Warmup Iteration 187: 40697.735 us/op
+# Warmup Iteration 188: 41347.438 us/op
+# Warmup Iteration 189: 40761.895 us/op
+# Warmup Iteration 190: 40495.235 us/op
+# Warmup Iteration 191: 44404.693 us/op
+# Warmup Iteration 192: 40960.081 us/op
+# Warmup Iteration 193: 40526.473 us/op
+# Warmup Iteration 194: 40998.337 us/op
+# Warmup Iteration 195: 41333.389 us/op
+# Warmup Iteration 196: 40038.997 us/op
+# Warmup Iteration 197: 40524.613 us/op
+# Warmup Iteration 198: 40399.577 us/op
+# Warmup Iteration 199: 39960.268 us/op
+# Warmup Iteration 200: 41592.483 us/op
+# Warmup Iteration 201: 41222.778 us/op
+# Warmup Iteration 202: 40557.001 us/op
+# Warmup Iteration 203: 40345.242 us/op
+# Warmup Iteration 204: 40886.723 us/op
+# Warmup Iteration 205: 40821.879 us/op
+# Warmup Iteration 206: 40915.193 us/op
+# Warmup Iteration 207: 42274.889 us/op
+# Warmup Iteration 208: 40686.664 us/op
+# Warmup Iteration 209: 40887.612 us/op
+# Warmup Iteration 210: 40475.698 us/op
+# Warmup Iteration 211: 44025.751 us/op
+# Warmup Iteration 212: 40139.799 us/op
+# Warmup Iteration 213: 39881.180 us/op
+# Warmup Iteration 214: 40822.052 us/op
+# Warmup Iteration 215: 40590.313 us/op
+# Warmup Iteration 216: 48246.309 us/op
+# Warmup Iteration 217: 40691.436 us/op
+# Warmup Iteration 218: 39622.281 us/op
+# Warmup Iteration 219: 40453.674 us/op
+# Warmup Iteration 220: 40121.009 us/op
+# Warmup Iteration 221: 41171.045 us/op
+# Warmup Iteration 222: 40212.015 us/op
+# Warmup Iteration 223: 40636.087 us/op
+# Warmup Iteration 224: 40211.081 us/op
+# Warmup Iteration 225: 40369.758 us/op
+# Warmup Iteration 226: 40969.625 us/op
+# Warmup Iteration 227: 40237.277 us/op
+# Warmup Iteration 228: 40268.238 us/op
+# Warmup Iteration 229: 40003.547 us/op
+# Warmup Iteration 230: 40332.208 us/op
+# Warmup Iteration 231: 44654.290 us/op
+# Warmup Iteration 232: 40572.259 us/op
+# Warmup Iteration 233: 40365.824 us/op
+# Warmup Iteration 234: 40719.586 us/op
+# Warmup Iteration 235: 40772.513 us/op
+# Warmup Iteration 236: 40209.438 us/op
+# Warmup Iteration 237: 40378.762 us/op
+# Warmup Iteration 238: 40880.268 us/op
+# Warmup Iteration 239: 40461.792 us/op
+# Warmup Iteration 240: 40391.931 us/op
+# Warmup Iteration 241: 40818.672 us/op
+# Warmup Iteration 242: 40708.124 us/op
+# Warmup Iteration 243: 41147.660 us/op
+# Warmup Iteration 244: 40571.918 us/op
+# Warmup Iteration 245: 40475.958 us/op
+# Warmup Iteration 246: 40422.264 us/op
+# Warmup Iteration 247: 41879.506 us/op
+# Warmup Iteration 248: 40326.811 us/op
+# Warmup Iteration 249: 41473.830 us/op
+# Warmup Iteration 250: 40491.357 us/op
+# Warmup Iteration 251: 45043.277 us/op
+# Warmup Iteration 252: 43004.838 us/op
+# Warmup Iteration 253: 41038.876 us/op
+# Warmup Iteration 254: 40818.549 us/op
+# Warmup Iteration 255: 40305.705 us/op
+# Warmup Iteration 256: 40877.977 us/op
+# Warmup Iteration 257: 41208.805 us/op
+# Warmup Iteration 258: 40184.393 us/op
+# Warmup Iteration 259: 40659.413 us/op
+# Warmup Iteration 260: 42264.011 us/op
+# Warmup Iteration 261: 40626.792 us/op
+# Warmup Iteration 262: 40621.972 us/op
+# Warmup Iteration 263: 40909.445 us/op
+# Warmup Iteration 264: 40405.054 us/op
+# Warmup Iteration 265: 41056.880 us/op
+# Warmup Iteration 266: 40637.913 us/op
+# Warmup Iteration 267: 40463.452 us/op
+# Warmup Iteration 268: 41368.034 us/op
+# Warmup Iteration 269: 41467.569 us/op
+# Warmup Iteration 270: 40525.889 us/op
+# Warmup Iteration 271: 45389.040 us/op
+# Warmup Iteration 272: 40311.141 us/op
+# Warmup Iteration 273: 40858.618 us/op
+# Warmup Iteration 274: 40121.690 us/op
+# Warmup Iteration 275: 41145.944 us/op
+# Warmup Iteration 276: 40861.245 us/op
+# Warmup Iteration 277: 40313.329 us/op
+# Warmup Iteration 278: 40049.814 us/op
+# Warmup Iteration 279: 40637.731 us/op
+# Warmup Iteration 280: 40952.842 us/op
+# Warmup Iteration 281: 40661.656 us/op
+# Warmup Iteration 282: 41048.975 us/op
+# Warmup Iteration 283: 40614.509 us/op
+# Warmup Iteration 284: 40278.968 us/op
+# Warmup Iteration 285: 40815.806 us/op
+# Warmup Iteration 286: 41059.656 us/op
+# Warmup Iteration 287: 40047.376 us/op
+# Warmup Iteration 288: 40073.011 us/op
+# Warmup Iteration 289: 39788.856 us/op
+# Warmup Iteration 290: 40568.532 us/op
+# Warmup Iteration 291: 48657.782 us/op
+# Warmup Iteration 292: 40875.096 us/op
+# Warmup Iteration 293: 39787.775 us/op
+# Warmup Iteration 294: 40879.246 us/op
+# Warmup Iteration 295: 41124.046 us/op
+# Warmup Iteration 296: 40198.570 us/op
+# Warmup Iteration 297: 39978.814 us/op
+# Warmup Iteration 298: 40182.845 us/op
+# Warmup Iteration 299: 40048.234 us/op
+# Warmup Iteration 300: 40599.450 us/op
+# Warmup Iteration 301: 40697.128 us/op
+# Warmup Iteration 302: 40597.948 us/op
+# Warmup Iteration 303: 40548.167 us/op
+# Warmup Iteration 304: 40908.345 us/op
+# Warmup Iteration 305: 40401.022 us/op
+# Warmup Iteration 306: 40440.763 us/op
+# Warmup Iteration 307: 40892.311 us/op
+# Warmup Iteration 308: 40370.884 us/op
+# Warmup Iteration 309: 42260.331 us/op
+# Warmup Iteration 310: 41229.547 us/op
+# Warmup Iteration 311: 42616.951 us/op
+# Warmup Iteration 312: 40534.179 us/op
+# Warmup Iteration 313: 40533.076 us/op
+# Warmup Iteration 314: 40487.391 us/op
+# Warmup Iteration 315: 40010.201 us/op
+# Warmup Iteration 316: 41192.839 us/op
+# Warmup Iteration 317: 40547.080 us/op
+# Warmup Iteration 318: 39659.384 us/op
+# Warmup Iteration 319: 40314.175 us/op
+# Warmup Iteration 320: 42892.148 us/op
+# Warmup Iteration 321: 40480.501 us/op
+# Warmup Iteration 322: 40949.326 us/op
+# Warmup Iteration 323: 40223.014 us/op
+# Warmup Iteration 324: 40131.770 us/op
+# Warmup Iteration 325: 40971.142 us/op
+# Warmup Iteration 326: 40096.563 us/op
+# Warmup Iteration 327: 40676.309 us/op
+# Warmup Iteration 328: 40695.194 us/op
+# Warmup Iteration 329: 40784.118 us/op
+# Warmup Iteration 330: 40053.889 us/op
+# Warmup Iteration 331: 40593.370 us/op
+# Warmup Iteration 332: 42539.546 us/op
+# Warmup Iteration 333: 40460.009 us/op
+# Warmup Iteration 334: 40061.313 us/op
+# Warmup Iteration 335: 40562.892 us/op
+# Warmup Iteration 336: 42333.501 us/op
+# Warmup Iteration 337: 40672.245 us/op
+# Warmup Iteration 338: 40723.695 us/op
+# Warmup Iteration 339: 40570.577 us/op
+# Warmup Iteration 340: 40451.102 us/op
+# Warmup Iteration 341: 40266.203 us/op
+# Warmup Iteration 342: 40662.851 us/op
+# Warmup Iteration 343: 40210.778 us/op
+# Warmup Iteration 344: 39693.609 us/op
+# Warmup Iteration 345: 40282.366 us/op
+# Warmup Iteration 346: 40872.785 us/op
+# Warmup Iteration 347: 40049.465 us/op
+# Warmup Iteration 348: 40579.274 us/op
+# Warmup Iteration 349: 40573.639 us/op
+# Warmup Iteration 350: 39947.634 us/op
+# Warmup Iteration 351: 40785.471 us/op
+# Warmup Iteration 352: 45328.696 us/op
+# Warmup Iteration 353: 40855.755 us/op
+# Warmup Iteration 354: 40858.561 us/op
+# Warmup Iteration 355: 40286.385 us/op
+# Warmup Iteration 356: 45208.089 us/op
+# Warmup Iteration 357: 40871.121 us/op
+# Warmup Iteration 358: 41231.439 us/op
+# Warmup Iteration 359: 41987.362 us/op
+# Warmup Iteration 360: 40528.024 us/op
+# Warmup Iteration 361: 40878.198 us/op
+# Warmup Iteration 362: 40149.754 us/op
+# Warmup Iteration 363: 40929.931 us/op
+# Warmup Iteration 364: 39933.911 us/op
+# Warmup Iteration 365: 40700.928 us/op
+# Warmup Iteration 366: 40921.483 us/op
+# Warmup Iteration 367: 40592.180 us/op
+# Warmup Iteration 368: 45627.420 us/op
+# Warmup Iteration 369: 45472.633 us/op
+# Warmup Iteration 370: 40229.806 us/op
+# Warmup Iteration 371: 41336.642 us/op
+# Warmup Iteration 372: 44133.400 us/op
+# Warmup Iteration 373: 41240.943 us/op
+# Warmup Iteration 374: 40987.931 us/op
+# Warmup Iteration 375: 40290.723 us/op
+# Warmup Iteration 376: 41502.875 us/op
+# Warmup Iteration 377: 40026.625 us/op
+# Warmup Iteration 378: 43151.475 us/op
+# Warmup Iteration 379: 40743.862 us/op
+# Warmup Iteration 380: 40284.252 us/op
+# Warmup Iteration 381: 40401.489 us/op
+# Warmup Iteration 382: 41329.019 us/op
+# Warmup Iteration 383: 40266.265 us/op
+# Warmup Iteration 384: 42497.945 us/op
+# Warmup Iteration 385: 40016.406 us/op
+# Warmup Iteration 386: 40698.250 us/op
+# Warmup Iteration 387: 41160.308 us/op
+# Warmup Iteration 388: 40002.270 us/op
+# Warmup Iteration 389: 40477.852 us/op
+# Warmup Iteration 390: 40418.819 us/op
+# Warmup Iteration 391: 40334.212 us/op
+# Warmup Iteration 392: 44791.927 us/op
+# Warmup Iteration 393: 40791.612 us/op
+# Warmup Iteration 394: 41342.607 us/op
+# Warmup Iteration 395: 41162.055 us/op
+# Warmup Iteration 396: 40973.614 us/op
+# Warmup Iteration 397: 41326.537 us/op
+# Warmup Iteration 398: 40563.917 us/op
+# Warmup Iteration 399: 40949.528 us/op
+# Warmup Iteration 400: 41073.762 us/op
+# Warmup Iteration 401: 40841.085 us/op
+# Warmup Iteration 402: 40887.802 us/op
+# Warmup Iteration 403: 40641.570 us/op
+# Warmup Iteration 404: 40303.914 us/op
+# Warmup Iteration 405: 40102.387 us/op
+# Warmup Iteration 406: 40600.341 us/op
+# Warmup Iteration 407: 44073.515 us/op
+# Warmup Iteration 408: 40072.017 us/op
+# Warmup Iteration 409: 40731.480 us/op
+# Warmup Iteration 410: 40528.204 us/op
+# Warmup Iteration 411: 40669.190 us/op
+# Warmup Iteration 412: 44500.870 us/op
+# Warmup Iteration 413: 39845.534 us/op
+# Warmup Iteration 414: 40131.389 us/op
+# Warmup Iteration 415: 40281.295 us/op
+# Warmup Iteration 416: 40242.180 us/op
+# Warmup Iteration 417: 40105.210 us/op
+# Warmup Iteration 418: 40072.291 us/op
+# Warmup Iteration 419: 40443.148 us/op
+# Warmup Iteration 420: 40430.577 us/op
+# Warmup Iteration 421: 40262.107 us/op
+# Warmup Iteration 422: 40588.317 us/op
+# Warmup Iteration 423: 40441.144 us/op
+# Warmup Iteration 424: 40638.996 us/op
+# Warmup Iteration 425: 44388.843 us/op
+# Warmup Iteration 426: 40373.105 us/op
+# Warmup Iteration 427: 40321.208 us/op
+# Warmup Iteration 428: 41478.330 us/op
+# Warmup Iteration 429: 40836.534 us/op
+# Warmup Iteration 430: 40423.631 us/op
+# Warmup Iteration 431: 41325.187 us/op
+# Warmup Iteration 432: 44286.467 us/op
+# Warmup Iteration 433: 41363.847 us/op
+# Warmup Iteration 434: 40729.205 us/op
+# Warmup Iteration 435: 40559.894 us/op
+# Warmup Iteration 436: 43470.134 us/op
+# Warmup Iteration 437: 41303.511 us/op
+# Warmup Iteration 438: 42994.920 us/op
+# Warmup Iteration 439: 40479.879 us/op
+# Warmup Iteration 440: 39963.867 us/op
+# Warmup Iteration 441: 42651.589 us/op
+# Warmup Iteration 442: 41932.999 us/op
+# Warmup Iteration 443: 40337.980 us/op
+# Warmup Iteration 444: 40015.474 us/op
+# Warmup Iteration 445: 40969.516 us/op
+# Warmup Iteration 446: 40108.712 us/op
+# Warmup Iteration 447: 40177.839 us/op
+# Warmup Iteration 448: 40268.967 us/op
+# Warmup Iteration 449: 41110.592 us/op
+# Warmup Iteration 450: 39964.143 us/op
+# Warmup Iteration 451: 40721.683 us/op
+# Warmup Iteration 452: 43381.569 us/op
+# Warmup Iteration 453: 40136.474 us/op
+# Warmup Iteration 454: 40552.814 us/op
+# Warmup Iteration 455: 40302.904 us/op
+# Warmup Iteration 456: 40508.718 us/op
+# Warmup Iteration 457: 40717.756 us/op
+# Warmup Iteration 458: 40277.413 us/op
+# Warmup Iteration 459: 40928.772 us/op
+# Warmup Iteration 460: 40756.714 us/op
+# Warmup Iteration 461: 40879.288 us/op
+# Warmup Iteration 462: 40426.350 us/op
+# Warmup Iteration 463: 40842.538 us/op
+# Warmup Iteration 464: 40528.577 us/op
+# Warmup Iteration 465: 41008.002 us/op
+# Warmup Iteration 466: 40274.549 us/op
+# Warmup Iteration 467: 40567.858 us/op
+# Warmup Iteration 468: 41118.179 us/op
+# Warmup Iteration 469: 40743.809 us/op
+# Warmup Iteration 470: 41144.539 us/op
+# Warmup Iteration 471: 40640.257 us/op
+# Warmup Iteration 472: 40624.244 us/op
+# Warmup Iteration 473: 43340.088 us/op
+# Warmup Iteration 474: 40094.416 us/op
+# Warmup Iteration 475: 40233.893 us/op
+# Warmup Iteration 476: 40302.306 us/op
+# Warmup Iteration 477: 40258.807 us/op
+# Warmup Iteration 478: 40557.829 us/op
+# Warmup Iteration 479: 43311.124 us/op
+# Warmup Iteration 480: 40835.381 us/op
+# Warmup Iteration 481: 40672.587 us/op
+# Warmup Iteration 482: 40333.574 us/op
+# Warmup Iteration 483: 40105.061 us/op
+# Warmup Iteration 484: 40353.074 us/op
+# Warmup Iteration 485: 40433.622 us/op
+# Warmup Iteration 486: 40663.901 us/op
+# Warmup Iteration 487: 40601.611 us/op
+# Warmup Iteration 488: 40337.235 us/op
+# Warmup Iteration 489: 40694.225 us/op
+# Warmup Iteration 490: 40433.963 us/op
+# Warmup Iteration 491: 40625.957 us/op
+# Warmup Iteration 492: 41712.973 us/op
+# Warmup Iteration 493: 45132.235 us/op
+# Warmup Iteration 494: 40613.346 us/op
+# Warmup Iteration 495: 40596.710 us/op
+# Warmup Iteration 496: 40068.768 us/op
+# Warmup Iteration 497: 40454.585 us/op
+# Warmup Iteration 498: 40397.338 us/op
+# Warmup Iteration 499: 40271.453 us/op
+# Warmup Iteration 500: 40216.555 us/op
+# Warmup Iteration 501: 40678.168 us/op
+# Warmup Iteration 502: 40360.436 us/op
+# Warmup Iteration 503: 42071.496 us/op
+# Warmup Iteration 504: 40595.220 us/op
+# Warmup Iteration 505: 40917.117 us/op
+# Warmup Iteration 506: 40806.627 us/op
+# Warmup Iteration 507: 40143.691 us/op
+# Warmup Iteration 508: 41115.790 us/op
+# Warmup Iteration 509: 40733.261 us/op
+# Warmup Iteration 510: 41686.510 us/op
+# Warmup Iteration 511: 40497.997 us/op
+# Warmup Iteration 512: 41346.007 us/op
+# Warmup Iteration 513: 49673.196 us/op
+# Warmup Iteration 514: 43375.053 us/op
+# Warmup Iteration 515: 41194.758 us/op
+# Warmup Iteration 516: 41197.920 us/op
+# Warmup Iteration 517: 41367.851 us/op
+# Warmup Iteration 518: 40329.911 us/op
+# Warmup Iteration 519: 40466.998 us/op
+# Warmup Iteration 520: 40855.261 us/op
+# Warmup Iteration 521: 40969.861 us/op
+# Warmup Iteration 522: 40717.549 us/op
+# Warmup Iteration 523: 41613.252 us/op
+# Warmup Iteration 524: 40302.256 us/op
+# Warmup Iteration 525: 40700.059 us/op
+# Warmup Iteration 526: 41183.345 us/op
+# Warmup Iteration 527: 40365.427 us/op
+# Warmup Iteration 528: 39859.143 us/op
+# Warmup Iteration 529: 41476.686 us/op
+# Warmup Iteration 530: 40622.721 us/op
+# Warmup Iteration 531: 40117.351 us/op
+# Warmup Iteration 532: 39886.651 us/op
+# Warmup Iteration 533: 44551.935 us/op
+# Warmup Iteration 534: 40597.547 us/op
+# Warmup Iteration 535: 40548.774 us/op
+# Warmup Iteration 536: 40819.414 us/op
+# Warmup Iteration 537: 47837.483 us/op
+# Warmup Iteration 538: 40026.951 us/op
+# Warmup Iteration 539: 41807.898 us/op
+# Warmup Iteration 540: 40172.936 us/op
+# Warmup Iteration 541: 40493.551 us/op
+# Warmup Iteration 542: 40777.846 us/op
+# Warmup Iteration 543: 40000.281 us/op
+# Warmup Iteration 544: 40016.620 us/op
+# Warmup Iteration 545: 40229.876 us/op
+# Warmup Iteration 546: 40430.089 us/op
+# Warmup Iteration 547: 40335.218 us/op
+# Warmup Iteration 548: 40986.472 us/op
+# Warmup Iteration 549: 40216.788 us/op
+# Warmup Iteration 550: 40915.621 us/op
+# Warmup Iteration 551: 40201.537 us/op
+# Warmup Iteration 552: 40890.937 us/op
+# Warmup Iteration 553: 44542.775 us/op
+# Warmup Iteration 554: 40444.697 us/op
+# Warmup Iteration 555: 41048.003 us/op
+# Warmup Iteration 556: 40342.334 us/op
+# Warmup Iteration 557: 40116.140 us/op
+# Warmup Iteration 558: 40175.307 us/op
+# Warmup Iteration 559: 40859.777 us/op
+# Warmup Iteration 560: 40964.907 us/op
+# Warmup Iteration 561: 40456.206 us/op
+# Warmup Iteration 562: 40433.024 us/op
+# Warmup Iteration 563: 40794.702 us/op
+# Warmup Iteration 564: 39320.414 us/op
+# Warmup Iteration 565: 39989.420 us/op
+# Warmup Iteration 566: 40204.195 us/op
+# Warmup Iteration 567: 40072.988 us/op
+# Warmup Iteration 568: 41292.399 us/op
+# Warmup Iteration 569: 41382.436 us/op
+# Warmup Iteration 570: 40980.093 us/op
+# Warmup Iteration 571: 40643.142 us/op
+# Warmup Iteration 572: 40657.439 us/op
+# Warmup Iteration 573: 40265.550 us/op
+# Warmup Iteration 574: 43575.189 us/op
+# Warmup Iteration 575: 41336.653 us/op
+# Warmup Iteration 576: 40328.748 us/op
+# Warmup Iteration 577: 40133.705 us/op
+# Warmup Iteration 578: 41299.831 us/op
+# Warmup Iteration 579: 41773.105 us/op
+# Warmup Iteration 580: 41175.177 us/op
+# Warmup Iteration 581: 40179.305 us/op
+# Warmup Iteration 582: 40070.506 us/op
+# Warmup Iteration 583: 40309.185 us/op
+# Warmup Iteration 584: 40867.849 us/op
+# Warmup Iteration 585: 40716.137 us/op
+# Warmup Iteration 586: 41480.313 us/op
+# Warmup Iteration 587: 44820.761 us/op
+# Warmup Iteration 588: 43527.022 us/op
+# Warmup Iteration 589: 43808.932 us/op
+# Warmup Iteration 590: 43987.334 us/op
+# Warmup Iteration 591: 42172.293 us/op
+# Warmup Iteration 592: 43301.154 us/op
+# Warmup Iteration 593: 46191.086 us/op
+# Warmup Iteration 594: 43635.270 us/op
+# Warmup Iteration 595: 47305.036 us/op
+# Warmup Iteration 596: 48638.224 us/op
+# Warmup Iteration 597: 43322.985 us/op
+# Warmup Iteration 598: 42684.936 us/op
+# Warmup Iteration 599: 43537.107 us/op
+# Warmup Iteration 600: 43054.027 us/op
+# Warmup Iteration 601: 43871.918 us/op
+# Warmup Iteration 602: 42628.501 us/op
+# Warmup Iteration 603: 43232.676 us/op
+# Warmup Iteration 604: 42770.054 us/op
+# Warmup Iteration 605: 42764.369 us/op
+# Warmup Iteration 606: 43825.009 us/op
+# Warmup Iteration 607: 43288.694 us/op
+# Warmup Iteration 608: 43319.189 us/op
+# Warmup Iteration 609: 43348.203 us/op
+# Warmup Iteration 610: 42277.514 us/op
+# Warmup Iteration 611: 43947.306 us/op
+# Warmup Iteration 612: 47407.282 us/op
+# Warmup Iteration 613: 43885.883 us/op
+# Warmup Iteration 614: 43372.181 us/op
+# Warmup Iteration 615: 43670.441 us/op
+# Warmup Iteration 616: 43978.775 us/op
+# Warmup Iteration 617: 44108.412 us/op
+# Warmup Iteration 618: 44324.488 us/op
+# Warmup Iteration 619: 44262.221 us/op
+# Warmup Iteration 620: 42860.026 us/op
+# Warmup Iteration 621: 46887.894 us/op
+# Warmup Iteration 622: 43147.893 us/op
+# Warmup Iteration 623: 44030.686 us/op
+# Warmup Iteration 624: 40500.459 us/op
+# Warmup Iteration 625: 40013.764 us/op
+# Warmup Iteration 626: 40924.756 us/op
+# Warmup Iteration 627: 40326.118 us/op
+# Warmup Iteration 628: 40861.988 us/op
+# Warmup Iteration 629: 39946.925 us/op
+# Warmup Iteration 630: 40533.686 us/op
+# Warmup Iteration 631: 40881.852 us/op
+# Warmup Iteration 632: 40801.474 us/op
+# Warmup Iteration 633: 40820.807 us/op
+# Warmup Iteration 634: 40606.782 us/op
+# Warmup Iteration 635: 39374.487 us/op
+# Warmup Iteration 636: 40579.371 us/op
+# Warmup Iteration 637: 40905.557 us/op
+# Warmup Iteration 638: 40668.261 us/op
+# Warmup Iteration 639: 40740.687 us/op
+# Warmup Iteration 640: 39945.731 us/op
+# Warmup Iteration 641: 40364.246 us/op
+# Warmup Iteration 642: 40508.099 us/op
+# Warmup Iteration 643: 40690.132 us/op
+# Warmup Iteration 644: 40220.018 us/op
+# Warmup Iteration 645: 40385.923 us/op
+# Warmup Iteration 646: 40081.558 us/op
+# Warmup Iteration 647: 40810.180 us/op
+# Warmup Iteration 648: 42286.224 us/op
+# Warmup Iteration 649: 40053.716 us/op
+# Warmup Iteration 650: 40823.632 us/op
+# Warmup Iteration 651: 40903.766 us/op
+# Warmup Iteration 652: 42951.130 us/op
+# Warmup Iteration 653: 40609.002 us/op
+# Warmup Iteration 654: 40072.622 us/op
+# Warmup Iteration 655: 40739.111 us/op
+# Warmup Iteration 656: 40641.990 us/op
+# Warmup Iteration 657: 42537.130 us/op
+# Warmup Iteration 658: 40262.541 us/op
+# Warmup Iteration 659: 40542.003 us/op
+# Warmup Iteration 660: 39812.964 us/op
+# Warmup Iteration 661: 40853.048 us/op
+# Warmup Iteration 662: 40461.032 us/op
+# Warmup Iteration 663: 40151.072 us/op
+# Warmup Iteration 664: 40163.402 us/op
+# Warmup Iteration 665: 39957.244 us/op
+# Warmup Iteration 666: 42049.306 us/op
+# Warmup Iteration 667: 39588.715 us/op
+# Warmup Iteration 668: 39956.753 us/op
+# Warmup Iteration 669: 40613.665 us/op
+# Warmup Iteration 670: 40262.020 us/op
+# Warmup Iteration 671: 40037.548 us/op
+# Warmup Iteration 672: 44156.816 us/op
+# Warmup Iteration 673: 40507.909 us/op
+# Warmup Iteration 674: 40082.771 us/op
+# Warmup Iteration 675: 40004.473 us/op
+# Warmup Iteration 676: 40334.784 us/op
+# Warmup Iteration 677: 43628.573 us/op
+# Warmup Iteration 678: 40327.741 us/op
+# Warmup Iteration 679: 41297.536 us/op
+# Warmup Iteration 680: 40975.608 us/op
+# Warmup Iteration 681: 39642.109 us/op
+# Warmup Iteration 682: 40212.647 us/op
+# Warmup Iteration 683: 40918.944 us/op
+# Warmup Iteration 684: 40813.855 us/op
+# Warmup Iteration 685: 40554.951 us/op
+# Warmup Iteration 686: 41604.517 us/op
+# Warmup Iteration 687: 40609.360 us/op
+# Warmup Iteration 688: 40765.977 us/op
+# Warmup Iteration 689: 40537.685 us/op
+# Warmup Iteration 690: 40085.462 us/op
+# Warmup Iteration 691: 40446.937 us/op
+# Warmup Iteration 692: 41441.737 us/op
+# Warmup Iteration 693: 40247.781 us/op
+# Warmup Iteration 694: 41201.530 us/op
+# Warmup Iteration 695: 44345.070 us/op
+# Warmup Iteration 696: 40025.636 us/op
+# Warmup Iteration 697: 40524.822 us/op
+# Warmup Iteration 698: 40595.364 us/op
+# Warmup Iteration 699: 40361.120 us/op
+# Warmup Iteration 700: 40733.345 us/op
+# Warmup Iteration 701: 40280.060 us/op
+# Warmup Iteration 702: 40567.231 us/op
+# Warmup Iteration 703: 41373.806 us/op
+# Warmup Iteration 704: 40062.913 us/op
+# Warmup Iteration 705: 40505.959 us/op
+# Warmup Iteration 706: 40398.857 us/op
+# Warmup Iteration 707: 41082.742 us/op
+# Warmup Iteration 708: 40492.721 us/op
+# Warmup Iteration 709: 40372.628 us/op
+# Warmup Iteration 710: 40248.452 us/op
+# Warmup Iteration 711: 40480.606 us/op
+# Warmup Iteration 712: 40265.171 us/op
+# Warmup Iteration 713: 44810.084 us/op
+# Warmup Iteration 714: 41141.700 us/op
+# Warmup Iteration 715: 40296.221 us/op
+# Warmup Iteration 716: 40609.160 us/op
+# Warmup Iteration 717: 40918.464 us/op
+# Warmup Iteration 718: 40367.496 us/op
+# Warmup Iteration 719: 40797.231 us/op
+# Warmup Iteration 720: 40275.059 us/op
+# Warmup Iteration 721: 40354.384 us/op
+# Warmup Iteration 722: 41122.855 us/op
+# Warmup Iteration 723: 39618.809 us/op
+# Warmup Iteration 724: 40079.853 us/op
+# Warmup Iteration 725: 40136.462 us/op
+# Warmup Iteration 726: 40056.421 us/op
+# Warmup Iteration 727: 40239.267 us/op
+# Warmup Iteration 728: 40184.241 us/op
+# Warmup Iteration 729: 40472.883 us/op
+# Warmup Iteration 730: 40775.853 us/op
+# Warmup Iteration 731: 40273.549 us/op
+# Warmup Iteration 732: 40881.602 us/op
+# Warmup Iteration 733: 43506.986 us/op
+# Warmup Iteration 734: 39563.127 us/op
+# Warmup Iteration 735: 39839.002 us/op
+# Warmup Iteration 736: 39871.354 us/op
+# Warmup Iteration 737: 40264.324 us/op
+# Warmup Iteration 738: 40465.763 us/op
+# Warmup Iteration 739: 39973.566 us/op
+# Warmup Iteration 740: 40195.516 us/op
+# Warmup Iteration 741: 40659.492 us/op
+# Warmup Iteration 742: 40950.561 us/op
+# Warmup Iteration 743: 41704.441 us/op
+# Warmup Iteration 744: 40401.900 us/op
+# Warmup Iteration 745: 41061.770 us/op
+# Warmup Iteration 746: 41875.329 us/op
+# Warmup Iteration 747: 41136.238 us/op
+# Warmup Iteration 748: 40109.949 us/op
+# Warmup Iteration 749: 39953.147 us/op
+# Warmup Iteration 750: 40096.268 us/op
+# Warmup Iteration 751: 40315.321 us/op
+# Warmup Iteration 752: 40414.684 us/op
+# Warmup Iteration 753: 40955.297 us/op
+# Warmup Iteration 754: 41175.063 us/op
+# Warmup Iteration 755: 41406.117 us/op
+# Warmup Iteration 756: 40481.890 us/op
+# Warmup Iteration 757: 40804.747 us/op
+# Warmup Iteration 758: 41149.595 us/op
+# Warmup Iteration 759: 40275.481 us/op
+# Warmup Iteration 760: 39938.369 us/op
+# Warmup Iteration 761: 40462.574 us/op
+# Warmup Iteration 762: 41224.757 us/op
+# Warmup Iteration 763: 42453.595 us/op
+# Warmup Iteration 764: 40711.201 us/op
+# Warmup Iteration 765: 40020.404 us/op
+# Warmup Iteration 766: 40882.066 us/op
+# Warmup Iteration 767: 40412.139 us/op
+# Warmup Iteration 768: 40834.200 us/op
+# Warmup Iteration 769: 40173.171 us/op
+# Warmup Iteration 770: 40573.650 us/op
+# Warmup Iteration 771: 40018.803 us/op
+# Warmup Iteration 772: 39608.131 us/op
+# Warmup Iteration 773: 40361.442 us/op
+# Warmup Iteration 774: 44053.479 us/op
+# Warmup Iteration 775: 41079.965 us/op
+# Warmup Iteration 776: 40787.943 us/op
+# Warmup Iteration 777: 40711.362 us/op
+# Warmup Iteration 778: 40066.276 us/op
+# Warmup Iteration 779: 40815.096 us/op
+# Warmup Iteration 780: 41297.132 us/op
+# Warmup Iteration 781: 41398.233 us/op
+# Warmup Iteration 782: 39945.973 us/op
+# Warmup Iteration 783: 40520.153 us/op
+# Warmup Iteration 784: 40573.023 us/op
+# Warmup Iteration 785: 40933.880 us/op
+# Warmup Iteration 786: 39813.938 us/op
+# Warmup Iteration 787: 40188.008 us/op
+# Warmup Iteration 788: 39795.403 us/op
+# Warmup Iteration 789: 40705.097 us/op
+# Warmup Iteration 790: 41333.112 us/op
+# Warmup Iteration 791: 39926.296 us/op
+# Warmup Iteration 792: 40701.100 us/op
+# Warmup Iteration 793: 40358.970 us/op
+# Warmup Iteration 794: 42892.116 us/op
+# Warmup Iteration 795: 40223.816 us/op
+# Warmup Iteration 796: 40390.972 us/op
+# Warmup Iteration 797: 40080.516 us/op
+# Warmup Iteration 798: 40994.326 us/op
+# Warmup Iteration 799: 40575.486 us/op
+# Warmup Iteration 800: 40133.499 us/op
+# Warmup Iteration 801: 40778.901 us/op
+# Warmup Iteration 802: 40618.377 us/op
+# Warmup Iteration 803: 40936.227 us/op
+# Warmup Iteration 804: 42784.560 us/op
+# Warmup Iteration 805: 40386.992 us/op
+# Warmup Iteration 806: 40608.188 us/op
+# Warmup Iteration 807: 40911.866 us/op
+# Warmup Iteration 808: 39888.623 us/op
+# Warmup Iteration 809: 42241.941 us/op
+# Warmup Iteration 810: 40463.716 us/op
+# Warmup Iteration 811: 40919.980 us/op
+# Warmup Iteration 812: 40719.018 us/op
+# Warmup Iteration 813: 40404.061 us/op
+# Warmup Iteration 814: 40530.194 us/op
+# Warmup Iteration 815: 46363.481 us/op
+# Warmup Iteration 816: 40297.864 us/op
+# Warmup Iteration 817: 40455.197 us/op
+# Warmup Iteration 818: 40466.752 us/op
+# Warmup Iteration 819: 40924.402 us/op
+# Warmup Iteration 820: 40384.500 us/op
+# Warmup Iteration 821: 40465.968 us/op
+# Warmup Iteration 822: 40038.505 us/op
+# Warmup Iteration 823: 39955.894 us/op
+# Warmup Iteration 824: 40754.863 us/op
+# Warmup Iteration 825: 40373.379 us/op
+# Warmup Iteration 826: 41370.801 us/op
+# Warmup Iteration 827: 41415.374 us/op
+# Warmup Iteration 828: 40233.451 us/op
+# Warmup Iteration 829: 40649.969 us/op
+# Warmup Iteration 830: 40233.321 us/op
+# Warmup Iteration 831: 40428.360 us/op
+# Warmup Iteration 832: 40289.679 us/op
+# Warmup Iteration 833: 41066.085 us/op
+# Warmup Iteration 834: 40146.737 us/op
+# Warmup Iteration 835: 44906.345 us/op
+# Warmup Iteration 836: 40197.158 us/op
+# Warmup Iteration 837: 40779.269 us/op
+# Warmup Iteration 838: 40082.570 us/op
+# Warmup Iteration 839: 40217.684 us/op
+# Warmup Iteration 840: 40793.994 us/op
+# Warmup Iteration 841: 40155.013 us/op
+# Warmup Iteration 842: 40325.316 us/op
+# Warmup Iteration 843: 40785.090 us/op
+# Warmup Iteration 844: 40199.189 us/op
+# Warmup Iteration 845: 40337.879 us/op
+# Warmup Iteration 846: 40254.103 us/op
+# Warmup Iteration 847: 40622.893 us/op
+# Warmup Iteration 848: 40415.285 us/op
+# Warmup Iteration 849: 40185.212 us/op
+# Warmup Iteration 850: 40126.505 us/op
+# Warmup Iteration 851: 43787.752 us/op
+# Warmup Iteration 852: 40256.798 us/op
+# Warmup Iteration 853: 40031.661 us/op
+# Warmup Iteration 854: 40248.044 us/op
+# Warmup Iteration 855: 41479.234 us/op
+# Warmup Iteration 856: 40631.442 us/op
+# Warmup Iteration 857: 40731.513 us/op
+# Warmup Iteration 858: 40594.252 us/op
+# Warmup Iteration 859: 39753.652 us/op
+# Warmup Iteration 860: 40859.307 us/op
+# Warmup Iteration 861: 40487.641 us/op
+# Warmup Iteration 862: 40667.682 us/op
+# Warmup Iteration 863: 41582.992 us/op
+# Warmup Iteration 864: 40313.387 us/op
+# Warmup Iteration 865: 41298.201 us/op
+# Warmup Iteration 866: 40319.077 us/op
+# Warmup Iteration 867: 40653.340 us/op
+# Warmup Iteration 868: 41361.746 us/op
+# Warmup Iteration 869: 40458.917 us/op
+# Warmup Iteration 870: 40548.045 us/op
+# Warmup Iteration 871: 40718.692 us/op
+# Warmup Iteration 872: 40919.844 us/op
+# Warmup Iteration 873: 39937.510 us/op
+# Warmup Iteration 874: 40553.134 us/op
+# Warmup Iteration 875: 40871.733 us/op
+# Warmup Iteration 876: 45959.171 us/op
+# Warmup Iteration 877: 40734.675 us/op
+# Warmup Iteration 878: 41475.106 us/op
+# Warmup Iteration 879: 41037.495 us/op
+# Warmup Iteration 880: 40722.582 us/op
+# Warmup Iteration 881: 40772.148 us/op
+# Warmup Iteration 882: 40749.402 us/op
+# Warmup Iteration 883: 40238.055 us/op
+# Warmup Iteration 884: 40323.821 us/op
+# Warmup Iteration 885: 42814.473 us/op
+# Warmup Iteration 886: 40916.029 us/op
+# Warmup Iteration 887: 40605.353 us/op
+# Warmup Iteration 888: 40231.167 us/op
+# Warmup Iteration 889: 40878.797 us/op
+# Warmup Iteration 890: 40500.833 us/op
+# Warmup Iteration 891: 41212.386 us/op
+# Warmup Iteration 892: 40340.157 us/op
+# Warmup Iteration 893: 40706.686 us/op
+# Warmup Iteration 894: 40552.536 us/op
+# Warmup Iteration 895: 41122.086 us/op
+# Warmup Iteration 896: 44734.688 us/op
+# Warmup Iteration 897: 40342.128 us/op
+# Warmup Iteration 898: 40714.710 us/op
+# Warmup Iteration 899: 40742.380 us/op
+# Warmup Iteration 900: 40516.322 us/op
+# Warmup Iteration 901: 41692.916 us/op
+# Warmup Iteration 902: 40819.635 us/op
+# Warmup Iteration 903: 40370.588 us/op
+# Warmup Iteration 904: 39883.269 us/op
+# Warmup Iteration 905: 40298.155 us/op
+# Warmup Iteration 906: 41204.779 us/op
+# Warmup Iteration 907: 42178.027 us/op
+# Warmup Iteration 908: 40428.022 us/op
+# Warmup Iteration 909: 40900.447 us/op
+# Warmup Iteration 910: 40360.232 us/op
+# Warmup Iteration 911: 40448.107 us/op
+# Warmup Iteration 912: 40885.568 us/op
+# Warmup Iteration 913: 40676.569 us/op
+# Warmup Iteration 914: 40711.412 us/op
+# Warmup Iteration 915: 40144.617 us/op
+# Warmup Iteration 916: 41918.720 us/op
+# Warmup Iteration 917: 41118.847 us/op
+# Warmup Iteration 918: 42925.588 us/op
+# Warmup Iteration 919: 40501.254 us/op
+# Warmup Iteration 920: 40469.705 us/op
+# Warmup Iteration 921: 40882.693 us/op
+# Warmup Iteration 922: 39960.260 us/op
+# Warmup Iteration 923: 40402.614 us/op
+# Warmup Iteration 924: 40645.759 us/op
+# Warmup Iteration 925: 40808.584 us/op
+# Warmup Iteration 926: 40503.791 us/op
+# Warmup Iteration 927: 40255.255 us/op
+# Warmup Iteration 928: 40469.731 us/op
+# Warmup Iteration 929: 40970.838 us/op
+# Warmup Iteration 930: 40411.105 us/op
+# Warmup Iteration 931: 40513.206 us/op
+# Warmup Iteration 932: 39977.876 us/op
+# Warmup Iteration 933: 40736.907 us/op
+# Warmup Iteration 934: 47062.415 us/op
+# Warmup Iteration 935: 40577.260 us/op
+# Warmup Iteration 936: 40367.162 us/op
+# Warmup Iteration 937: 42874.376 us/op
+# Warmup Iteration 938: 41089.562 us/op
+# Warmup Iteration 939: 40159.475 us/op
+# Warmup Iteration 940: 39853.467 us/op
+# Warmup Iteration 941: 40808.444 us/op
+# Warmup Iteration 942: 40249.835 us/op
+# Warmup Iteration 943: 44797.406 us/op
+# Warmup Iteration 944: 40381.805 us/op
+# Warmup Iteration 945: 40025.352 us/op
+# Warmup Iteration 946: 40918.762 us/op
+# Warmup Iteration 947: 41389.945 us/op
+# Warmup Iteration 948: 40329.652 us/op
+# Warmup Iteration 949: 40468.997 us/op
+# Warmup Iteration 950: 44059.481 us/op
+# Warmup Iteration 951: 40409.259 us/op
+# Warmup Iteration 952: 40273.154 us/op
+# Warmup Iteration 953: 40327.909 us/op
+# Warmup Iteration 954: 40462.149 us/op
+# Warmup Iteration 955: 40479.637 us/op
+# Warmup Iteration 956: 40342.048 us/op
+# Warmup Iteration 957: 44224.061 us/op
+# Warmup Iteration 958: 40210.659 us/op
+# Warmup Iteration 959: 40421.518 us/op
+# Warmup Iteration 960: 39733.271 us/op
+# Warmup Iteration 961: 40722.511 us/op
+# Warmup Iteration 962: 40302.589 us/op
+# Warmup Iteration 963: 40005.756 us/op
+# Warmup Iteration 964: 40888.770 us/op
+# Warmup Iteration 965: 39502.150 us/op
+# Warmup Iteration 966: 39918.941 us/op
+# Warmup Iteration 967: 40452.794 us/op
+# Warmup Iteration 968: 40768.457 us/op
+# Warmup Iteration 969: 40021.664 us/op
+# Warmup Iteration 970: 40823.030 us/op
+# Warmup Iteration 971: 40952.022 us/op
+# Warmup Iteration 972: 39582.007 us/op
+# Warmup Iteration 973: 40656.183 us/op
+# Warmup Iteration 974: 41071.082 us/op
+# Warmup Iteration 975: 40101.854 us/op
+# Warmup Iteration 976: 40542.389 us/op
+# Warmup Iteration 977: 42469.841 us/op
+# Warmup Iteration 978: 40340.653 us/op
+# Warmup Iteration 979: 40516.142 us/op
+# Warmup Iteration 980: 40733.161 us/op
+# Warmup Iteration 981: 40601.216 us/op
+# Warmup Iteration 982: 40173.469 us/op
+# Warmup Iteration 983: 40885.126 us/op
+# Warmup Iteration 984: 40097.653 us/op
+# Warmup Iteration 985: 41165.797 us/op
+# Warmup Iteration 986: 40787.830 us/op
+# Warmup Iteration 987: 43125.874 us/op
+# Warmup Iteration 988: 40255.360 us/op
+# Warmup Iteration 989: 40244.141 us/op
+# Warmup Iteration 990: 39571.377 us/op
+# Warmup Iteration 991: 40456.791 us/op
+# Warmup Iteration 992: 40128.644 us/op
+# Warmup Iteration 993: 41103.193 us/op
+# Warmup Iteration 994: 40431.226 us/op
+# Warmup Iteration 995: 41219.174 us/op
+# Warmup Iteration 996: 40734.834 us/op
+# Warmup Iteration 997: 40351.573 us/op
+# Warmup Iteration 998: 44021.566 us/op
+# Warmup Iteration 999: 41218.220 us/op
+# Warmup Iteration 1000: 42103.005 us/op
+# Warmup Iteration 1001: 40819.370 us/op
+# Warmup Iteration 1002: 40719.505 us/op
+# Warmup Iteration 1003: 41719.293 us/op
+# Warmup Iteration 1004: 40999.999 us/op
+# Warmup Iteration 1005: 40222.243 us/op
+# Warmup Iteration 1006: 43586.021 us/op
+# Warmup Iteration 1007: 40576.674 us/op
+# Warmup Iteration 1008: 41079.849 us/op
+# Warmup Iteration 1009: 40273.236 us/op
+# Warmup Iteration 1010: 40075.969 us/op
+# Warmup Iteration 1011: 41007.967 us/op
+# Warmup Iteration 1012: 40066.007 us/op
+# Warmup Iteration 1013: 40620.649 us/op
+# Warmup Iteration 1014: 40455.887 us/op
+# Warmup Iteration 1015: 40075.498 us/op
+# Warmup Iteration 1016: 40619.868 us/op
+# Warmup Iteration 1017: 40883.974 us/op
+# Warmup Iteration 1018: 44298.627 us/op
+# Warmup Iteration 1019: 40091.174 us/op
+# Warmup Iteration 1020: 40283.964 us/op
+# Warmup Iteration 1021: 41241.236 us/op
+# Warmup Iteration 1022: 40701.273 us/op
+# Warmup Iteration 1023: 40459.122 us/op
+# Warmup Iteration 1024: 40761.914 us/op
+# Warmup Iteration 1025: 40300.504 us/op
+# Warmup Iteration 1026: 40692.357 us/op
+# Warmup Iteration 1027: 40229.574 us/op
+# Warmup Iteration 1028: 43329.099 us/op
+# Warmup Iteration 1029: 41616.240 us/op
+# Warmup Iteration 1030: 41516.453 us/op
+# Warmup Iteration 1031: 42557.097 us/op
+# Warmup Iteration 1032: 41332.049 us/op
+# Warmup Iteration 1033: 41215.554 us/op
+# Warmup Iteration 1034: 40689.378 us/op
+# Warmup Iteration 1035: 41600.397 us/op
+# Warmup Iteration 1036: 41153.790 us/op
+# Warmup Iteration 1037: 41164.261 us/op
+# Warmup Iteration 1038: 45790.572 us/op
+# Warmup Iteration 1039: 39923.689 us/op
+# Warmup Iteration 1040: 40214.657 us/op
+# Warmup Iteration 1041: 40880.384 us/op
+# Warmup Iteration 1042: 42174.249 us/op
+# Warmup Iteration 1043: 40461.798 us/op
+# Warmup Iteration 1044: 42700.290 us/op
+# Warmup Iteration 1045: 41240.381 us/op
+# Warmup Iteration 1046: 40582.400 us/op
+# Warmup Iteration 1047: 40951.260 us/op
+# Warmup Iteration 1048: 41686.943 us/op
+# Warmup Iteration 1049: 41371.363 us/op
+# Warmup Iteration 1050: 41720.807 us/op
+# Warmup Iteration 1051: 40888.592 us/op
+# Warmup Iteration 1052: 41097.593 us/op
+# Warmup Iteration 1053: 41932.396 us/op
+# Warmup Iteration 1054: 40106.319 us/op
+# Warmup Iteration 1055: 40470.256 us/op
+# Warmup Iteration 1056: 39986.126 us/op
+# Warmup Iteration 1057: 40393.393 us/op
+# Warmup Iteration 1058: 45509.919 us/op
+# Warmup Iteration 1059: 41054.705 us/op
+# Warmup Iteration 1060: 40949.234 us/op
+# Warmup Iteration 1061: 41880.376 us/op
+# Warmup Iteration 1062: 41625.117 us/op
+# Warmup Iteration 1063: 40722.824 us/op
+# Warmup Iteration 1064: 41306.516 us/op
+# Warmup Iteration 1065: 40461.537 us/op
+# Warmup Iteration 1066: 40233.933 us/op
+# Warmup Iteration 1067: 40435.939 us/op
+# Warmup Iteration 1068: 41179.509 us/op
+# Warmup Iteration 1069: 40356.210 us/op
+# Warmup Iteration 1070: 39750.641 us/op
+# Warmup Iteration 1071: 39984.436 us/op
+# Warmup Iteration 1072: 39738.168 us/op
+# Warmup Iteration 1073: 39848.088 us/op
+# Warmup Iteration 1074: 40533.227 us/op
+# Warmup Iteration 1075: 45568.366 us/op
+# Warmup Iteration 1076: 41950.967 us/op
+# Warmup Iteration 1077: 40323.571 us/op
+# Warmup Iteration 1078: 43845.546 us/op
+# Warmup Iteration 1079: 40498.973 us/op
+# Warmup Iteration 1080: 40843.454 us/op
+# Warmup Iteration 1081: 40302.421 us/op
+# Warmup Iteration 1082: 40630.745 us/op
+# Warmup Iteration 1083: 39796.908 us/op
+# Warmup Iteration 1084: 40083.723 us/op
+# Warmup Iteration 1085: 40049.496 us/op
+# Warmup Iteration 1086: 40788.635 us/op
+# Warmup Iteration 1087: 40454.978 us/op
+# Warmup Iteration 1088: 40947.341 us/op
+# Warmup Iteration 1089: 40321.837 us/op
+# Warmup Iteration 1090: 41058.843 us/op
+# Warmup Iteration 1091: 41187.784 us/op
+# Warmup Iteration 1092: 40307.317 us/op
+# Warmup Iteration 1093: 40314.851 us/op
+# Warmup Iteration 1094: 40286.484 us/op
+# Warmup Iteration 1095: 41100.895 us/op
+# Warmup Iteration 1096: 40332.676 us/op
+# Warmup Iteration 1097: 40379.566 us/op
+# Warmup Iteration 1098: 39987.099 us/op
+# Warmup Iteration 1099: 43361.175 us/op
+# Warmup Iteration 1100: 40294.707 us/op
+# Warmup Iteration 1101: 39857.585 us/op
+# Warmup Iteration 1102: 40222.288 us/op
+# Warmup Iteration 1103: 39888.524 us/op
+# Warmup Iteration 1104: 40105.972 us/op
+# Warmup Iteration 1105: 40068.462 us/op
+# Warmup Iteration 1106: 41386.376 us/op
+# Warmup Iteration 1107: 41205.415 us/op
+# Warmup Iteration 1108: 40468.155 us/op
+# Warmup Iteration 1109: 42347.371 us/op
+# Warmup Iteration 1110: 41176.625 us/op
+# Warmup Iteration 1111: 40359.500 us/op
+# Warmup Iteration 1112: 39687.781 us/op
+# Warmup Iteration 1113: 39607.132 us/op
+# Warmup Iteration 1114: 39652.404 us/op
+# Warmup Iteration 1115: 40903.859 us/op
+# Warmup Iteration 1116: 41872.745 us/op
+# Warmup Iteration 1117: 41719.978 us/op
+# Warmup Iteration 1118: 39877.099 us/op
+# Warmup Iteration 1119: 44286.440 us/op
+# Warmup Iteration 1120: 40167.960 us/op
+# Warmup Iteration 1121: 41428.114 us/op
+# Warmup Iteration 1122: 40341.198 us/op
+# Warmup Iteration 1123: 41002.308 us/op
+# Warmup Iteration 1124: 41184.149 us/op
+# Warmup Iteration 1125: 40780.286 us/op
+# Warmup Iteration 1126: 40168.524 us/op
+# Warmup Iteration 1127: 40335.495 us/op
+# Warmup Iteration 1128: 40059.179 us/op
+# Warmup Iteration 1129: 40293.425 us/op
+# Warmup Iteration 1130: 40184.354 us/op
+# Warmup Iteration 1131: 40482.762 us/op
+# Warmup Iteration 1132: 40560.520 us/op
+# Warmup Iteration 1133: 40186.395 us/op
+# Warmup Iteration 1134: 40133.752 us/op
+# Warmup Iteration 1135: 40273.669 us/op
+# Warmup Iteration 1136: 41016.929 us/op
+# Warmup Iteration 1137: 41021.015 us/op
+# Warmup Iteration 1138: 40483.654 us/op
+# Warmup Iteration 1139: 42934.040 us/op
+# Warmup Iteration 1140: 40505.600 us/op
+# Warmup Iteration 1141: 40558.805 us/op
+# Warmup Iteration 1142: 40164.319 us/op
+# Warmup Iteration 1143: 39674.048 us/op
+# Warmup Iteration 1144: 40100.824 us/op
+# Warmup Iteration 1145: 42031.226 us/op
+# Warmup Iteration 1146: 39674.312 us/op
+# Warmup Iteration 1147: 40852.840 us/op
+# Warmup Iteration 1148: 40575.348 us/op
+# Warmup Iteration 1149: 40159.695 us/op
+# Warmup Iteration 1150: 40633.266 us/op
+# Warmup Iteration 1151: 40323.806 us/op
+# Warmup Iteration 1152: 39795.383 us/op
+# Warmup Iteration 1153: 40819.314 us/op
+# Warmup Iteration 1154: 40190.456 us/op
+# Warmup Iteration 1155: 40224.419 us/op
+# Warmup Iteration 1156: 40020.465 us/op
+# Warmup Iteration 1157: 40159.945 us/op
+# Warmup Iteration 1158: 40315.984 us/op
+# Warmup Iteration 1159: 41032.306 us/op
+# Warmup Iteration 1160: 43869.981 us/op
+# Warmup Iteration 1161: 39734.411 us/op
+# Warmup Iteration 1162: 40324.197 us/op
+# Warmup Iteration 1163: 41149.757 us/op
+# Warmup Iteration 1164: 40164.273 us/op
+# Warmup Iteration 1165: 40268.392 us/op
+# Warmup Iteration 1166: 41320.188 us/op
+# Warmup Iteration 1167: 40470.329 us/op
+# Warmup Iteration 1168: 40926.601 us/op
+# Warmup Iteration 1169: 39905.052 us/op
+# Warmup Iteration 1170: 42618.337 us/op
+# Warmup Iteration 1171: 39832.954 us/op
+# Warmup Iteration 1172: 41070.418 us/op
+# Warmup Iteration 1173: 41037.559 us/op
+# Warmup Iteration 1174: 40412.780 us/op
+# Warmup Iteration 1175: 40013.182 us/op
+# Warmup Iteration 1176: 40406.501 us/op
+# Warmup Iteration 1177: 42061.333 us/op
+# Warmup Iteration 1178: 40428.806 us/op
+# Warmup Iteration 1179: 40119.424 us/op
+# Warmup Iteration 1180: 42924.622 us/op
+# Warmup Iteration 1181: 40134.841 us/op
+# Warmup Iteration 1182: 40402.076 us/op
+# Warmup Iteration 1183: 41061.272 us/op
+# Warmup Iteration 1184: 39974.587 us/op
+# Warmup Iteration 1185: 40585.190 us/op
+# Warmup Iteration 1186: 40635.624 us/op
+# Warmup Iteration 1187: 40983.382 us/op
+# Warmup Iteration 1188: 40568.967 us/op
+# Warmup Iteration 1189: 40050.509 us/op
+# Warmup Iteration 1190: 40766.447 us/op
+# Warmup Iteration 1191: 40795.943 us/op
+# Warmup Iteration 1192: 40368.974 us/op
+# Warmup Iteration 1193: 40213.256 us/op
+# Warmup Iteration 1194: 40415.742 us/op
+# Warmup Iteration 1195: 40144.522 us/op
+# Warmup Iteration 1196: 40707.597 us/op
+# Warmup Iteration 1197: 42418.148 us/op
+# Warmup Iteration 1198: 41290.099 us/op
+# Warmup Iteration 1199: 40214.200 us/op
+# Warmup Iteration 1200: 41042.937 us/op
+# Warmup Iteration 1201: 43960.345 us/op
+# Warmup Iteration 1202: 40286.415 us/op
+# Warmup Iteration 1203: 40045.385 us/op
+# Warmup Iteration 1204: 40018.088 us/op
+# Warmup Iteration 1205: 41020.562 us/op
+# Warmup Iteration 1206: 40883.417 us/op
+# Warmup Iteration 1207: 40831.830 us/op
+# Warmup Iteration 1208: 40719.289 us/op
+# Warmup Iteration 1209: 40070.713 us/op
+# Warmup Iteration 1210: 40344.983 us/op
+# Warmup Iteration 1211: 39607.828 us/op
+# Warmup Iteration 1212: 40613.092 us/op
+# Warmup Iteration 1213: 40710.492 us/op
+# Warmup Iteration 1214: 40463.025 us/op
+# Warmup Iteration 1215: 41263.073 us/op
+# Warmup Iteration 1216: 40303.290 us/op
+# Warmup Iteration 1217: 39765.567 us/op
+# Warmup Iteration 1218: 40257.218 us/op
+# Warmup Iteration 1219: 39877.998 us/op
+# Warmup Iteration 1220: 43365.339 us/op
+# Warmup Iteration 1221: 43837.497 us/op
+# Warmup Iteration 1222: 40313.714 us/op
+# Warmup Iteration 1223: 41238.234 us/op
+# Warmup Iteration 1224: 40200.862 us/op
+# Warmup Iteration 1225: 39973.240 us/op
+# Warmup Iteration 1226: 40251.740 us/op
+# Warmup Iteration 1227: 40241.871 us/op
+# Warmup Iteration 1228: 40603.147 us/op
+# Warmup Iteration 1229: 40306.937 us/op
+# Warmup Iteration 1230: 40843.686 us/op
+# Warmup Iteration 1231: 40209.431 us/op
+# Warmup Iteration 1232: 40635.499 us/op
+# Warmup Iteration 1233: 40694.372 us/op
+# Warmup Iteration 1234: 40861.547 us/op
+# Warmup Iteration 1235: 41435.030 us/op
+# Warmup Iteration 1236: 40850.302 us/op
+# Warmup Iteration 1237: 41205.582 us/op
+# Warmup Iteration 1238: 41062.922 us/op
+# Warmup Iteration 1239: 40727.822 us/op
+# Warmup Iteration 1240: 40319.314 us/op
+# Warmup Iteration 1241: 40854.937 us/op
+# Warmup Iteration 1242: 43873.565 us/op
+# Warmup Iteration 1243: 40834.577 us/op
+# Warmup Iteration 1244: 40958.027 us/op
+# Warmup Iteration 1245: 40215.295 us/op
+# Warmup Iteration 1246: 40344.482 us/op
+# Warmup Iteration 1247: 40784.943 us/op
+# Warmup Iteration 1248: 40960.710 us/op
+# Warmup Iteration 1249: 41321.450 us/op
+# Warmup Iteration 1250: 41439.282 us/op
+# Warmup Iteration 1251: 40410.399 us/op
+# Warmup Iteration 1252: 40781.797 us/op
+# Warmup Iteration 1253: 40298.428 us/op
+# Warmup Iteration 1254: 40483.065 us/op
+# Warmup Iteration 1255: 40318.766 us/op
+# Warmup Iteration 1256: 39929.943 us/op
+# Warmup Iteration 1257: 40071.743 us/op
+# Warmup Iteration 1258: 40767.900 us/op
+# Warmup Iteration 1259: 40157.165 us/op
+# Warmup Iteration 1260: 40243.746 us/op
+# Warmup Iteration 1261: 40845.636 us/op
+# Warmup Iteration 1262: 43882.158 us/op
+# Warmup Iteration 1263: 40570.487 us/op
+# Warmup Iteration 1264: 40098.926 us/op
+# Warmup Iteration 1265: 40200.284 us/op
+# Warmup Iteration 1266: 40712.065 us/op
+# Warmup Iteration 1267: 40375.843 us/op
+# Warmup Iteration 1268: 40818.896 us/op
+# Warmup Iteration 1269: 40645.607 us/op
+# Warmup Iteration 1270: 40849.312 us/op
+# Warmup Iteration 1271: 40122.417 us/op
+# Warmup Iteration 1272: 40318.052 us/op
+# Warmup Iteration 1273: 41801.348 us/op
+# Warmup Iteration 1274: 43455.729 us/op
+# Warmup Iteration 1275: 40756.824 us/op
+# Warmup Iteration 1276: 40693.201 us/op
+# Warmup Iteration 1277: 40729.132 us/op
+# Warmup Iteration 1278: 40116.922 us/op
+# Warmup Iteration 1279: 40347.215 us/op
+# Warmup Iteration 1280: 41541.743 us/op
+# Warmup Iteration 1281: 40226.852 us/op
+# Warmup Iteration 1282: 44449.076 us/op
+# Warmup Iteration 1283: 40657.881 us/op
+# Warmup Iteration 1284: 40369.222 us/op
+# Warmup Iteration 1285: 40747.207 us/op
+# Warmup Iteration 1286: 40613.929 us/op
+# Warmup Iteration 1287: 40002.648 us/op
+# Warmup Iteration 1288: 40151.734 us/op
+# Warmup Iteration 1289: 40851.132 us/op
+# Warmup Iteration 1290: 40173.591 us/op
+# Warmup Iteration 1291: 40281.795 us/op
+# Warmup Iteration 1292: 40761.343 us/op
+# Warmup Iteration 1293: 40415.348 us/op
+# Warmup Iteration 1294: 40797.887 us/op
+# Warmup Iteration 1295: 40425.916 us/op
+# Warmup Iteration 1296: 40977.773 us/op
+# Warmup Iteration 1297: 40656.576 us/op
+# Warmup Iteration 1298: 40892.142 us/op
+# Warmup Iteration 1299: 40146.097 us/op
+# Warmup Iteration 1300: 39951.043 us/op
+# Warmup Iteration 1301: 40377.833 us/op
+# Warmup Iteration 1302: 40412.267 us/op
+# Warmup Iteration 1303: 46139.880 us/op
+# Warmup Iteration 1304: 40599.755 us/op
+# Warmup Iteration 1305: 40288.838 us/op
+# Warmup Iteration 1306: 40462.487 us/op
+# Warmup Iteration 1307: 40446.174 us/op
+# Warmup Iteration 1308: 40152.381 us/op
+# Warmup Iteration 1309: 40320.955 us/op
+# Warmup Iteration 1310: 42191.195 us/op
+# Warmup Iteration 1311: 40245.557 us/op
+# Warmup Iteration 1312: 40130.280 us/op
+# Warmup Iteration 1313: 41039.346 us/op
+# Warmup Iteration 1314: 39932.999 us/op
+# Warmup Iteration 1315: 40447.736 us/op
+# Warmup Iteration 1316: 40474.694 us/op
+# Warmup Iteration 1317: 40404.215 us/op
+# Warmup Iteration 1318: 40100.585 us/op
+# Warmup Iteration 1319: 40055.409 us/op
+# Warmup Iteration 1320: 40414.825 us/op
+# Warmup Iteration 1321: 40341.056 us/op
+# Warmup Iteration 1322: 40299.205 us/op
+# Warmup Iteration 1323: 43857.104 us/op
+# Warmup Iteration 1324: 40324.072 us/op
+# Warmup Iteration 1325: 40872.388 us/op
+# Warmup Iteration 1326: 40771.562 us/op
+# Warmup Iteration 1327: 40595.918 us/op
+# Warmup Iteration 1328: 40863.935 us/op
+# Warmup Iteration 1329: 45309.405 us/op
+# Warmup Iteration 1330: 45011.563 us/op
+# Warmup Iteration 1331: 40262.939 us/op
+# Warmup Iteration 1332: 40464.875 us/op
+# Warmup Iteration 1333: 40868.269 us/op
+# Warmup Iteration 1334: 40017.215 us/op
+# Warmup Iteration 1335: 39555.453 us/op
+# Warmup Iteration 1336: 39848.480 us/op
+# Warmup Iteration 1337: 40147.414 us/op
+# Warmup Iteration 1338: 40474.467 us/op
+# Warmup Iteration 1339: 41092.970 us/op
+# Warmup Iteration 1340: 40272.187 us/op
+# Warmup Iteration 1341: 40242.572 us/op
+# Warmup Iteration 1342: 41013.833 us/op
+# Warmup Iteration 1343: 48884.268 us/op
+# Warmup Iteration 1344: 42934.991 us/op
+# Warmup Iteration 1345: 40246.486 us/op
+# Warmup Iteration 1346: 40240.870 us/op
+# Warmup Iteration 1347: 39678.425 us/op
+# Warmup Iteration 1348: 40101.677 us/op
+# Warmup Iteration 1349: 40469.017 us/op
+# Warmup Iteration 1350: 40138.145 us/op
+# Warmup Iteration 1351: 40964.537 us/op
+# Warmup Iteration 1352: 39688.359 us/op
+# Warmup Iteration 1353: 40737.153 us/op
+# Warmup Iteration 1354: 40578.960 us/op
+# Warmup Iteration 1355: 40605.106 us/op
+# Warmup Iteration 1356: 40564.085 us/op
+# Warmup Iteration 1357: 40096.028 us/op
+# Warmup Iteration 1358: 40498.259 us/op
+# Warmup Iteration 1359: 41196.604 us/op
+# Warmup Iteration 1360: 40532.058 us/op
+# Warmup Iteration 1361: 40055.531 us/op
+# Warmup Iteration 1362: 40268.831 us/op
+# Warmup Iteration 1363: 40719.648 us/op
+# Warmup Iteration 1364: 44123.140 us/op
+# Warmup Iteration 1365: 40712.371 us/op
+# Warmup Iteration 1366: 40537.718 us/op
+# Warmup Iteration 1367: 40268.910 us/op
+# Warmup Iteration 1368: 41347.450 us/op
+# Warmup Iteration 1369: 40294.806 us/op
+# Warmup Iteration 1370: 41134.367 us/op
+# Warmup Iteration 1371: 40396.142 us/op
+# Warmup Iteration 1372: 40167.438 us/op
+# Warmup Iteration 1373: 40597.771 us/op
+# Warmup Iteration 1374: 40136.068 us/op
+# Warmup Iteration 1375: 41350.165 us/op
+# Warmup Iteration 1376: 43108.657 us/op
+# Warmup Iteration 1377: 43468.844 us/op
+# Warmup Iteration 1378: 43707.473 us/op
+# Warmup Iteration 1379: 45774.018 us/op
+# Warmup Iteration 1380: 39677.900 us/op
+# Warmup Iteration 1381: 40565.648 us/op
+# Warmup Iteration 1382: 40315.892 us/op
+# Warmup Iteration 1383: 39936.296 us/op
+# Warmup Iteration 1384: 43827.849 us/op
+# Warmup Iteration 1385: 40937.073 us/op
+# Warmup Iteration 1386: 44001.698 us/op
+# Warmup Iteration 1387: 40428.678 us/op
+# Warmup Iteration 1388: 40212.023 us/op
+# Warmup Iteration 1389: 40004.942 us/op
+# Warmup Iteration 1390: 40590.692 us/op
+# Warmup Iteration 1391: 40376.274 us/op
+# Warmup Iteration 1392: 40338.511 us/op
+# Warmup Iteration 1393: 40130.784 us/op
+# Warmup Iteration 1394: 41269.678 us/op
+# Warmup Iteration 1395: 40635.858 us/op
+# Warmup Iteration 1396: 40388.846 us/op
+# Warmup Iteration 1397: 39914.558 us/op
+# Warmup Iteration 1398: 40710.798 us/op
+# Warmup Iteration 1399: 39931.319 us/op
+# Warmup Iteration 1400: 40764.242 us/op
+# Warmup Iteration 1401: 41231.760 us/op
+# Warmup Iteration 1402: 42228.133 us/op
+# Warmup Iteration 1403: 40021.282 us/op
+# Warmup Iteration 1404: 43037.954 us/op
+# Warmup Iteration 1405: 40095.425 us/op
+# Warmup Iteration 1406: 40337.249 us/op
+# Warmup Iteration 1407: 40953.004 us/op
+# Warmup Iteration 1408: 41076.878 us/op
+# Warmup Iteration 1409: 40494.367 us/op
+# Warmup Iteration 1410: 41007.071 us/op
+# Warmup Iteration 1411: 42875.329 us/op
+# Warmup Iteration 1412: 41127.668 us/op
+# Warmup Iteration 1413: 42293.235 us/op
+# Warmup Iteration 1414: 40542.137 us/op
+# Warmup Iteration 1415: 40497.410 us/op
+# Warmup Iteration 1416: 41375.249 us/op
+# Warmup Iteration 1417: 40118.470 us/op
+# Warmup Iteration 1418: 40678.102 us/op
+# Warmup Iteration 1419: 41310.400 us/op
+# Warmup Iteration 1420: 42927.574 us/op
+# Warmup Iteration 1421: 41131.732 us/op
+# Warmup Iteration 1422: 40149.770 us/op
+# Warmup Iteration 1423: 40701.732 us/op
+# Warmup Iteration 1424: 40822.774 us/op
+# Warmup Iteration 1425: 43053.771 us/op
+# Warmup Iteration 1426: 40992.473 us/op
+# Warmup Iteration 1427: 39660.548 us/op
+# Warmup Iteration 1428: 40021.442 us/op
+# Warmup Iteration 1429: 39899.809 us/op
+# Warmup Iteration 1430: 40832.650 us/op
+# Warmup Iteration 1431: 40500.326 us/op
+# Warmup Iteration 1432: 40331.515 us/op
+# Warmup Iteration 1433: 40445.259 us/op
+# Warmup Iteration 1434: 40091.139 us/op
+# Warmup Iteration 1435: 40350.606 us/op
+# Warmup Iteration 1436: 40222.040 us/op
+# Warmup Iteration 1437: 40463.343 us/op
+# Warmup Iteration 1438: 41333.168 us/op
+# Warmup Iteration 1439: 40338.241 us/op
+# Warmup Iteration 1440: 40138.419 us/op
+# Warmup Iteration 1441: 41255.399 us/op
+# Warmup Iteration 1442: 40139.537 us/op
+# Warmup Iteration 1443: 40956.202 us/op
+# Warmup Iteration 1444: 41053.512 us/op
+# Warmup Iteration 1445: 44932.762 us/op
+# Warmup Iteration 1446: 40503.511 us/op
+# Warmup Iteration 1447: 42306.737 us/op
+# Warmup Iteration 1448: 40227.661 us/op
+# Warmup Iteration 1449: 40876.552 us/op
+# Warmup Iteration 1450: 39865.039 us/op
+# Warmup Iteration 1451: 40696.824 us/op
+# Warmup Iteration 1452: 41000.042 us/op
+# Warmup Iteration 1453: 40129.994 us/op
+# Warmup Iteration 1454: 40917.198 us/op
+# Warmup Iteration 1455: 40589.367 us/op
+# Warmup Iteration 1456: 40321.068 us/op
+# Warmup Iteration 1457: 40567.149 us/op
+# Warmup Iteration 1458: 41089.280 us/op
+# Warmup Iteration 1459: 40501.905 us/op
+# Warmup Iteration 1460: 40758.455 us/op
+# Warmup Iteration 1461: 41081.425 us/op
+# Warmup Iteration 1462: 42570.429 us/op
+# Warmup Iteration 1463: 40965.046 us/op
+# Warmup Iteration 1464: 39891.949 us/op
+# Warmup Iteration 1465: 42297.329 us/op
+# Warmup Iteration 1466: 40111.178 us/op
+# Warmup Iteration 1467: 40309.216 us/op
+# Warmup Iteration 1468: 40369.900 us/op
+# Warmup Iteration 1469: 40189.108 us/op
+# Warmup Iteration 1470: 40545.578 us/op
+# Warmup Iteration 1471: 40505.890 us/op
+# Warmup Iteration 1472: 40918.180 us/op
+# Warmup Iteration 1473: 40572.817 us/op
+# Warmup Iteration 1474: 40223.189 us/op
+# Warmup Iteration 1475: 40830.065 us/op
+# Warmup Iteration 1476: 40725.573 us/op
+# Warmup Iteration 1477: 40191.111 us/op
+# Warmup Iteration 1478: 40370.882 us/op
+# Warmup Iteration 1479: 42460.896 us/op
+# Warmup Iteration 1480: 40670.098 us/op
+# Warmup Iteration 1481: 43011.521 us/op
+# Warmup Iteration 1482: 41465.569 us/op
+# Warmup Iteration 1483: 40195.830 us/op
+# Warmup Iteration 1484: 40325.655 us/op
+# Warmup Iteration 1485: 40537.592 us/op
+# Warmup Iteration 1486: 44918.718 us/op
+# Warmup Iteration 1487: 40229.785 us/op
+# Warmup Iteration 1488: 43736.223 us/op
+# Warmup Iteration 1489: 41177.152 us/op
+# Warmup Iteration 1490: 40675.715 us/op
+# Warmup Iteration 1491: 39895.063 us/op
+# Warmup Iteration 1492: 44861.711 us/op
+# Warmup Iteration 1493: 40240.775 us/op
+# Warmup Iteration 1494: 40290.568 us/op
+# Warmup Iteration 1495: 40642.873 us/op
+# Warmup Iteration 1496: 40474.807 us/op
+# Warmup Iteration 1497: 40784.275 us/op
+# Warmup Iteration 1498: 40637.518 us/op
+# Warmup Iteration 1499: 42954.848 us/op
+# Warmup Iteration 1500: 40260.329 us/op
+# Warmup Iteration 1501: 40488.157 us/op
+# Warmup Iteration 1502: 40109.716 us/op
+# Warmup Iteration 1503: 40464.395 us/op
+# Warmup Iteration 1504: 40611.939 us/op
+# Warmup Iteration 1505: 40810.946 us/op
+# Warmup Iteration 1506: 43777.010 us/op
+# Warmup Iteration 1507: 40243.350 us/op
+# Warmup Iteration 1508: 40173.248 us/op
+# Warmup Iteration 1509: 40011.614 us/op
+# Warmup Iteration 1510: 40554.624 us/op
+# Warmup Iteration 1511: 40070.324 us/op
+# Warmup Iteration 1512: 40353.189 us/op
+# Warmup Iteration 1513: 40507.165 us/op
+# Warmup Iteration 1514: 40708.603 us/op
+# Warmup Iteration 1515: 40323.149 us/op
+# Warmup Iteration 1516: 40065.538 us/op
+# Warmup Iteration 1517: 39712.442 us/op
+# Warmup Iteration 1518: 40748.576 us/op
+# Warmup Iteration 1519: 40548.596 us/op
+# Warmup Iteration 1520: 40297.885 us/op
+# Warmup Iteration 1521: 39789.056 us/op
+# Warmup Iteration 1522: 40719.026 us/op
+# Warmup Iteration 1523: 40321.489 us/op
+# Warmup Iteration 1524: 40407.408 us/op
+# Warmup Iteration 1525: 41031.952 us/op
+# Warmup Iteration 1526: 40205.719 us/op
+# Warmup Iteration 1527: 44414.194 us/op
+# Warmup Iteration 1528: 40526.561 us/op
+# Warmup Iteration 1529: 40386.401 us/op
+# Warmup Iteration 1530: 40210.999 us/op
+# Warmup Iteration 1531: 42431.448 us/op
+# Warmup Iteration 1532: 40418.228 us/op
+# Warmup Iteration 1533: 41247.784 us/op
+# Warmup Iteration 1534: 40330.882 us/op
+# Warmup Iteration 1535: 40257.135 us/op
+# Warmup Iteration 1536: 40896.370 us/op
+# Warmup Iteration 1537: 40931.129 us/op
+# Warmup Iteration 1538: 40255.024 us/op
+# Warmup Iteration 1539: 41100.791 us/op
+# Warmup Iteration 1540: 40515.421 us/op
+# Warmup Iteration 1541: 40701.688 us/op
+# Warmup Iteration 1542: 43384.094 us/op
+# Warmup Iteration 1543: 40097.072 us/op
+# Warmup Iteration 1544: 40142.652 us/op
+# Warmup Iteration 1545: 41578.509 us/op
+# Warmup Iteration 1546: 40511.421 us/op
+# Warmup Iteration 1547: 43779.437 us/op
+# Warmup Iteration 1548: 40851.092 us/op
+# Warmup Iteration 1549: 41127.358 us/op
+# Warmup Iteration 1550: 40521.836 us/op
+# Warmup Iteration 1551: 40407.949 us/op
+# Warmup Iteration 1552: 41065.794 us/op
+# Warmup Iteration 1553: 41041.649 us/op
+# Warmup Iteration 1554: 40521.535 us/op
+# Warmup Iteration 1555: 40741.293 us/op
+# Warmup Iteration 1556: 40606.925 us/op
+# Warmup Iteration 1557: 40176.253 us/op
+# Warmup Iteration 1558: 40199.147 us/op
+# Warmup Iteration 1559: 40910.876 us/op
+# Warmup Iteration 1560: 43076.857 us/op
+# Warmup Iteration 1561: 40256.847 us/op
+# Warmup Iteration 1562: 40363.405 us/op
+# Warmup Iteration 1563: 40378.664 us/op
+# Warmup Iteration 1564: 40549.277 us/op
+# Warmup Iteration 1565: 40565.682 us/op
+# Warmup Iteration 1566: 40152.892 us/op
+# Warmup Iteration 1567: 46285.443 us/op
+# Warmup Iteration 1568: 40121.821 us/op
+# Warmup Iteration 1569: 40162.330 us/op
+# Warmup Iteration 1570: 40060.436 us/op
+# Warmup Iteration 1571: 40101.386 us/op
+# Warmup Iteration 1572: 39945.858 us/op
+# Warmup Iteration 1573: 40321.058 us/op
+# Warmup Iteration 1574: 40322.622 us/op
+# Warmup Iteration 1575: 40364.668 us/op
+# Warmup Iteration 1576: 39704.087 us/op
+# Warmup Iteration 1577: 40019.389 us/op
+# Warmup Iteration 1578: 41949.766 us/op
+# Warmup Iteration 1579: 40553.409 us/op
+# Warmup Iteration 1580: 40646.527 us/op
+# Warmup Iteration 1581: 40691.183 us/op
+# Warmup Iteration 1582: 40196.524 us/op
+# Warmup Iteration 1583: 40437.955 us/op
+# Warmup Iteration 1584: 40170.453 us/op
+# Warmup Iteration 1585: 41130.026 us/op
+# Warmup Iteration 1586: 41928.930 us/op
+# Warmup Iteration 1587: 40771.158 us/op
+# Warmup Iteration 1588: 44565.665 us/op
+# Warmup Iteration 1589: 40446.863 us/op
+# Warmup Iteration 1590: 40846.954 us/op
+# Warmup Iteration 1591: 40317.840 us/op
+# Warmup Iteration 1592: 40261.280 us/op
+# Warmup Iteration 1593: 40262.255 us/op
+# Warmup Iteration 1594: 41658.418 us/op
+# Warmup Iteration 1595: 40361.479 us/op
+# Warmup Iteration 1596: 40863.708 us/op
+# Warmup Iteration 1597: 40621.370 us/op
+# Warmup Iteration 1598: 40533.201 us/op
+# Warmup Iteration 1599: 40422.524 us/op
+# Warmup Iteration 1600: 40458.790 us/op
+# Warmup Iteration 1601: 41901.155 us/op
+# Warmup Iteration 1602: 40403.559 us/op
+# Warmup Iteration 1603: 42150.681 us/op
+# Warmup Iteration 1604: 41513.196 us/op
+# Warmup Iteration 1605: 40151.195 us/op
+# Warmup Iteration 1606: 40945.036 us/op
+# Warmup Iteration 1607: 40048.552 us/op
+# Warmup Iteration 1608: 44348.962 us/op
+# Warmup Iteration 1609: 39676.903 us/op
+# Warmup Iteration 1610: 40328.224 us/op
+# Warmup Iteration 1611: 41323.671 us/op
+# Warmup Iteration 1612: 39645.377 us/op
+# Warmup Iteration 1613: 40058.470 us/op
+# Warmup Iteration 1614: 40447.050 us/op
+# Warmup Iteration 1615: 40090.049 us/op
+# Warmup Iteration 1616: 40002.585 us/op
+# Warmup Iteration 1617: 40366.850 us/op
+# Warmup Iteration 1618: 40534.034 us/op
+# Warmup Iteration 1619: 40732.640 us/op
+# Warmup Iteration 1620: 41246.280 us/op
+# Warmup Iteration 1621: 43288.720 us/op
+# Warmup Iteration 1622: 40479.184 us/op
+# Warmup Iteration 1623: 40676.565 us/op
+# Warmup Iteration 1624: 40375.657 us/op
+# Warmup Iteration 1625: 40396.536 us/op
+# Warmup Iteration 1626: 40704.184 us/op
+# Warmup Iteration 1627: 40465.405 us/op
+# Warmup Iteration 1628: 42356.676 us/op
+# Warmup Iteration 1629: 41633.532 us/op
+# Warmup Iteration 1630: 40221.086 us/op
+# Warmup Iteration 1631: 40107.265 us/op
+# Warmup Iteration 1632: 40557.936 us/op
+# Warmup Iteration 1633: 44103.421 us/op
+# Warmup Iteration 1634: 40273.918 us/op
+# Warmup Iteration 1635: 40687.950 us/op
+# Warmup Iteration 1636: 39897.468 us/op
+# Warmup Iteration 1637: 39953.761 us/op
+# Warmup Iteration 1638: 40270.602 us/op
+# Warmup Iteration 1639: 41052.077 us/op
+# Warmup Iteration 1640: 40242.524 us/op
+# Warmup Iteration 1641: 40885.835 us/op
+# Warmup Iteration 1642: 40030.351 us/op
+# Warmup Iteration 1643: 40512.902 us/op
+# Warmup Iteration 1644: 40183.225 us/op
+# Warmup Iteration 1645: 40760.269 us/op
+# Warmup Iteration 1646: 40963.511 us/op
+# Warmup Iteration 1647: 40324.480 us/op
+# Warmup Iteration 1648: 39586.431 us/op
+# Warmup Iteration 1649: 44815.930 us/op
+# Warmup Iteration 1650: 40128.549 us/op
+# Warmup Iteration 1651: 40393.580 us/op
+# Warmup Iteration 1652: 40349.611 us/op
+# Warmup Iteration 1653: 40213.832 us/op
+# Warmup Iteration 1654: 40492.318 us/op
+# Warmup Iteration 1655: 40360.578 us/op
+# Warmup Iteration 1656: 40478.813 us/op
+# Warmup Iteration 1657: 40949.718 us/op
+# Warmup Iteration 1658: 40791.208 us/op
+# Warmup Iteration 1659: 40359.729 us/op
+# Warmup Iteration 1660: 40990.211 us/op
+# Warmup Iteration 1661: 40071.856 us/op
+# Warmup Iteration 1662: 40398.607 us/op
+# Warmup Iteration 1663: 40428.919 us/op
+# Warmup Iteration 1664: 40252.806 us/op
+# Warmup Iteration 1665: 40216.497 us/op
+# Warmup Iteration 1666: 40968.172 us/op
+# Warmup Iteration 1667: 40886.426 us/op
+# Warmup Iteration 1668: 40687.985 us/op
+# Warmup Iteration 1669: 42499.357 us/op
+# Warmup Iteration 1670: 41540.312 us/op
+# Warmup Iteration 1671: 40889.571 us/op
+# Warmup Iteration 1672: 41044.450 us/op
+# Warmup Iteration 1673: 40058.749 us/op
+# Warmup Iteration 1674: 40489.941 us/op
+# Warmup Iteration 1675: 40567.577 us/op
+# Warmup Iteration 1676: 41351.343 us/op
+# Warmup Iteration 1677: 41137.595 us/op
+# Warmup Iteration 1678: 40614.879 us/op
+# Warmup Iteration 1679: 40562.277 us/op
+# Warmup Iteration 1680: 40226.879 us/op
+# Warmup Iteration 1681: 40470.514 us/op
+# Warmup Iteration 1682: 40607.131 us/op
+# Warmup Iteration 1683: 40375.826 us/op
+# Warmup Iteration 1684: 40336.453 us/op
+# Warmup Iteration 1685: 41279.157 us/op
+# Warmup Iteration 1686: 41539.891 us/op
+# Warmup Iteration 1687: 40627.452 us/op
+# Warmup Iteration 1688: 40268.682 us/op
+# Warmup Iteration 1689: 40648.959 us/op
+# Warmup Iteration 1690: 45251.836 us/op
+# Warmup Iteration 1691: 40788.690 us/op
+# Warmup Iteration 1692: 41641.755 us/op
+# Warmup Iteration 1693: 42404.339 us/op
+# Warmup Iteration 1694: 41085.620 us/op
+# Warmup Iteration 1695: 41119.764 us/op
+# Warmup Iteration 1696: 41140.093 us/op
+# Warmup Iteration 1697: 41002.374 us/op
+# Warmup Iteration 1698: 41702.390 us/op
+# Warmup Iteration 1699: 41494.561 us/op
+# Warmup Iteration 1700: 41625.425 us/op
+# Warmup Iteration 1701: 40803.463 us/op
+# Warmup Iteration 1702: 40962.196 us/op
+# Warmup Iteration 1703: 41633.529 us/op
+# Warmup Iteration 1704: 41391.365 us/op
+# Warmup Iteration 1705: 41600.916 us/op
+# Warmup Iteration 1706: 41836.373 us/op
+# Warmup Iteration 1707: 41188.684 us/op
+# Warmup Iteration 1708: 40973.410 us/op
+# Warmup Iteration 1709: 41324.939 us/op
+# Warmup Iteration 1710: 45450.335 us/op
+# Warmup Iteration 1711: 41106.994 us/op
+# Warmup Iteration 1712: 46180.407 us/op
+# Warmup Iteration 1713: 41595.900 us/op
+# Warmup Iteration 1714: 41262.395 us/op
+# Warmup Iteration 1715: 41424.300 us/op
+# Warmup Iteration 1716: 40954.614 us/op
+# Warmup Iteration 1717: 41745.904 us/op
+# Warmup Iteration 1718: 41200.016 us/op
+# Warmup Iteration 1719: 42261.300 us/op
+# Warmup Iteration 1720: 42338.194 us/op
+# Warmup Iteration 1721: 42152.866 us/op
+# Warmup Iteration 1722: 40868.315 us/op
+# Warmup Iteration 1723: 41721.395 us/op
+# Warmup Iteration 1724: 41380.194 us/op
+# Warmup Iteration 1725: 41463.009 us/op
+# Warmup Iteration 1726: 41100.922 us/op
+# Warmup Iteration 1727: 40535.096 us/op
+# Warmup Iteration 1728: 40274.349 us/op
+# Warmup Iteration 1729: 43083.705 us/op
+# Warmup Iteration 1730: 40756.161 us/op
+# Warmup Iteration 1731: 40830.611 us/op
+# Warmup Iteration 1732: 40605.591 us/op
+# Warmup Iteration 1733: 41041.828 us/op
+# Warmup Iteration 1734: 40686.100 us/op
+# Warmup Iteration 1735: 40919.077 us/op
+# Warmup Iteration 1736: 41011.221 us/op
+# Warmup Iteration 1737: 40325.131 us/op
+# Warmup Iteration 1738: 40499.469 us/op
+# Warmup Iteration 1739: 40153.776 us/op
+# Warmup Iteration 1740: 40946.472 us/op
+# Warmup Iteration 1741: 40426.291 us/op
+# Warmup Iteration 1742: 42278.191 us/op
+# Warmup Iteration 1743: 40045.243 us/op
+# Warmup Iteration 1744: 40283.232 us/op
+# Warmup Iteration 1745: 41230.282 us/op
+# Warmup Iteration 1746: 40496.135 us/op
+# Warmup Iteration 1747: 40170.721 us/op
+# Warmup Iteration 1748: 40229.029 us/op
+# Warmup Iteration 1749: 40744.880 us/op
+# Warmup Iteration 1750: 44824.088 us/op
+# Warmup Iteration 1751: 40362.274 us/op
+# Warmup Iteration 1752: 40228.633 us/op
+# Warmup Iteration 1753: 40519.667 us/op
+# Warmup Iteration 1754: 41069.570 us/op
+# Warmup Iteration 1755: 41092.252 us/op
+# Warmup Iteration 1756: 40835.390 us/op
+# Warmup Iteration 1757: 40112.294 us/op
+# Warmup Iteration 1758: 39773.284 us/op
+# Warmup Iteration 1759: 40227.688 us/op
+# Warmup Iteration 1760: 40469.863 us/op
+# Warmup Iteration 1761: 40352.997 us/op
+# Warmup Iteration 1762: 40115.859 us/op
+# Warmup Iteration 1763: 41026.200 us/op
+# Warmup Iteration 1764: 41080.619 us/op
+# Warmup Iteration 1765: 40372.484 us/op
+# Warmup Iteration 1766: 41130.125 us/op
+# Warmup Iteration 1767: 40475.137 us/op
+# Warmup Iteration 1768: 40397.606 us/op
+# Warmup Iteration 1769: 40239.221 us/op
+# Warmup Iteration 1770: 43570.170 us/op
+# Warmup Iteration 1771: 40592.785 us/op
+# Warmup Iteration 1772: 40291.332 us/op
+# Warmup Iteration 1773: 40379.903 us/op
+# Warmup Iteration 1774: 40248.341 us/op
+# Warmup Iteration 1775: 41118.363 us/op
+# Warmup Iteration 1776: 41053.207 us/op
+# Warmup Iteration 1777: 40222.392 us/op
+# Warmup Iteration 1778: 40336.714 us/op
+# Warmup Iteration 1779: 40755.370 us/op
+# Warmup Iteration 1780: 41551.748 us/op
+# Warmup Iteration 1781: 40675.197 us/op
+# Warmup Iteration 1782: 40294.555 us/op
+# Warmup Iteration 1783: 40634.503 us/op
+# Warmup Iteration 1784: 40704.425 us/op
+# Warmup Iteration 1785: 40467.750 us/op
+# Warmup Iteration 1786: 40754.789 us/op
+# Warmup Iteration 1787: 40638.301 us/op
+# Warmup Iteration 1788: 40808.804 us/op
+# Warmup Iteration 1789: 40505.190 us/op
+# Warmup Iteration 1790: 40341.753 us/op
+# Warmup Iteration 1791: 44433.612 us/op
+# Warmup Iteration 1792: 40710.473 us/op
+# Warmup Iteration 1793: 40971.738 us/op
+# Warmup Iteration 1794: 40447.362 us/op
+# Warmup Iteration 1795: 41487.083 us/op
+# Warmup Iteration 1796: 40686.358 us/op
+# Warmup Iteration 1797: 40632.804 us/op
+# Warmup Iteration 1798: 41667.405 us/op
+# Warmup Iteration 1799: 40347.424 us/op
+# Warmup Iteration 1800: 40905.894 us/op
+# Warmup Iteration 1801: 40169.830 us/op
+# Warmup Iteration 1802: 40878.653 us/op
+# Warmup Iteration 1803: 40419.800 us/op
+# Warmup Iteration 1804: 40732.130 us/op
+# Warmup Iteration 1805: 40115.709 us/op
+# Warmup Iteration 1806: 41375.829 us/op
+# Warmup Iteration 1807: 42519.904 us/op
+# Warmup Iteration 1808: 40425.273 us/op
+# Warmup Iteration 1809: 40300.135 us/op
+# Warmup Iteration 1810: 41148.920 us/op
+# Warmup Iteration 1811: 44516.418 us/op
+# Warmup Iteration 1812: 40999.880 us/op
+# Warmup Iteration 1813: 40660.159 us/op
+# Warmup Iteration 1814: 41946.879 us/op
+# Warmup Iteration 1815: 40366.627 us/op
+# Warmup Iteration 1816: 44528.401 us/op
+# Warmup Iteration 1817: 40522.433 us/op
+# Warmup Iteration 1818: 41288.866 us/op
+# Warmup Iteration 1819: 40979.138 us/op
+# Warmup Iteration 1820: 41358.943 us/op
+# Warmup Iteration 1821: 40145.973 us/op
+# Warmup Iteration 1822: 39922.133 us/op
+# Warmup Iteration 1823: 40744.029 us/op
+# Warmup Iteration 1824: 40261.286 us/op
+# Warmup Iteration 1825: 40594.401 us/op
+# Warmup Iteration 1826: 40400.441 us/op
+# Warmup Iteration 1827: 41101.752 us/op
+# Warmup Iteration 1828: 40415.392 us/op
+# Warmup Iteration 1829: 40642.238 us/op
+# Warmup Iteration 1830: 40324.358 us/op
+# Warmup Iteration 1831: 42501.602 us/op
+# Warmup Iteration 1832: 41295.920 us/op
+# Warmup Iteration 1833: 40077.848 us/op
+# Warmup Iteration 1834: 40777.402 us/op
+# Warmup Iteration 1835: 40009.409 us/op
+# Warmup Iteration 1836: 40150.083 us/op
+# Warmup Iteration 1837: 40003.869 us/op
+# Warmup Iteration 1838: 41383.709 us/op
+# Warmup Iteration 1839: 40101.913 us/op
+# Warmup Iteration 1840: 40036.453 us/op
+# Warmup Iteration 1841: 43390.062 us/op
+# Warmup Iteration 1842: 40396.300 us/op
+# Warmup Iteration 1843: 42881.887 us/op
+# Warmup Iteration 1844: 40499.673 us/op
+# Warmup Iteration 1845: 40729.515 us/op
+# Warmup Iteration 1846: 40364.984 us/op
+# Warmup Iteration 1847: 40763.927 us/op
+# Warmup Iteration 1848: 40952.063 us/op
+# Warmup Iteration 1849: 40836.535 us/op
+# Warmup Iteration 1850: 40300.699 us/op
+# Warmup Iteration 1851: 39975.722 us/op
+# Warmup Iteration 1852: 44796.397 us/op
+# Warmup Iteration 1853: 39874.234 us/op
+# Warmup Iteration 1854: 40177.034 us/op
+# Warmup Iteration 1855: 40832.606 us/op
+# Warmup Iteration 1856: 41428.232 us/op
+# Warmup Iteration 1857: 40057.301 us/op
+# Warmup Iteration 1858: 40585.824 us/op
+# Warmup Iteration 1859: 40021.775 us/op
+# Warmup Iteration 1860: 40411.294 us/op
+# Warmup Iteration 1861: 41062.154 us/op
+# Warmup Iteration 1862: 40274.057 us/op
+# Warmup Iteration 1863: 40829.881 us/op
+# Warmup Iteration 1864: 40488.977 us/op
+# Warmup Iteration 1865: 40325.686 us/op
+# Warmup Iteration 1866: 40539.528 us/op
+# Warmup Iteration 1867: 40868.874 us/op
+# Warmup Iteration 1868: 41034.415 us/op
+# Warmup Iteration 1869: 40233.189 us/op
+# Warmup Iteration 1870: 42384.873 us/op
+# Warmup Iteration 1871: 40113.425 us/op
+# Warmup Iteration 1872: 44181.721 us/op
+# Warmup Iteration 1873: 40062.068 us/op
+# Warmup Iteration 1874: 40905.660 us/op
+# Warmup Iteration 1875: 40293.733 us/op
+# Warmup Iteration 1876: 39744.912 us/op
+# Warmup Iteration 1877: 44265.306 us/op
+# Warmup Iteration 1878: 41082.919 us/op
+# Warmup Iteration 1879: 41346.098 us/op
+# Warmup Iteration 1880: 39997.164 us/op
+# Warmup Iteration 1881: 40519.099 us/op
+# Warmup Iteration 1882: 40406.765 us/op
+# Warmup Iteration 1883: 40307.512 us/op
+# Warmup Iteration 1884: 39893.261 us/op
+# Warmup Iteration 1885: 40762.474 us/op
+# Warmup Iteration 1886: 41103.715 us/op
+# Warmup Iteration 1887: 40299.337 us/op
+# Warmup Iteration 1888: 40192.032 us/op
+# Warmup Iteration 1889: 40623.119 us/op
+# Warmup Iteration 1890: 39762.918 us/op
+# Warmup Iteration 1891: 40202.562 us/op
+# Warmup Iteration 1892: 41032.321 us/op
+# Warmup Iteration 1893: 42239.402 us/op
+# Warmup Iteration 1894: 40399.645 us/op
+# Warmup Iteration 1895: 40255.912 us/op
+# Warmup Iteration 1896: 40426.552 us/op
+# Warmup Iteration 1897: 41007.505 us/op
+# Warmup Iteration 1898: 40750.602 us/op
+# Warmup Iteration 1899: 41365.119 us/op
+# Warmup Iteration 1900: 41097.934 us/op
+# Warmup Iteration 1901: 40401.195 us/op
+# Warmup Iteration 1902: 40176.653 us/op
+# Warmup Iteration 1903: 40611.323 us/op
+# Warmup Iteration 1904: 41344.144 us/op
+# Warmup Iteration 1905: 40195.492 us/op
+# Warmup Iteration 1906: 40772.202 us/op
+# Warmup Iteration 1907: 40178.095 us/op
+# Warmup Iteration 1908: 40726.864 us/op
+# Warmup Iteration 1909: 40137.289 us/op
+# Warmup Iteration 1910: 40378.332 us/op
+# Warmup Iteration 1911: 41324.513 us/op
+# Warmup Iteration 1912: 40382.370 us/op
+# Warmup Iteration 1913: 44680.957 us/op
+# Warmup Iteration 1914: 40574.198 us/op
+# Warmup Iteration 1915: 40721.389 us/op
+# Warmup Iteration 1916: 41093.777 us/op
+# Warmup Iteration 1917: 40389.015 us/op
+# Warmup Iteration 1918: 40105.239 us/op
+# Warmup Iteration 1919: 40255.912 us/op
+# Warmup Iteration 1920: 41184.013 us/op
+# Warmup Iteration 1921: 40286.841 us/op
+# Warmup Iteration 1922: 40287.569 us/op
+# Warmup Iteration 1923: 41230.293 us/op
+# Warmup Iteration 1924: 39541.276 us/op
+# Warmup Iteration 1925: 40946.262 us/op
+# Warmup Iteration 1926: 40464.918 us/op
+# Warmup Iteration 1927: 40592.761 us/op
+# Warmup Iteration 1928: 40470.569 us/op
+# Warmup Iteration 1929: 41906.927 us/op
+# Warmup Iteration 1930: 40932.897 us/op
+# Warmup Iteration 1931: 40529.790 us/op
+# Warmup Iteration 1932: 40626.942 us/op
+# Warmup Iteration 1933: 43416.005 us/op
+# Warmup Iteration 1934: 40338.650 us/op
+# Warmup Iteration 1935: 40520.746 us/op
+# Warmup Iteration 1936: 40337.848 us/op
+# Warmup Iteration 1937: 40155.175 us/op
+# Warmup Iteration 1938: 39790.822 us/op
+# Warmup Iteration 1939: 40723.965 us/op
+# Warmup Iteration 1940: 40377.574 us/op
+# Warmup Iteration 1941: 40117.125 us/op
+# Warmup Iteration 1942: 40104.998 us/op
+# Warmup Iteration 1943: 40915.942 us/op
+# Warmup Iteration 1944: 40366.546 us/op
+# Warmup Iteration 1945: 39963.227 us/op
+# Warmup Iteration 1946: 40311.379 us/op
+# Warmup Iteration 1947: 40459.828 us/op
+# Warmup Iteration 1948: 41111.192 us/op
+# Warmup Iteration 1949: 41216.661 us/op
+# Warmup Iteration 1950: 40041.993 us/op
+# Warmup Iteration 1951: 40810.798 us/op
+# Warmup Iteration 1952: 40329.591 us/op
+# Warmup Iteration 1953: 40607.959 us/op
+# Warmup Iteration 1954: 44244.078 us/op
+# Warmup Iteration 1955: 41282.514 us/op
+# Warmup Iteration 1956: 41057.017 us/op
+# Warmup Iteration 1957: 41106.956 us/op
+# Warmup Iteration 1958: 40617.908 us/op
+# Warmup Iteration 1959: 44543.403 us/op
+# Warmup Iteration 1960: 40315.163 us/op
+# Warmup Iteration 1961: 41159.713 us/op
+# Warmup Iteration 1962: 40404.073 us/op
+# Warmup Iteration 1963: 40860.949 us/op
+# Warmup Iteration 1964: 40697.508 us/op
+# Warmup Iteration 1965: 41126.293 us/op
+# Warmup Iteration 1966: 41531.635 us/op
+# Warmup Iteration 1967: 40843.720 us/op
+# Warmup Iteration 1968: 40746.988 us/op
+# Warmup Iteration 1969: 40473.701 us/op
+# Warmup Iteration 1970: 39984.085 us/op
+# Warmup Iteration 1971: 40318.994 us/op
+# Warmup Iteration 1972: 40543.565 us/op
+# Warmup Iteration 1973: 40487.390 us/op
+# Warmup Iteration 1974: 44515.448 us/op
+# Warmup Iteration 1975: 41341.345 us/op
+# Warmup Iteration 1976: 39976.657 us/op
+# Warmup Iteration 1977: 39906.468 us/op
+# Warmup Iteration 1978: 41028.987 us/op
+# Warmup Iteration 1979: 39977.549 us/op
+# Warmup Iteration 1980: 39877.357 us/op
+# Warmup Iteration 1981: 40487.571 us/op
+# Warmup Iteration 1982: 40588.863 us/op
+# Warmup Iteration 1983: 39611.652 us/op
+# Warmup Iteration 1984: 39466.635 us/op
+# Warmup Iteration 1985: 40019.531 us/op
+# Warmup Iteration 1986: 40907.412 us/op
+# Warmup Iteration 1987: 41134.022 us/op
+# Warmup Iteration 1988: 40054.299 us/op
+# Warmup Iteration 1989: 41270.031 us/op
+# Warmup Iteration 1990: 40957.523 us/op
+# Warmup Iteration 1991: 41003.412 us/op
+# Warmup Iteration 1992: 40313.113 us/op
+# Warmup Iteration 1993: 40558.825 us/op
+# Warmup Iteration 1994: 40153.713 us/op
+# Warmup Iteration 1995: 44233.244 us/op
+# Warmup Iteration 1996: 40573.992 us/op
+# Warmup Iteration 1997: 39601.022 us/op
+# Warmup Iteration 1998: 40126.351 us/op
+# Warmup Iteration 1999: 40750.945 us/op
+# Warmup Iteration 2000: 39640.792 us/op
+Iteration   1: 40042.221 us/op
+Iteration   2: 41476.752 us/op
+Iteration   3: 41255.282 us/op
+Iteration   4: 41072.820 us/op
+Iteration   5: 40288.176 us/op
+Iteration   6: 40728.586 us/op
+Iteration   7: 40157.988 us/op
+Iteration   8: 40303.657 us/op
+Iteration   9: 40296.865 us/op
+Iteration  10: 40003.077 us/op
+Iteration  11: 40829.736 us/op
+Iteration  12: 40406.248 us/op
+Iteration  13: 42831.494 us/op
+Iteration  14: 40200.909 us/op
+Iteration  15: 43943.624 us/op
+Iteration  16: 40160.659 us/op
+Iteration  17: 40880.085 us/op
+Iteration  18: 40560.547 us/op
+Iteration  19: 40222.823 us/op
+Iteration  20: 41135.530 us/op
+Iteration  21: 40279.978 us/op
+Iteration  22: 42091.133 us/op
+Iteration  23: 42417.987 us/op
+Iteration  24: 40987.499 us/op
+Iteration  25: 40847.266 us/op
+Iteration  26: 41772.274 us/op
+Iteration  27: 41066.258 us/op
+Iteration  28: 40866.795 us/op
+Iteration  29: 40499.633 us/op
+Iteration  30: 41312.991 us/op
+Iteration  31: 40698.233 us/op
+Iteration  32: 40754.204 us/op
+Iteration  33: 40493.479 us/op
+Iteration  34: 40706.842 us/op
+Iteration  35: 42745.533 us/op
+Iteration  36: 40111.426 us/op
+Iteration  37: 44990.734 us/op
+Iteration  38: 40140.101 us/op
+Iteration  39: 40389.354 us/op
+Iteration  40: 40689.232 us/op
+Iteration  41: 40425.343 us/op
+Iteration  42: 40504.359 us/op
+Iteration  43: 40180.764 us/op
+Iteration  44: 40167.786 us/op
+Iteration  45: 40635.445 us/op
+Iteration  46: 40161.678 us/op
+Iteration  47: 40918.269 us/op
+Iteration  48: 41800.287 us/op
+Iteration  49: 40415.324 us/op
+Iteration  50: 40520.259 us/op
+Iteration  51: 40548.595 us/op
+Iteration  52: 42264.819 us/op
+Iteration  53: 40357.666 us/op
+Iteration  54: 40239.116 us/op
+Iteration  55: 42291.673 us/op
+Iteration  56: 42403.532 us/op
+Iteration  57: 40138.151 us/op
+Iteration  58: 40453.379 us/op
+Iteration  59: 40730.206 us/op
+Iteration  60: 40179.883 us/op
+Iteration  61: 40809.888 us/op
+Iteration  62: 41520.441 us/op
+Iteration  63: 41618.355 us/op
+Iteration  64: 41117.203 us/op
+Iteration  65: 40620.393 us/op
+Iteration  66: 40225.390 us/op
+Iteration  67: 40894.705 us/op
+Iteration  68: 40422.739 us/op
+Iteration  69: 41184.583 us/op
+Iteration  70: 41234.815 us/op
+Iteration  71: 40785.697 us/op
+Iteration  72: 40859.049 us/op
+Iteration  73: 40350.356 us/op
+Iteration  74: 41011.011 us/op
+Iteration  75: 40479.007 us/op
+Iteration  76: 44864.293 us/op
+Iteration  77: 41052.665 us/op
+Iteration  78: 39943.411 us/op
+Iteration  79: 40304.289 us/op
+Iteration  80: 40613.440 us/op
+Iteration  81: 40164.043 us/op
+Iteration  82: 40209.911 us/op
+Iteration  83: 40249.370 us/op
+Iteration  84: 41411.105 us/op
+Iteration  85: 41216.369 us/op
+Iteration  86: 40175.868 us/op
+Iteration  87: 40193.237 us/op
+Iteration  88: 40734.892 us/op
+Iteration  89: 40185.684 us/op
+Iteration  90: 41377.139 us/op
+Iteration  91: 44115.705 us/op
+Iteration  92: 40992.470 us/op
+Iteration  93: 40410.203 us/op
+Iteration  94: 40592.295 us/op
+Iteration  95: 40649.172 us/op
+Iteration  96: 45053.939 us/op
+Iteration  97: 40394.143 us/op
+Iteration  98: 40712.684 us/op
+Iteration  99: 40856.408 us/op
+Iteration 100: 41329.389 us/op
+Iteration 101: 41229.765 us/op
+Iteration 102: 40748.288 us/op
+Iteration 103: 41208.853 us/op
+Iteration 104: 40434.596 us/op
+Iteration 105: 40351.473 us/op
+Iteration 106: 41692.630 us/op
+Iteration 107: 40567.351 us/op
+Iteration 108: 41292.210 us/op
+Iteration 109: 40293.991 us/op
+Iteration 110: 41025.772 us/op
+Iteration 111: 40893.851 us/op
+Iteration 112: 41851.270 us/op
+Iteration 113: 41120.157 us/op
+Iteration 114: 40513.390 us/op
+Iteration 115: 40670.074 us/op
+Iteration 116: 43680.194 us/op
+Iteration 117: 41021.148 us/op
+Iteration 118: 42771.330 us/op
+Iteration 119: 40395.014 us/op
+Iteration 120: 42259.835 us/op
+Iteration 121: 40219.094 us/op
+Iteration 122: 40166.097 us/op
+Iteration 123: 40505.235 us/op
+Iteration 124: 40788.183 us/op
+Iteration 125: 40632.975 us/op
+Iteration 126: 39815.365 us/op
+Iteration 127: 40610.890 us/op
+Iteration 128: 40346.155 us/op
+Iteration 129: 40718.442 us/op
+Iteration 130: 40131.940 us/op
+Iteration 131: 40478.211 us/op
+Iteration 132: 40502.419 us/op
+Iteration 133: 40354.871 us/op
+Iteration 134: 42143.106 us/op
+Iteration 135: 40783.915 us/op
+Iteration 136: 40292.211 us/op
+Iteration 137: 44820.209 us/op
+Iteration 138: 41230.306 us/op
+Iteration 139: 40841.220 us/op
+Iteration 140: 40208.030 us/op
+Iteration 141: 40496.589 us/op
+Iteration 142: 40385.396 us/op
+Iteration 143: 40132.148 us/op
+Iteration 144: 40794.612 us/op
+Iteration 145: 41005.812 us/op
+Iteration 146: 40721.076 us/op
+Iteration 147: 40971.327 us/op
+Iteration 148: 40354.237 us/op
+Iteration 149: 40704.236 us/op
+Iteration 150: 40280.141 us/op
+Iteration 151: 40572.600 us/op
+Iteration 152: 40720.573 us/op
+Iteration 153: 40501.402 us/op
+Iteration 154: 40144.613 us/op
+Iteration 155: 41020.650 us/op
+Iteration 156: 40894.183 us/op
+Iteration 157: 44364.614 us/op
+Iteration 158: 40937.867 us/op
+Iteration 159: 41211.158 us/op
+Iteration 160: 40682.421 us/op
+Iteration 161: 39800.837 us/op
+Iteration 162: 40395.102 us/op
+Iteration 163: 40066.587 us/op
+Iteration 164: 40242.888 us/op
+Iteration 165: 40389.817 us/op
+Iteration 166: 39998.108 us/op
+Iteration 167: 40418.068 us/op
+Iteration 168: 40700.325 us/op
+Iteration 169: 40228.762 us/op
+Iteration 170: 40872.558 us/op
+Iteration 171: 40014.519 us/op
+Iteration 172: 40874.147 us/op
+Iteration 173: 41344.117 us/op
+Iteration 174: 41246.812 us/op
+Iteration 175: 41250.119 us/op
+Iteration 176: 41022.135 us/op
+Iteration 177: 42470.715 us/op
+Iteration 178: 40871.001 us/op
+Iteration 179: 40616.811 us/op
+Iteration 180: 42119.632 us/op
+Iteration 181: 42358.764 us/op
+Iteration 182: 40510.140 us/op
+Iteration 183: 40408.944 us/op
+Iteration 184: 40759.803 us/op
+Iteration 185: 40595.171 us/op
+Iteration 186: 40510.749 us/op
+Iteration 187: 40477.439 us/op
+Iteration 188: 40262.032 us/op
+Iteration 189: 40957.552 us/op
+Iteration 190: 46309.357 us/op
+Iteration 191: 44281.514 us/op
+Iteration 192: 41637.637 us/op
+Iteration 193: 41147.398 us/op
+Iteration 194: 40446.980 us/op
+Iteration 195: 42096.662 us/op
+Iteration 196: 41758.594 us/op
+Iteration 197: 44683.282 us/op
+Iteration 198: 40527.203 us/op
+Iteration 199: 40071.549 us/op
+Iteration 200: 40431.580 us/op
+Iteration 201: 40273.375 us/op
+Iteration 202: 39759.027 us/op
+Iteration 203: 40177.505 us/op
+Iteration 204: 40513.334 us/op
+Iteration 205: 42263.545 us/op
+Iteration 206: 41109.768 us/op
+Iteration 207: 40026.285 us/op
+Iteration 208: 40277.430 us/op
+Iteration 209: 40410.664 us/op
+Iteration 210: 40255.896 us/op
+Iteration 211: 41274.116 us/op
+Iteration 212: 41412.587 us/op
+Iteration 213: 41483.540 us/op
+Iteration 214: 42791.468 us/op
+Iteration 215: 40009.080 us/op
+Iteration 216: 40044.636 us/op
+Iteration 217: 40714.685 us/op
+Iteration 218: 41796.067 us/op
+Iteration 219: 40292.451 us/op
+Iteration 220: 40710.750 us/op
+Iteration 221: 41196.257 us/op
+Iteration 222: 40753.298 us/op
+Iteration 223: 40920.358 us/op
+Iteration 224: 41229.392 us/op
+Iteration 225: 41025.091 us/op
+Iteration 226: 40611.721 us/op
+Iteration 227: 40276.264 us/op
+Iteration 228: 40269.982 us/op
+Iteration 229: 40815.514 us/op
+Iteration 230: 40713.784 us/op
+Iteration 231: 40818.941 us/op
+Iteration 232: 40453.157 us/op
+Iteration 233: 40764.906 us/op
+Iteration 234: 41053.755 us/op
+Iteration 235: 40179.830 us/op
+Iteration 236: 39960.144 us/op
+Iteration 237: 41172.596 us/op
+Iteration 238: 44147.576 us/op
+Iteration 239: 40639.764 us/op
+Iteration 240: 40527.604 us/op
+Iteration 241: 39954.306 us/op
+Iteration 242: 40526.779 us/op
+Iteration 243: 40233.541 us/op
+Iteration 244: 40726.896 us/op
+Iteration 245: 41342.227 us/op
+Iteration 246: 40107.681 us/op
+Iteration 247: 40695.239 us/op
+Iteration 248: 39766.974 us/op
+Iteration 249: 40199.106 us/op
+Iteration 250: 40482.331 us/op
+Iteration 251: 42826.644 us/op
+Iteration 252: 40349.211 us/op
+Iteration 253: 41212.002 us/op
+Iteration 254: 42120.544 us/op
+Iteration 255: 40443.608 us/op
+Iteration 256: 40756.864 us/op
+Iteration 257: 40743.599 us/op
+Iteration 258: 44753.002 us/op
+Iteration 259: 40237.068 us/op
+Iteration 260: 40105.039 us/op
+Iteration 261: 39867.663 us/op
+Iteration 262: 40101.502 us/op
+Iteration 263: 40686.352 us/op
+Iteration 264: 40102.575 us/op
+Iteration 265: 40813.400 us/op
+Iteration 266: 40055.544 us/op
+Iteration 267: 40918.209 us/op
+Iteration 268: 40258.908 us/op
+Iteration 269: 39853.427 us/op
+Iteration 270: 42230.433 us/op
+Iteration 271: 41787.333 us/op
+Iteration 272: 40392.920 us/op
+Iteration 273: 40263.718 us/op
+Iteration 274: 40604.701 us/op
+Iteration 275: 40559.554 us/op
+Iteration 276: 40481.516 us/op
+Iteration 277: 43068.370 us/op
+Iteration 278: 43679.213 us/op
+Iteration 279: 40308.418 us/op
+Iteration 280: 40335.780 us/op
+Iteration 281: 40160.323 us/op
+Iteration 282: 42396.893 us/op
+Iteration 283: 40521.138 us/op
+Iteration 284: 39804.966 us/op
+Iteration 285: 41626.912 us/op
+Iteration 286: 40466.100 us/op
+Iteration 287: 40704.015 us/op
+Iteration 288: 40415.465 us/op
+Iteration 289: 40123.955 us/op
+Iteration 290: 40585.171 us/op
+Iteration 291: 40171.988 us/op
+Iteration 292: 40679.809 us/op
+Iteration 293: 40005.773 us/op
+Iteration 294: 40167.507 us/op
+Iteration 295: 43642.145 us/op
+Iteration 296: 40463.092 us/op
+Iteration 297: 42159.490 us/op
+Iteration 298: 41362.044 us/op
+Iteration 299: 44186.098 us/op
+Iteration 300: Oct 29, 2026 1:27:04 AM com.alibaba.druid.pool.DruidDataSource info
+INFO: {dataSource-1} closing ...
+Oct 29, 2026 1:27:04 AM com.alibaba.druid.pool.DruidDataSource info
+INFO: {dataSource-1} closed
+40655.122 us/op
+
+
+Result "com.kotlinorm.benchmark.InsertBenchmark.insertTransaction":
+  N = 300
+  mean =  40953.293 ±(99.9%) 203.289 us/op
+
+  Histogram, us/op:
+    [39000.000, 39500.000) = 0 
+    [39500.000, 40000.000) = 11 
+    [40000.000, 40500.000) = 108 
+    [40500.000, 41000.000) = 90 
+    [41000.000, 41500.000) = 42 
+    [41500.000, 42000.000) = 11 
+    [42000.000, 42500.000) = 16 
+    [42500.000, 43000.000) = 5 
+    [43000.000, 43500.000) = 1 
+    [43500.000, 44000.000) = 4 
+    [44000.000, 44500.000) = 5 
+    [44500.000, 45000.000) = 5 
+    [45000.000, 45500.000) = 1 
+    [45500.000, 46000.000) = 0 
+    [46000.000, 46500.000) = 1 
+
+  Percentiles, us/op:
+      p(0.0000) =  39759.027 us/op
+     p(50.0000) =  40652.147 us/op
+     p(90.0000) =  42263.174 us/op
+     p(95.0000) =  43677.360 us/op
+     p(99.0000) =  44989.470 us/op
+     p(99.9000) =  46309.357 us/op
+     p(99.9900) =  46309.357 us/op
+     p(99.9990) =  46309.357 us/op
+     p(99.9999) =  46309.357 us/op
+    p(100.0000) =  46309.357 us/op
+
+
+# Run complete. Total time: 00:01:56
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark                            (orm)  (transactionRows)  Mode  Cnt      Score     Error  Units
+InsertBenchmark.insertTransaction  Mybatis                100    ss  300  40953.293 ± 203.289  us/op
+
+Benchmark result is saved to /home/runner/work/orm-benchmark-project/orm-benchmark-project/shard/measure/write-b4-orm=Mybatis-transactionRows=100.json

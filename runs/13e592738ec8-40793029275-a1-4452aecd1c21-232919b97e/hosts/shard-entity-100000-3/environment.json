@@ -1,0 +1,30 @@
+{
+  "jdk" : "21.0.10+7-LTS",
+  "javaVendor" : "Eclipse Adoptium",
+  "os" : "Linux 7.0.0-1017-azure",
+  "architecture" : "amd64",
+  "jdbcUrlWithoutCredentials" : "jdbc:mysql://127.0.0.1:13307/orm_benchmark_040?useSSL=false&allowPublicKeyRetrieval=true&useServerPrepStmts=true&cachePrepStmts=true&prepStmtCacheSize=256&prepStmtCacheSqlLimit=2048&rewriteBatchedStatements=false&connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true",
+  "pool" : {
+    "initial" : 1,
+    "poolPreparedStatements" : false,
+    "autoCommit" : true,
+    "isolation" : "READ_COMMITTED",
+    "housekeepingIntervalMillis" : 86400000,
+    "maximum" : 1,
+    "testWhileIdle" : false
+  },
+  "ddl" : "CREATE TABLE tb_user (\n  id INT NOT NULL PRIMARY KEY, uid BIGINT NOT NULL, name VARCHAR(64) NOT NULL,\n  age INT NOT NULL, sex TINYINT(1) NOT NULL, height FLOAT NOT NULL, weight FLOAT NOT NULL,\n  score DOUBLE NOT NULL, salary DECIMAL(18,2) NOT NULL, birthday DATE NOT NULL,\n  email VARCHAR(128) NOT NULL, address VARCHAR(160) NOT NULL, comment VARBINARY(128) NOT NULL,\n  version INT NOT NULL, deleted TINYINT(1) NOT NULL,\n  create_time DATETIME(3) NOT NULL, update_time DATETIME(3) NOT NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin\n",
+  "seed" : 2026102704,
+  "driver" : "MySQL Connector/J mysql-connector-j-9.7.0 (Revision: 0aade1f13bcc98faf7dda5c02e782481eb291f62)",
+  "mysql" : "8.0.46",
+  "version" : "8.0.46",
+  "innodb_buffer_pool_size" : "268435456",
+  "innodb_flush_log_at_trx_commit" : "1",
+  "sync_binlog" : "1",
+  "log_bin" : "OFF",
+  "transaction_isolation" : "READ-COMMITTED",
+  "character_set_server" : "utf8mb4",
+  "collation_server" : "utf8mb4_bin",
+  "sql_mode" : "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION",
+  "time_zone" : "+00:00"
+}
